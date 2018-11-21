@@ -1,6 +1,7 @@
 package alexanders.mods.auraddons.block.tile;
 
 import alexanders.mods.auraddons.init.ModBlocks;
+import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModPackets;
 import alexanders.mods.auraddons.net.ParticlePacket;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
@@ -49,24 +50,24 @@ public class TileFreezer extends TileEntity implements ITickable {
         if (world.isBlockLoaded(pos)) {
             IBlockState state = world.getBlockState(pos);
             if (state.getBlock() == Blocks.WATER && state.getValue(BlockLiquid.LEVEL) == 0) {
-                if (isPowered) {
+                if (isPowered && ModConfig.blocks.enableHardIce && ModConfig.general.allowFreezerHardIceCreation) {
                     BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
-                    IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, 80);
+                    IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, ModConfig.aura.freezerHardIceCreationCost);
 
                     world.setBlockState(pos, ModBlocks.hardIce.getDefaultState());
                 } else {
                     BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
-                    IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, 10);
+                    IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, ModConfig.aura.freezerIceCreationCost);
 
                     world.setBlockState(pos, Blocks.ICE.getDefaultState());
                 }
                 ModPackets.sendAround(getWorld(), pos, 32, new ParticlePacket(ParticlePacket.Type.FREEZE, pos));
                 //TODO: Maybe make a sound?
                 return true;
-            } else if (state.getBlock() == Blocks.AIR) {
+            } else if (ModConfig.general.allowFreezerSnowCreation && state.getBlock() == Blocks.AIR) {
                 if (world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP)) {
                     BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
-                    IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, 5);
+                    IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, ModConfig.aura.freezerSnowCreationCost);
 
                     world.setBlockState(pos, Blocks.SNOW_LAYER.getDefaultState());
 

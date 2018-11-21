@@ -25,6 +25,7 @@ public class BlockHardIce extends BlockIce {
     }
 
     @Override
+    @Nonnull
     public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
         return SoundType.GLASS;
     }

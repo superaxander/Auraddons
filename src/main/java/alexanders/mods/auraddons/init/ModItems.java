@@ -15,6 +15,6 @@ public final class ModItems {
     public static Item creativeAuraCache;
 
     public static void init() {
-        itemRegistry.add(new ItemCreativeAuraCache());
+        if (ModConfig.items.enableCreativeAuraCache) itemRegistry.add(new ItemCreativeAuraCache());
     }
 }

@@ -31,9 +31,10 @@ public class ModRecipes {
 
     public static void init() {
         new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_AUTO_WRATH),
-                             Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.ACACIA.getMetadata())), new ItemStack(ModBlocks.autoWrath), 800,
-                             Ingredient.fromItem(infusedStone), IngredientNBT.fromStacks(setType(new ItemStack(auraBottle), NaturesAuraAPI.TYPE_NETHER)),
-                             Ingredient.fromItem(infusedStone), Ingredient.fromItem(infusedIron), Ingredient.fromItem(shockwaveCreator), Ingredient.fromItem(infusedIron),
+                             Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.ACACIA.getMetadata())), new ItemStack(ModBlocks.autoWrath),
+                             ModConfig.general.autoWrathRitualTime, Ingredient.fromItem(infusedStone),
+                             IngredientNBT.fromStacks(setType(new ItemStack(auraBottle), NaturesAuraAPI.TYPE_NETHER)), Ingredient.fromItem(infusedStone),
+                             Ingredient.fromItem(infusedIron), Ingredient.fromItem(shockwaveCreator), Ingredient.fromItem(infusedIron),
                              IngredientNBT.fromStacks(setType(new ItemStack(auraBottle), NaturesAuraAPI.TYPE_NETHER)), Ingredient.fromItem(infusedStone)).register();
     }
 

@@ -1,6 +1,7 @@
 package alexanders.mods.auraddons.block.tile;
 
 import alexanders.mods.auraddons.Auraddons;
+import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModPackets;
 import alexanders.mods.auraddons.net.JumpPacket;
 import alexanders.mods.auraddons.net.ParticlePacket;
@@ -72,7 +73,7 @@ public class TileAutoWrath extends TileEntity implements ITickable {
                 for (EntityLiving mob : mobs) {
                     if (mob.isDead) continue;
                     if (getDistanceSq(mob.posX, mob.posY, mob.posZ) > range * range) continue;
-                    IAuraChunk.getAuraChunk(world, spot).drainAura(spot, 10);
+                    IAuraChunk.getAuraChunk(world, spot).drainAura(spot, ModConfig.aura.autoWrathMobDamageCost);
                     mob.attackEntityFrom(DamageSource.MAGIC, 4F);
                 }
                 ModPackets.sendAround(getWorld(), pos, 32, new ParticlePacket(ParticlePacket.Type.SHOCK_WAVE, pos));
@@ -89,7 +90,7 @@ public class TileAutoWrath extends TileEntity implements ITickable {
                 boolean found = false;
                 if (NaturesAuraAPI.TYPE_NETHER.isPresentInWorld(world)) {
                     BlockPos spot = IAuraChunk.getHighestSpot(world, pos, 25, pos);
-                    IAuraChunk.getAuraChunk(world, spot).drainAura(spot, 10);
+                    IAuraChunk.getAuraChunk(world, spot).drainAura(spot, ModConfig.aura.autoWrathPulseCost);
                     found = true;
                 } else {
                     TileEntity te = getWorld().getTileEntity(pos.up());

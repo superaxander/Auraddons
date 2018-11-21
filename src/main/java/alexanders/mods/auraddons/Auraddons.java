@@ -50,7 +50,8 @@ public class Auraddons {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        NaturesAuraAPI.DRAIN_SPOT_EFFECTS.put(new ResourceLocation(MOD_ID, ModNames.NETHER_DEGRADE_EFFECT), NetherDegradeEffect::new);
+        if (ModConfig.general.enableNetherDegradeEffect)
+            NaturesAuraAPI.DRAIN_SPOT_EFFECTS.put(new ResourceLocation(MOD_ID, ModNames.NETHER_DEGRADE_EFFECT), NetherDegradeEffect::new);
         ModRecipes.init();
     }
 

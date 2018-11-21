@@ -39,36 +39,45 @@ public final class ModBlocks {
     public static Block hardIce;
 
     public static void init() {
-        add(autoWrath = new BlockAutoWrath());
-        GameRegistry.registerTileEntity(TileAutoWrath.class, new ResourceLocation(MOD_ID, ModNames.TILE_AUTO_WRATH));
-        Auraddons.proxy.registerTESR(TileAutoWrath.class, new AnimationTESR<TileAutoWrath>() {
-            @Override
-            public void handleEvents(TileAutoWrath te, float time, Iterable<Event> pastEvents) {
-                te.handleEvents(time, pastEvents);
-            }
-        });
-
-        add(new BlockFence(Material.WOOD, MapColor.WOOD).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE)
-                    .setCreativeTab(ModTabs.MAIN_TAB));
-        add(ancientFenceGate = new BlockFenceGate(BlockPlanks.EnumType.OAK).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE)
-                .setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE_GATE).setCreativeTab(ModTabs.MAIN_TAB));
-        Auraddons.proxy.ignoreState(ancientFenceGate, BlockFenceGate.POWERED);
-        add(new BlockWall(Blocks.COBBLESTONE) {
+        if (ModConfig.blocks.enableAutoWrath) {
+            add(autoWrath = new BlockAutoWrath());
+            GameRegistry.registerTileEntity(TileAutoWrath.class, new ResourceLocation(MOD_ID, ModNames.TILE_AUTO_WRATH));
+            Auraddons.proxy.registerTESR(TileAutoWrath.class, new AnimationTESR<TileAutoWrath>() {
+                @Override
+                public void handleEvents(TileAutoWrath te, float time, Iterable<Event> pastEvents) {
+                    te.handleEvents(time, pastEvents);
+                }
+            });
+        }
+        if (ModConfig.blocks.enableAncientFence)
+            add(new BlockFence(Material.WOOD, MapColor.WOOD).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE)
+                        .setCreativeTab(ModTabs.MAIN_TAB));
+        if (ModConfig.blocks.enableAncientFenceGate) {
+            add(ancientFenceGate = new BlockFenceGate(BlockPlanks.EnumType.OAK).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE)
+                    .setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE_GATE).setCreativeTab(ModTabs.MAIN_TAB));
+            Auraddons.proxy.ignoreState(ancientFenceGate, BlockFenceGate.POWERED);
+        }
+        if (ModConfig.blocks.enableInfusedStoneWall) add(new BlockWall(Blocks.COBBLESTONE) {
             @Override
             public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_INFUSED_STONE_WALL).setCreativeTab(ModTabs.MAIN_TAB));
-        add(new BlockWall(Blocks.COBBLESTONE) {
+        if (ModConfig.blocks.enableInfusedBrickWall) add(new BlockWall(Blocks.COBBLESTONE) {
             @Override
             public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_INFUSED_BRICK_WALL).setCreativeTab(ModTabs.MAIN_TAB));
-        add(new BlockLadder() {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_LADDER).setCreativeTab(ModTabs.MAIN_TAB));
-        add(new BlockFreezer());
-        GameRegistry.registerTileEntity(TileFreezer.class, new ResourceLocation(MOD_ID, ModNames.TILE_FREEZER));
-        add(new BlockHardIce().setRegistryName(ModNames.BLOCK_HARD_ICE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_HARD_ICE).setCreativeTab(ModTabs.MAIN_TAB));
+        if (ModConfig.blocks.enableAncientLadder)
+            add(new BlockLadder() {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_LADDER)
+                        .setCreativeTab(ModTabs.MAIN_TAB));
+        if (ModConfig.blocks.enableFreezer) {
+            add(new BlockFreezer());
+            GameRegistry.registerTileEntity(TileFreezer.class, new ResourceLocation(MOD_ID, ModNames.TILE_FREEZER));
+        }
+        if (ModConfig.blocks.enableHardIce)
+            add(new BlockHardIce().setRegistryName(ModNames.BLOCK_HARD_ICE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_HARD_ICE).setCreativeTab(ModTabs.MAIN_TAB));
     }
 
     private static void add(Block block) {
