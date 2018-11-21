@@ -13,6 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -113,5 +115,20 @@ public class ClientProxy implements IProxy {
     @Override
     public <T extends Comparable<T>> void ignoreState(Block block, IProperty<T> property) {
         ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
+    }
+    
+    @Override
+    public void renderItemInWorld(ItemStack stack) {
+        if (!stack.isEmpty()) {
+            GlStateManager.pushMatrix();
+            GlStateManager.disableLighting();
+            GlStateManager.pushAttrib();
+            RenderHelper.enableStandardItemLighting();
+            Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+            RenderHelper.disableStandardItemLighting();
+            GlStateManager.popAttrib();
+            GlStateManager.enableLighting();
+            GlStateManager.popMatrix();
+        }
     }
 }

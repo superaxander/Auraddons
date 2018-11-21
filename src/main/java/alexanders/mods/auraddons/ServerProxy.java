@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.animation.ITimeValue;
@@ -36,5 +37,10 @@ public class ServerProxy implements IProxy {
     @Override
     public <T extends Comparable<T>> void ignoreState(Block block, IProperty<T> powered) {
 
+    }
+
+    @Override
+    public void renderItemInWorld(ItemStack stack) {
+        
     }
 }
