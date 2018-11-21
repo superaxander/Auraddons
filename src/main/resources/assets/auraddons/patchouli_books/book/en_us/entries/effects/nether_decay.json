@@ -1,0 +1,12 @@
+{
+  "name": "Nether Decay",
+  "icon": "minecraft:soul_sand",
+  "category": "naturesaura:effects",
+  "advancement": "naturesaura:aura_bottle_nether",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The hell is seen by many as a sore sight, draining a lot of $(aura) from the Nether realm does however degrade the environment there, making it truly unsightly. $(item)Glowstone$() will begin to turn into $(item)Nether Quartz Ore$() which will, in turn, slowly degrade into $(item)Nether Brick$(). $(item)Nether Brick$() becomes $(item)Netherrack$() which eventually becomes $(item)Soul Sand$()."
+    }
+  ]
+}

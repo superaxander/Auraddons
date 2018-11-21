@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SWS",
+    "SWS"
+  ],
+  "key": {
+    "W": {
+      "item": "naturesaura:ancient_planks"
+    },
+    "S": {
+      "item": "naturesaura:ancient_stick"
+    }
+  },
+  "result": {
+    "item": "auraddons:block_ancient_fence_gate",
+    "count": 3
+  }
+}

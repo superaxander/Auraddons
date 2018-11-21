@@ -1,0 +1,19 @@
+{
+  "name": "Auto Wrath",
+  "icon": "auraddons:block_auto_wrath",
+  "category": "naturesaura:using",
+  "advancement": "naturesaura:potion_generator",
+  "pages": [
+    {
+      "type": "text",
+      "text": "While the $(item)Amulet of Wrath$() is a useful combat tool, it does require one to actively participate in combat. For the lazy botanist there is the $(item)Auto Wrath$(), which allows them to kill their enemies while spending their time in a more useful manner. This does however come at a cost, this apparatus requires $(aura) from the Nether realm to function."
+    }, {
+      "type": "text",
+      "text": "This can be provided by placing it in an area where this kind of $(aura) is prevalent. It can also be provided by putting bottles of $(aura) in a container atop the device. Furthermore $(aura) of any kind is consumed for each enemy that is damaged."
+    }, {
+      "type": "naturesaura:tree_ritual",
+      "text": "Creating the $(item)Auto Wrath$() using the $(l:practices/tree_ritual)Ritual of the Forest$()",
+      "recipe": "auraddons:recipe_auto_wrath"
+    }
+  ]
+}

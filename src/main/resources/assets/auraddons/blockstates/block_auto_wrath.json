@@ -1,0 +1,33 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [
+      {
+        "transform": "forge:default-block",
+        "model": "auraddons:block_auto_wrath",
+        "submodel": {
+          "frame": {
+            "model": "auraddons:block_auto_wrath_steve"
+          }
+        }
+      }
+    ],
+    "facing": {
+      "north": { "transform": { "rotation": { "y": 180 } } },
+      "south": { "transform": "identity"                   },
+      "west":  { "transform": { "rotation": { "y": 90  } } },
+      "east":  { "transform": { "rotation": { "y": 270 } } }
+    },
+    "static": {
+      "true": {
+        "model": "auraddons:block_auto_wrath"
+      }, 
+      "false": {
+        "model": "auraddons:block_auto_wrath_steve"
+      }
+    }
+  }
+}

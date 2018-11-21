@@ -1,0 +1,18 @@
+{
+  "parameters": {
+    "step": ["/", "#steps"]
+  },
+  "clips": {
+    "default": "auraddons:block/block_auto_wrath_steve@default",
+    "jumping": ["apply", "auraddons:block/block_auto_wrath_steve@jumping", "#step"]
+  },
+  "states": [
+    "default",
+    "jumping"
+  ],
+  "transitions": {
+    "default": "jumping",
+    "jumping": "default"
+  },
+  "start_state": "default"
+}

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "auraddons",
+  "name": "Auraddons",
+  "description": "An add-on to Nature's Aura",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Alexander"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

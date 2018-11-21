@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SSS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "naturesaura:infused_brick"
+    }
+  },
+  "result": {
+    "item": "auraddons:block_infused_brick_wall",
+    "count": 6
+  }
+}

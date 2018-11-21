@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "auraddons:blocks/block_ancient_ladder"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "S S",
+    "SSS",
+    "S S"
+  ],
+  "key": {
+    "S": {
+      "item": "naturesaura:ancient_stick"
+    }
+  },
+  "result": {
+    "item": "auraddons:block_ancient_ladder",
+    "count": 3
+  }
+}

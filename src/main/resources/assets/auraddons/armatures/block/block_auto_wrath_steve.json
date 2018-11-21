@@ -1,0 +1,84 @@
+{
+  "joints": {
+    "head": {
+      "0": [1.0]
+    },
+    "body": {
+      "1": [1.0]
+    },
+    "arm_right": {
+      "2": [1.0]
+    },
+    "arm_left": {
+      "3": [1.0]
+    },
+    "leg_left": {
+      "4": [1.0]
+    },
+    "leg_right": {
+      "5": [1.0]
+    }
+  },
+  "clips": {
+    "default": {
+      "loop": false,
+      "joint_clips": {},
+      "events": {}
+    },
+    "jumping": {
+      "loop": true,
+      "joint_clips": {
+        "head": [
+          {
+            "variable": "offset_y",
+            "type": "uniform",
+            "interpolation": "linear",
+            "samples": [0.0, 0.09, 0.2, 0.2, 0.09, 0.0]
+          }
+        ],
+        "body": [
+          {
+            "variable": "offset_y",
+            "type": "uniform",
+            "interpolation": "linear",
+            "samples": [0.0, 0.09, 0.2, 0.2, 0.09, 0.0]
+          }
+        ],
+        "arm_right": [
+          {
+            "variable": "offset_y",
+            "type": "uniform",
+            "interpolation": "linear",
+            "samples": [0.0, 0.09, 0.2, 0.2, 0.09, 0.0]
+          }
+        ],
+        "arm_left": [
+          {
+            "variable": "offset_y",
+            "type": "uniform",
+            "interpolation": "linear",
+            "samples": [0.0, 0.09, 0.2, 0.2, 0.09, 0.0]
+          }
+        ],
+        "leg_left": [
+          {
+            "variable": "offset_y",
+            "type": "uniform",
+            "interpolation": "linear",
+            "samples": [0.0, 0.09, 0.2, 0.2, 0.09, 0.0]
+          }
+        ],
+        "leg_right": [
+          {
+            "variable": "offset_y",
+            "type": "uniform",
+            "interpolation": "linear",
+            "samples": [0.0, 0.09, 0.2, 0.2, 0.09, 0.0]
+          }
+        ]
+      },
+      "events": {
+      }
+    }
+  }
+}
