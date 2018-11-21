@@ -22,7 +22,7 @@ public class ModPackets {
     public static void sendAround(World world, BlockPos pos, int range, IMessage message) {
         net.sendToAllAround(message, new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range));
     }
-    
+
     public static void sendTracking(World world, BlockPos pos, IMessage message) {
         net.sendToAllTracking(message, new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 0));
     }

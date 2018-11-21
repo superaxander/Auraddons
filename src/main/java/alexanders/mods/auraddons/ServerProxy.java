@@ -35,6 +35,6 @@ public class ServerProxy implements IProxy {
 
     @Override
     public <T extends Comparable<T>> void ignoreState(Block block, IProperty<T> powered) {
-        
+
     }
 }

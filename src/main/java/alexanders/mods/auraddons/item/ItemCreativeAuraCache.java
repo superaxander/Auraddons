@@ -53,7 +53,7 @@ public class ItemCreativeAuraCache extends ItemSimple implements ITrinketItem {
             public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
                 return capability == NaturesAuraAPI.capAuraContainer;
             }
-            
+
             @Nullable
             @Override
             public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {

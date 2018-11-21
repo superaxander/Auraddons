@@ -33,14 +33,12 @@ public class TileFreezer extends TileEntity implements ITickable {
     @Override
     public void update() {
         if (!world.isRemote && (world.getTotalWorldTime() + 5) % 60 == 0) {
-            if (IAuraChunk.getAuraInArea(this.world, this.pos, 25) < 1000)
-                return;
-            
+            if (IAuraChunk.getAuraInArea(this.world, this.pos, 25) < 1000) return;
+
             for (int x = -1; x < 2; x++) {
                 for (int y = -1; y < 2; y++) {
                     for (int z = -1; z < 2; z++) {
-                        if(tryFreeze(pos.add(x, y, z)))
-                            return;
+                        if (tryFreeze(pos.add(x, y, z))) return;
                     }
                 }
             }
@@ -48,15 +46,15 @@ public class TileFreezer extends TileEntity implements ITickable {
     }
 
     private boolean tryFreeze(BlockPos pos) {
-        if(world.isBlockLoaded(pos)) {
+        if (world.isBlockLoaded(pos)) {
             IBlockState state = world.getBlockState(pos);
-            if(state.getBlock() == Blocks.WATER && state.getValue(BlockLiquid.LEVEL) == 0) {
-                if(isPowered) {
+            if (state.getBlock() == Blocks.WATER && state.getValue(BlockLiquid.LEVEL) == 0) {
+                if (isPowered) {
                     BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
                     IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, 80);
 
                     world.setBlockState(pos, ModBlocks.hardIce.getDefaultState());
-                }else {
+                } else {
                     BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
                     IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, 10);
 
@@ -65,11 +63,11 @@ public class TileFreezer extends TileEntity implements ITickable {
                 ModPackets.sendAround(getWorld(), pos, 32, new ParticlePacket(ParticlePacket.Type.FREEZE, pos));
                 //TODO: Maybe make a sound?
                 return true;
-            }else if(state.getBlock() == Blocks.AIR) {
-                if(world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP)) {
+            } else if (state.getBlock() == Blocks.AIR) {
+                if (world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP)) {
                     BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
                     IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, 5);
-                    
+
                     world.setBlockState(pos, Blocks.SNOW_LAYER.getDefaultState());
 
                     ModPackets.sendAround(getWorld(), pos, 32, new ParticlePacket(ParticlePacket.Type.FREEZE, pos));

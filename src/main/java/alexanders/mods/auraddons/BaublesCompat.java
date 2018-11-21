@@ -38,7 +38,7 @@ public class BaublesCompat {
     };
 
     public static void init() {
-        
+
     }
 
     @SubscribeEvent

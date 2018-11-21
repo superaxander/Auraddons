@@ -10,7 +10,7 @@ import static alexanders.mods.auraddons.Constants.MOD_ID;
 @GameRegistry.ObjectHolder(MOD_ID)
 public final class ModItems {
     public static ArrayList<Item> itemRegistry = new ArrayList<>();
-    
+
     @GameRegistry.ObjectHolder(ModNames.ITEM_CREATIVE_AURA_CACHE)
     public static Item creativeAuraCache;
 

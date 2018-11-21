@@ -96,8 +96,8 @@ public class ParticlePacket implements IMessage {
                                 float x = side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
                                 float z = !side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
                                 NaturesAuraAPI.instance()
-                                        .spawnMagicParticle(message.pos.getX() + x, message.pos.getY() + 0.1F + world.rand.nextFloat() * 0.98F, message.pos.getZ() + z, 0F, 0F, 0F, 0xBCE3FF,
-                                                            world.rand.nextFloat() + 1F, 50, 0F, true, true);
+                                        .spawnMagicParticle(message.pos.getX() + x, message.pos.getY() + 0.1F + world.rand.nextFloat() * 0.98F, message.pos.getZ() + z, 0F, 0F, 0F,
+                                                            0xBCE3FF, world.rand.nextFloat() + 1F, 50, 0F, true, true);
                             }
                     }
                 }

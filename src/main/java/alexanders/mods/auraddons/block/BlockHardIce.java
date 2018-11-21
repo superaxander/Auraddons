@@ -19,13 +19,13 @@ public class BlockHardIce extends BlockIce {
     }
 
     @Override
-    public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
-        return SoundType.GLASS;
-    }
-
-    @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(Blocks.ICE);
+    }
+
+    @Override
+    public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
+        return SoundType.GLASS;
     }
 }

@@ -22,25 +22,6 @@ public class JumpPacket implements IMessage {
         this.jumping = jumping;
     }
 
-    public static class Handler implements IMessageHandler<JumpPacket, IMessage> {
-        @Override
-        public IMessage onMessage(JumpPacket message, MessageContext ctx) {
-            Auraddons.proxy.runLater(()-> {
-                TileEntity te = Minecraft.getMinecraft().world.getTileEntity(message.pos);
-                if(te instanceof TileAutoWrath) {
-                    ((TileAutoWrath)te).jumping = message.jumping;
-                    if(message.jumping) {
-                        ((TileAutoWrath) te).startJumping();
-                    }else {
-                        ((TileAutoWrath) te).stopJumping();
-                        
-                    }
-                }
-            });
-            return null;
-        }
-    }
-    
     @Override
     public void fromBytes(ByteBuf buf) {
         pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
@@ -53,5 +34,24 @@ public class JumpPacket implements IMessage {
         buf.writeInt(pos.getY());
         buf.writeInt(pos.getZ());
         buf.writeBoolean(jumping);
+    }
+
+    public static class Handler implements IMessageHandler<JumpPacket, IMessage> {
+        @Override
+        public IMessage onMessage(JumpPacket message, MessageContext ctx) {
+            Auraddons.proxy.runLater(() -> {
+                TileEntity te = Minecraft.getMinecraft().world.getTileEntity(message.pos);
+                if (te instanceof TileAutoWrath) {
+                    ((TileAutoWrath) te).jumping = message.jumping;
+                    if (message.jumping) {
+                        ((TileAutoWrath) te).startJumping();
+                    } else {
+                        ((TileAutoWrath) te).stopJumping();
+
+                    }
+                }
+            });
+            return null;
+        }
     }
 }

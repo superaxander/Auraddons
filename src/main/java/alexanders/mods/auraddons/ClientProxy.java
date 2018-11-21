@@ -8,7 +8,6 @@ import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
 import java.util.Objects;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -105,7 +104,7 @@ public class ClientProxy implements IProxy {
     public IAnimationStateMachine loadASM(ResourceLocation resourceLocation, ImmutableMap<String, ITimeValue> map) {
         return ModelLoaderRegistry.loadASM(resourceLocation, map);
     }
-    
+
     @Override
     public void runLater(Runnable runnable) {
         Minecraft.getMinecraft().addScheduledTask(runnable);

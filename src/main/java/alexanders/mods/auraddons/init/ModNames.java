@@ -1,7 +1,5 @@
 package alexanders.mods.auraddons.init;
 
-import net.minecraft.util.ResourceLocation;
-
 public final class ModNames {
 
     public static final String ITEM_CREATIVE_AURA_CACHE = "item_creative_aura_cache";

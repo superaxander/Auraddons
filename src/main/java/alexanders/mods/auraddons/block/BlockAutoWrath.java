@@ -4,7 +4,6 @@ import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.init.ModNames;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -30,18 +29,6 @@ public class BlockAutoWrath extends BlockBase implements ITileEntityProvider {
         super(ModNames.BLOCK_AUTO_WRATH, Material.ROCK);
     }
 
-    @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new ExtendedBlockState(this, new IProperty[]{FACING, Properties.StaticProperty}, new IUnlistedProperty[]{Properties.AnimationProperty});
-    }
-
-    @Override
-    @Nonnull
-    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer, EnumHand hand) {
-        return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
-    }
-
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
@@ -61,6 +48,13 @@ public class BlockAutoWrath extends BlockBase implements ITileEntityProvider {
     }
 
     @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+        return state.withProperty(Properties.StaticProperty, true);
+    }
+
+    @SuppressWarnings("deprecation")
     @Nonnull
     public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
@@ -74,21 +68,26 @@ public class BlockAutoWrath extends BlockBase implements ITileEntityProvider {
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
     public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return state.withProperty(Properties.StaticProperty, true);
+    protected BlockStateContainer createBlockState() {
+        return new ExtendedBlockState(this, new IProperty[]{FACING, Properties.StaticProperty}, new IUnlistedProperty[]{Properties.AnimationProperty});
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer, EnumHand hand) {
+        return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Nullable

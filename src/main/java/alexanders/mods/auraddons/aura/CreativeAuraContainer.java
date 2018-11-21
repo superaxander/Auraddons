@@ -1,7 +1,7 @@
 package alexanders.mods.auraddons.aura;
 
-import de.ellpeck.naturesaura.api.aura.type.IAuraType;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
+import de.ellpeck.naturesaura.api.aura.type.IAuraType;
 
 public class CreativeAuraContainer implements IAuraContainer {
     @Override
