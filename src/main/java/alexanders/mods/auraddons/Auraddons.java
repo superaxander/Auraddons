@@ -61,7 +61,6 @@ public class Auraddons {
         // Cleanup:
         ModBlocks.blockRegistry = null;
         ModItems.itemRegistry = null;
-        ModRecipes.recipeRegistry = null;
         //System.gc();
     }
 
@@ -79,14 +78,6 @@ public class Auraddons {
         IForgeRegistry<Item> registry = event.getRegistry();
         for (Item b : ModItems.itemRegistry) registry.register(b);
         logger.info("Registered {} items", ModItems.itemRegistry.size());
-    }
-    
-    @SubscribeEvent
-    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        logger.info("Registering (non-json) recipes...");
-        IForgeRegistry<IRecipe> registry = event.getRegistry();
-        for (IRecipe r : ModRecipes.recipeRegistry) registry.register(r);
-        logger.info("Registered {} recipes", ModRecipes.recipeRegistry.size());
     }
 
     @SubscribeEvent

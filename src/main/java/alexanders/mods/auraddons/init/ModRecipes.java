@@ -5,13 +5,11 @@ import de.ellpeck.naturesaura.api.aura.type.IAuraType;
 import de.ellpeck.naturesaura.api.recipes.OfferingRecipe;
 import de.ellpeck.naturesaura.api.recipes.TreeRitualRecipe;
 import de.ellpeck.naturesaura.api.recipes.ing.AmountIngredient;
-import java.util.ArrayList;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -21,8 +19,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
 public class ModRecipes {
-    public static ArrayList<IRecipe> recipeRegistry = new ArrayList<>();
-
     @GameRegistry.ObjectHolder("naturesaura:shockwave_creator")
     public static Item shockwaveCreator;
 
