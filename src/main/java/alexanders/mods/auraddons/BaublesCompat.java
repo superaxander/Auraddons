@@ -65,14 +65,14 @@ public class BaublesCompat {
                 public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
                     return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE;
                 }
-                
+
                 @Nullable
                 @Override
                 public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
                     return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE ? BaublesCapabilities.CAPABILITY_ITEM_BAUBLE.cast(cache) : null;
                 }
             });
-        }else if(event.getObject().getItem() == ModItems.dampeningFeather) {
+        } else if (event.getObject().getItem() == ModItems.dampeningFeather) {
             event.addCapability(new ResourceLocation(MOD_ID, "bauble"), new ICapabilityProvider() {
                 @Override
                 public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
@@ -82,7 +82,7 @@ public class BaublesCompat {
                 @Nullable
                 @Override
                 public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-                    return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE ? BaublesCapabilities.CAPABILITY_ITEM_BAUBLE.cast(feather): null;
+                    return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE ? BaublesCapabilities.CAPABILITY_ITEM_BAUBLE.cast(feather) : null;
                 }
             });
         }

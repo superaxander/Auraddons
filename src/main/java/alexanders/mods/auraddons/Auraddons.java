@@ -5,7 +5,6 @@ import alexanders.mods.auraddons.init.*;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;

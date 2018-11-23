@@ -116,7 +116,7 @@ public class ClientProxy implements IProxy {
     public <T extends Comparable<T>> void ignoreState(Block block, IProperty<T> property) {
         ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
     }
-    
+
     @Override
     public void renderItemInWorld(ItemStack stack) {
         if (!stack.isEmpty()) {

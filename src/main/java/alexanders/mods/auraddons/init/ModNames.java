@@ -1,7 +1,6 @@
 package alexanders.mods.auraddons.init;
 
 public final class ModNames {
-
     public static final String ITEM_CREATIVE_AURA_CACHE = "item_creative_aura_cache";
     public static final String BLOCK_AUTO_WRATH = "block_auto_wrath";
     public static final String TILE_AUTO_WRATH = "tile_auto_wrath";
