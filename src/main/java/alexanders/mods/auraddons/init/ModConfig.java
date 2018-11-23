@@ -23,6 +23,8 @@ public class ModConfig {
 
     public static class Items {
         public boolean enableCreativeAuraCache = true;
+        public boolean enableDampeningFeather = true;
+        public boolean enableSkyFeather = true;
     }
 
     public static class Blocks {
@@ -42,5 +44,6 @@ public class ModConfig {
         public int freezerSnowCreationCost = 5;
         public int freezerIceCreationCost = 10;
         public int freezerHardIceCreationCost = 80;
+        public int dampeningFeatherAuraPerMeter = 40;
     }
 }

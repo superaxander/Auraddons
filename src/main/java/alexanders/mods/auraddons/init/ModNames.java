@@ -15,4 +15,8 @@ public final class ModNames {
     public static final String BLOCK_FREEZER = "block_freezer";
     public static final String TILE_FREEZER = "tile_freezer";
     public static final String BLOCK_HARD_ICE = "block_hard_ice";
+    public static final String ITEM_DAMPING_FEATHER = "item_dampening_feather";
+    public static final String RECIPE_SKY_FEATHER = "recipe_sky_feather";
+    public static final String ITEM_SKY_FEATHER = "item_sky_feather";
+    public static final String RECIPE_DAMPING_FEATHER = "recipe_dampening_feather";
 }

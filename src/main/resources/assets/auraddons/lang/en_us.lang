@@ -8,3 +8,5 @@ tile.auraddons.block_infused_brick_wall.name=Infused Brick Wall
 tile.auraddons.block_ancient_ladder.name=Ancient Ladder
 tile.auraddons.block_freezer.name=Freezer
 tile.auraddons.block_hard_ice.name=Hard Ice
+item.auraddons.item_dampening_feather.name=Dampening Feather
+item.auraddons.item_sky_feather.name=Feather of the Skies

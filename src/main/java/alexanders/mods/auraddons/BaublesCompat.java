@@ -36,6 +36,22 @@ public class BaublesCompat {
             return true;
         }
     };
+    private static final IBauble feather = new IBauble() {
+        @Override
+        public BaubleType getBaubleType(ItemStack itemstack) {
+            return BaubleType.RING;
+        }
+
+        @Override
+        public void onWornTick(ItemStack stack, EntityLivingBase player) {
+            stack.getItem().onUpdate(stack, player.world, player, -1, false);
+        }
+
+        @Override
+        public boolean willAutoSync(ItemStack itemstack, EntityLivingBase player) {
+            return true;
+        }
+    };
 
     public static void init() {
 
@@ -49,12 +65,24 @@ public class BaublesCompat {
                 public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
                     return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE;
                 }
-
-                @SuppressWarnings("unchecked")
+                
                 @Nullable
                 @Override
                 public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-                    return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE ? (T) cache : null;
+                    return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE ? BaublesCapabilities.CAPABILITY_ITEM_BAUBLE.cast(cache) : null;
+                }
+            });
+        }else if(event.getObject().getItem() == ModItems.dampeningFeather) {
+            event.addCapability(new ResourceLocation(MOD_ID, "bauble"), new ICapabilityProvider() {
+                @Override
+                public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+                    return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE;
+                }
+
+                @Nullable
+                @Override
+                public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+                    return capability == BaublesCapabilities.CAPABILITY_ITEM_BAUBLE ? BaublesCapabilities.CAPABILITY_ITEM_BAUBLE.cast(feather): null;
                 }
             });
         }

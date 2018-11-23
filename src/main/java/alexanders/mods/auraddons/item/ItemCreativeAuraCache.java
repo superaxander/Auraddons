@@ -26,6 +26,7 @@ public class ItemCreativeAuraCache extends ItemSimple implements ITrinketItem {
 
     public ItemCreativeAuraCache() {
         super(ModNames.ITEM_CREATIVE_AURA_CACHE);
+        setMaxStackSize(1);
     }
 
     @Override
