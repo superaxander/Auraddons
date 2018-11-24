@@ -18,4 +18,7 @@ public final class ModNames {
     public static final String RECIPE_SKY_FEATHER = "recipe_sky_feather";
     public static final String ITEM_SKY_FEATHER = "item_sky_feather";
     public static final String RECIPE_DAMPING_FEATHER = "recipe_dampening_feather";
+    public static final String BLOCK_POTION_ENHANCER = "block_potion_enhancer";
+    public static final String TILE_POTION_ENHANCER = "tile_potion_enhancer";
+    public static final String TAG_DURATION_ENHANCED = "auraddons__duration_enhanced";
 }

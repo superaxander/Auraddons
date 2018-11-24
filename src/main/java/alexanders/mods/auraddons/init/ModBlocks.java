@@ -4,8 +4,10 @@ import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.block.BlockAutoWrath;
 import alexanders.mods.auraddons.block.BlockFreezer;
 import alexanders.mods.auraddons.block.BlockHardIce;
+import alexanders.mods.auraddons.block.BlockPotionEnhancer;
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.block.tile.TileFreezer;
+import alexanders.mods.auraddons.block.tile.TilePotionEnhancer;
 import com.sun.istack.internal.Nullable;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -78,6 +80,9 @@ public final class ModBlocks {
         }
         if (ModConfig.blocks.enableHardIce)
             add(new BlockHardIce().setRegistryName(ModNames.BLOCK_HARD_ICE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_HARD_ICE).setCreativeTab(ModTabs.MAIN_TAB));
+
+        add(new BlockPotionEnhancer());
+        GameRegistry.registerTileEntity(TilePotionEnhancer.class, new ResourceLocation(MOD_ID, ModNames.TILE_POTION_ENHANCER));
     }
 
     private static void add(Block block) {

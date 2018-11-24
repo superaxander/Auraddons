@@ -10,7 +10,6 @@ import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -65,7 +64,7 @@ public class TileFreezer extends TileEntity implements ITickable {
                     world.setBlockState(pos, Blocks.ICE.getDefaultState());
                 }
                 ModPackets.sendAround(getWorld(), pos, 32, new ParticlePacket(ParticlePacket.Type.FREEZE, pos));
-                
+
                 getWorld().playSound(null, pos, SoundType.GLASS.getPlaceSound(), SoundCategory.BLOCKS, SoundType.GLASS.getVolume() * 0.5F, SoundType.GLASS.getPitch() * 0.8F);
                 return true;
             } else if (ModConfig.general.allowFreezerSnowCreation && state.getBlock() == Blocks.AIR) {
@@ -76,7 +75,7 @@ public class TileFreezer extends TileEntity implements ITickable {
                     world.setBlockState(pos, Blocks.SNOW_LAYER.getDefaultState());
 
                     getWorld().playSound(null, pos, SoundType.SNOW.getPlaceSound(), SoundCategory.BLOCKS, SoundType.SNOW.getVolume() * 0.5F, SoundType.SNOW.getPitch() * 0.8F);
-                    
+
                     ModPackets.sendAround(getWorld(), pos, 32, new ParticlePacket(ParticlePacket.Type.FREEZE, pos));
                     return true;
                 }

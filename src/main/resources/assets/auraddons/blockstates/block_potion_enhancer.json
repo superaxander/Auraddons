@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube",
+    "textures": {
+      "particle": "auraddons:blocks/block_potion_enhancer",
+      "down": "auraddons:blocks/block_potion_enhancer_top",
+      "up": "auraddons:blocks/block_potion_enhancer_top",
+      "south": "#particle",
+      "north": "#particle",
+      "east": "#particle",
+      "west": "#particle"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

@@ -1,5 +1,6 @@
 package alexanders.mods.auraddons.aura;
 
+import alexanders.mods.auraddons.init.ModNames;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import de.ellpeck.naturesaura.api.aura.chunk.IDrainSpotEffect;
@@ -14,7 +15,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.apache.commons.lang3.mutable.MutableInt;
 
+import static alexanders.mods.auraddons.Constants.MOD_ID;
+
 public class NetherDegradeEffect implements IDrainSpotEffect {
+    public static final ResourceLocation NAME = new ResourceLocation(MOD_ID, ModNames.NETHER_DEGRADE_EFFECT);
+
     @Override
     public void update(World world, Chunk chunk, IAuraChunk auraChunk, BlockPos pos, MutableInt spot) {
         if (spot.intValue() < 0) {
@@ -57,6 +62,6 @@ public class NetherDegradeEffect implements IDrainSpotEffect {
 
     @Override
     public ResourceLocation getName() {
-        return null;
+        return NAME;
     }
 }
