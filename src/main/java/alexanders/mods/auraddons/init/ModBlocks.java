@@ -45,11 +45,11 @@ public final class ModBlocks {
             Auraddons.proxy.registerAnimationTESR(TileAutoWrath.class);
         }
         if (ModConfig.blocks.enableAncientFence)
-            add(new BlockFence(Material.WOOD, MapColor.WOOD).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE)
+            add(new BlockFence(Material.WOOD, MapColor.WOOD).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE)
                         .setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableAncientFenceGate) {
             add(ancientFenceGate = new BlockFenceGate(BlockPlanks.EnumType.OAK).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE)
-                    .setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE_GATE).setCreativeTab(ModTabs.MAIN_TAB));
+                    .setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE_GATE).setCreativeTab(ModTabs.MAIN_TAB));
             Auraddons.proxy.ignoreState(ancientFenceGate, BlockFenceGate.POWERED);
         }
         if (ModConfig.blocks.enableInfusedStoneWall) add(new BlockWall(Blocks.COBBLESTONE) {
@@ -57,22 +57,22 @@ public final class ModBlocks {
             public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
-        }.setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_INFUSED_STONE_WALL).setCreativeTab(ModTabs.MAIN_TAB));
+        }.setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_INFUSED_STONE_WALL).setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableInfusedBrickWall) add(new BlockWall(Blocks.COBBLESTONE) {
             @Override
             public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
-        }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_INFUSED_BRICK_WALL).setCreativeTab(ModTabs.MAIN_TAB));
+        }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_INFUSED_BRICK_WALL).setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableAncientLadder)
-            add(new BlockLadder() {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_LADDER)
+            add(new BlockLadder() {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_LADDER)
                         .setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableFreezer) {
             add(new BlockFreezer());
             GameRegistry.registerTileEntity(TileFreezer.class, new ResourceLocation(MOD_ID, ModNames.TILE_FREEZER));
         }
         if (ModConfig.blocks.enableHardIce)
-            add(new BlockHardIce().setRegistryName(ModNames.BLOCK_HARD_ICE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_HARD_ICE).setCreativeTab(ModTabs.MAIN_TAB));
+            add(new BlockHardIce().setRegistryName(ModNames.BLOCK_HARD_ICE).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_HARD_ICE).setCreativeTab(ModTabs.MAIN_TAB));
 
         if (ModConfig.blocks.enablePotionEnhancer) {
             add(new BlockPotionEnhancer());

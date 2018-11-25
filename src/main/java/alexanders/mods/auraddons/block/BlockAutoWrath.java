@@ -33,7 +33,7 @@ public class BlockAutoWrath extends BlockBase implements ITileEntityProvider {
     @Nonnull
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        EnumFacing enumfacing = EnumFacing.byIndex(meta);
+        EnumFacing enumfacing = EnumFacing.getFront(meta);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) { // To make sure we default to North if we we are facing up or down
             enumfacing = EnumFacing.NORTH;

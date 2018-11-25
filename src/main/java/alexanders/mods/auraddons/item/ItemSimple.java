@@ -12,7 +12,7 @@ public class ItemSimple extends Item {
     }
 
     public ItemSimple(String unlocalizedName, CreativeTabs tab) {
-        setTranslationKey(MOD_ID + "." + unlocalizedName);
+        setUnlocalizedName(MOD_ID + "." + unlocalizedName);
         setRegistryName(unlocalizedName);
         setCreativeTab(tab);
     }

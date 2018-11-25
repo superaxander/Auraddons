@@ -38,7 +38,7 @@ public class BlockFreezer extends BlockBase implements ITileEntityProvider {
         if (!world.isRemote) {
             TileEntity tile = world.getTileEntity(pos);
             if (tile instanceof TileFreezer) {
-                ((TileFreezer) tile).isPowered = world.getRedstonePowerFromNeighbors(pos) > 0;
+                ((TileFreezer) tile).isPowered = world.isBlockIndirectlyGettingPowered(pos) > 0;
             }
         }
     }

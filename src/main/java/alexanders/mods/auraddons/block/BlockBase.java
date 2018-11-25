@@ -25,7 +25,7 @@ public class BlockBase extends Block {
 
     public BlockBase(String unlocalizedName, Material material, MapColor mapColor, CreativeTabs tab) {
         super(material, mapColor);
-        setTranslationKey(MOD_ID + "." + unlocalizedName);
+        setUnlocalizedName(MOD_ID + "." + unlocalizedName);
         setRegistryName(unlocalizedName);
         setCreativeTab(tab);
     }

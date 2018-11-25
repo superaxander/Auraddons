@@ -58,7 +58,7 @@ public class TilePotionEnhancer extends TileEntity {
     public static void handlePotionDrink(LivingEntityUseItemEvent.Finish event) {
         if (event.getEntity() instanceof EntityPlayer) {
             ItemStack stack = event.getItem();
-            if (stack.getItem() instanceof ItemPotion && stack.hasTagCompound() && stack.getTagCompound() != null && stack.getTagCompound()
+            if (stack.getItem().getClass() == ItemPotion.class && stack.hasTagCompound() && stack.getTagCompound() != null && stack.getTagCompound()
                     .getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
                 for (PotionEffect effect : PotionUtils.getEffectsFromStack(stack)) {
                     ((EntityPlayer) event.getEntity()).addPotionEffect(
@@ -72,7 +72,7 @@ public class TilePotionEnhancer extends TileEntity {
     @SideOnly(Side.CLIENT)
     public static void handleTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        if (stack.getItem() instanceof ItemPotion && stack.hasTagCompound() && stack.getTagCompound() != null && stack.getTagCompound()
+        if (stack.getItem().getClass() == ItemPotion.class && stack.hasTagCompound() && stack.getTagCompound() != null && stack.getTagCompound()
                 .getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
             List<String> toolTip = event.getToolTip();
             int duration = PotionUtils.getEffectsFromStack(stack).get(0).getDuration() / 10;
@@ -100,7 +100,7 @@ public class TilePotionEnhancer extends TileEntity {
             if (brewingItemStacks != null) {
                 for (int i = 0; i < 3; i++) {
                     ItemStack stack = brewingItemStacks.get(i);
-                    if (stack.getItem() instanceof ItemPotion) {
+                    if (stack.getItem().getClass() == ItemPotion.class) {
                         List<PotionEffect> effects = PotionUtils.getEffectsFromStack(stack);
                         if (effects.size() == 1) {
                             if (stack.getTagCompound() != null && !stack.getTagCompound().getBoolean(ModNames.TAG_DURATION_ENHANCED)) {

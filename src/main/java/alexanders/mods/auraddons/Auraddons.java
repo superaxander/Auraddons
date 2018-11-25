@@ -45,6 +45,7 @@ public class Auraddons {
         if (Loader.isModLoaded("baubles")) {
             baublesLoaded = true;
             BaublesCompat.init();
+            MinecraftForge.EVENT_BUS.register(new BaublesCompat());
         }
         logger.info("Auraddons pre-initialized");
     }

@@ -14,7 +14,7 @@ public final class ModTabs {
 
     public static final CreativeTabs MAIN_TAB = new CreativeTabs(MOD_NAME) {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack getTabIconItem() {
             if (ModItems.creativeAuraCache == null) if (ModBlocks.autoWrath == null) if (auraBottle == null) return new ItemStack(Items.GLASS_BOTTLE);
             else return new ItemStack(auraBottle);
             else return new ItemStack(ModBlocks.autoWrath);

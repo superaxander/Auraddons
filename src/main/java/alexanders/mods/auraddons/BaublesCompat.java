@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
-@Mod.EventBusSubscriber(modid = MOD_ID)
 public class BaublesCompat {
     private static final IBauble cache = new IBauble() {
         @Override
@@ -58,7 +57,7 @@ public class BaublesCompat {
     }
 
     @SubscribeEvent
-    public static void attachBaubles(AttachCapabilitiesEvent<ItemStack> event) {
+    public void attachBaubles(AttachCapabilitiesEvent<ItemStack> event) {
         if (event.getObject().getItem() == ModItems.creativeAuraCache) {
             event.addCapability(new ResourceLocation(MOD_ID, "bauble"), new ICapabilityProvider() {
                 @Override
