@@ -21,4 +21,6 @@ public final class ModNames {
     public static final String BLOCK_POTION_ENHANCER = "block_potion_enhancer";
     public static final String TILE_POTION_ENHANCER = "tile_potion_enhancer";
     public static final String TAG_DURATION_ENHANCED = "auraddons__duration_enhanced";
+    public static final String RECIPE_SKY_BOTTLE = "recipe_sky_bottle";
+    public static final String ITEM_SKY_BOTTLE = "item_sky_bottle";
 }

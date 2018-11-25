@@ -1,5 +1,5 @@
 itemGroup.Auraddons=Auraddons
-item.auraddons.item_creative_aura_cache.name=Creative Aura Cache
+
 tile.auraddons.block_auto_wrath.name=Auto Wrath
 tile.auraddons.block_ancient_fence.name=Ancient Fence
 tile.auraddons.block_ancient_fence_gate.name=Ancient Fence Gate
@@ -8,6 +8,9 @@ tile.auraddons.block_infused_brick_wall.name=Infused Brick Wall
 tile.auraddons.block_ancient_ladder.name=Ancient Ladder
 tile.auraddons.block_freezer.name=Freezer
 tile.auraddons.block_hard_ice.name=Hard Ice
+tile.auraddons.block_potion_enhancer.name=Potion Enhancer
+
+item.auraddons.item_creative_aura_cache.name=Creative Aura Cache
 item.auraddons.item_dampening_feather.name=Dampening Feather
 item.auraddons.item_sky_feather.name=Feather of the Skies
-tile.auraddons.block_potion_enhancer.name=Potion Enhancer
+item.auraddons.item_sky_bottle.name=Bottle of the Skies

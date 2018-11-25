@@ -52,6 +52,9 @@ public class ModRecipes {
         if (ModConfig.items.enableDampeningFeather && ModConfig.items.enableSkyFeather) GameRegistry
                 .addShapedRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_DAMPING_FEATHER), null, new ItemStack(ModItems.dampeningFeather), "F F", "IBI", 'I', skyIngot, 'F',
                                  ModItems.skyFeather, 'B', IngredientNBT.fromStacks(setType(new ItemStack(auraBottle), NaturesAuraAPI.TYPE_OVERWORLD)));
+        if (ModConfig.items.enableSkyBottle)
+            new OfferingRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SKY_BOTTLE), new AmountIngredient(setType(new ItemStack(auraBottle, 3), NaturesAuraAPI.TYPE_OVERWORLD)),
+                               Ingredient.fromItem(callingSpirit), new ItemStack(ModItems.skyBottle)).register();
     }
 
     private static ItemStack setType(ItemStack stack, IAuraType type) {

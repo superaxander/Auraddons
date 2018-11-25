@@ -9,6 +9,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ParticlePacket implements IMessage {
     private Type type = Type.SHOCK_WAVE;
@@ -75,6 +77,7 @@ public class ParticlePacket implements IMessage {
 
     public static class Handler implements IMessageHandler<ParticlePacket, IMessage> {
         @Override
+        @SideOnly(Side.CLIENT)
         public IMessage onMessage(ParticlePacket message, MessageContext ctx) {
             Auraddons.proxy.runLater(() -> {
                 World world = Minecraft.getMinecraft().world;

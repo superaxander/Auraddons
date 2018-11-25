@@ -180,7 +180,4 @@ public class TileAutoWrath extends TileEntity implements ITickable {
         }
         return super.getCapability(capability, side);
     }
-
-    public void handleEvents(float time, Iterable<Event> pastEvents) {
-    }
 }

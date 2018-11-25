@@ -19,11 +19,6 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public <T extends TileEntity> void registerTESR(Class<T> te, TileEntitySpecialRenderer<T> tesr) {
-
-    }
-
-    @Override
     @Nullable
     public IAnimationStateMachine loadASM(ResourceLocation resourceLocation, ImmutableMap<String, ITimeValue> map) {
         return null;
@@ -42,5 +37,10 @@ public class ServerProxy implements IProxy {
     @Override
     public void renderItemInWorld(ItemStack stack) {
 
+    }
+
+    @Override
+    public <T extends TileEntity> void registerAnimationTESR(Class<T> clazz) {
+        
     }
 }

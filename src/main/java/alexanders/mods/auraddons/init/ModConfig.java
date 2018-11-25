@@ -25,6 +25,7 @@ public class ModConfig {
         public boolean enableCreativeAuraCache = true;
         public boolean enableDampeningFeather = true;
         public boolean enableSkyFeather = true;
+        public boolean enableSkyBottle = true;
     }
 
     public static class Blocks {
@@ -36,6 +37,7 @@ public class ModConfig {
         public boolean enableAncientLadder = true;
         public boolean enableFreezer = true;
         public boolean enableHardIce = true;
+        public boolean enablePotionEnhancer = true;
     }
 
     public static class Aura {
@@ -45,5 +47,6 @@ public class ModConfig {
         public int freezerIceCreationCost = 10;
         public int freezerHardIceCreationCost = 80;
         public int dampeningFeatherAuraPerMeter = 40;
+        public int potionEnhancerCostPerLevel = 50;
     }
 }

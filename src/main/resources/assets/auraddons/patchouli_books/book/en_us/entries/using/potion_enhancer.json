@@ -1,0 +1,25 @@
+{
+  "name": "Potion Enhancer",
+  "icon": "auraddons:block_potion_enhancer",
+  "category": "naturesaura:using",
+  "advancement": "naturesaura:sky_ingot",
+  "pages": [
+    {
+      "type": "text",
+      "text": "As a botanist one is surely familiar with practice of brewing $(item)potions$(). However these potions often don't last long enough to be truly useful, the solution is a device called the $(item)Potion Enhancer$(). Whenever a $(item)potion$() is brewed using a $(item)Brewing Stand$() that sits atop the device all the $(item)potions$() in the stand will be enhanced. To do this the $(item)Potion Enhancer$() uses $(aura)."
+    },
+    {
+      "type": "text",
+      "text": "It will use more or less $(aura) depending on the strength of the $(item)potion$(). The $(item)Potion Enhancer$() also provides an additional way of interacting with the $(item)Brewing Stand$() that's on top of it. A $(item)Hopper$() or any other such device may be attached to the $(item)Potion Enhancer$() as if it were the $(item)Brewing Stand$()"
+    },
+    {
+      "type":"naturesaura:offering",
+      "text":"Asking for $(item)Bottles of the Skies$(), bottles with a coating of divine clarity.",
+      "recipe":"auraddons:recipe_sky_bottle"
+    }, {
+      "type": "crafting",
+      "text": "Creating the $(item)Potion Enhancer$().",
+      "recipe": "auraddons:potion_enhancer"
+    }
+  ]
+}

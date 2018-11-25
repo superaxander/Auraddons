@@ -20,8 +20,6 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.animation.AnimationTESR;
-import net.minecraftforge.common.animation.Event;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
@@ -44,12 +42,7 @@ public final class ModBlocks {
         if (ModConfig.blocks.enableAutoWrath) {
             add(autoWrath = new BlockAutoWrath());
             GameRegistry.registerTileEntity(TileAutoWrath.class, new ResourceLocation(MOD_ID, ModNames.TILE_AUTO_WRATH));
-            Auraddons.proxy.registerTESR(TileAutoWrath.class, new AnimationTESR<TileAutoWrath>() {
-                @Override
-                public void handleEvents(TileAutoWrath te, float time, Iterable<Event> pastEvents) {
-                    te.handleEvents(time, pastEvents);
-                }
-            });
+            Auraddons.proxy.registerAnimationTESR(TileAutoWrath.class);
         }
         if (ModConfig.blocks.enableAncientFence)
             add(new BlockFence(Material.WOOD, MapColor.WOOD).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE)
@@ -81,8 +74,10 @@ public final class ModBlocks {
         if (ModConfig.blocks.enableHardIce)
             add(new BlockHardIce().setRegistryName(ModNames.BLOCK_HARD_ICE).setTranslationKey(MOD_ID + "." + ModNames.BLOCK_HARD_ICE).setCreativeTab(ModTabs.MAIN_TAB));
 
-        add(new BlockPotionEnhancer());
-        GameRegistry.registerTileEntity(TilePotionEnhancer.class, new ResourceLocation(MOD_ID, ModNames.TILE_POTION_ENHANCER));
+        if (ModConfig.blocks.enablePotionEnhancer) {
+            add(new BlockPotionEnhancer());
+            GameRegistry.registerTileEntity(TilePotionEnhancer.class, new ResourceLocation(MOD_ID, ModNames.TILE_POTION_ENHANCER));
+        }
     }
 
     private static void add(Block block) {
