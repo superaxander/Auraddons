@@ -57,7 +57,7 @@ dependencies {
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
     compile "vazkii.patchouli:Patchouli:1.0-10.45"
-    compile "de.ellpeck.naturesaura:NaturesAura:b3-33"
+    compile "de.ellpeck.naturesaura:NaturesAura:b4-37"
     deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

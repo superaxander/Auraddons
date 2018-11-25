@@ -8,7 +8,7 @@ import alexanders.mods.auraddons.block.BlockPotionEnhancer;
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.block.tile.TileFreezer;
 import alexanders.mods.auraddons.block.tile.TilePotionEnhancer;
-import com.sun.istack.internal.Nullable;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Objects;
 import net.minecraft.block.*;
