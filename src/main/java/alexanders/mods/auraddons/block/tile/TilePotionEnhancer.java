@@ -24,8 +24,9 @@ public class TilePotionEnhancer extends TileEntity {
     private boolean checkHash(int hash) {
         TileEntity te = world.getTileEntity(pos.up());
         if (te instanceof TileEntityBrewingStand) {
-            return Objects.hashCode(ReflectionHelper.<NonNullList<ItemStack>, TileEntityBrewingStand>getPrivateValue(TileEntityBrewingStand.class, (TileEntityBrewingStand) te,
-                                                                                                                     "brewingItemStacks")) == hash;
+            return Objects.hashCode(
+                    ReflectionHelper.<NonNullList<ItemStack>, TileEntityBrewingStand>getPrivateValue(TileEntityBrewingStand.class, (TileEntityBrewingStand) te, "field_145945_j",
+                                                                                                     "brewingItemStacks")) == hash;
         }
         return false;
     }
