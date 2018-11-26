@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "auraddons:block_potion_enhancer"
+    },
+    "title": {
+      "translate": "advancement.auraddons.potion_enhancer"
+    },
+    "description": {
+      "translate": "advancement.auraddons.potion_enhancer.desc"
+    }
+  },
+  "parent": "auraddons:sky_bottle",
+  "criteria": {
+    "leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "auraddons:block_potion_enhancer"
+          }
+        ]
+      }
+    }
+  }
+}

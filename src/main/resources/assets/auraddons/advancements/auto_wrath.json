@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "auraddons:block_auto_wrath"
+    },
+    "title": {
+      "translate": "advancement.auraddons.auto_wrath"
+    },
+    "description": {
+      "translate": "advancement.auraddons.auto_wrath.desc"
+    }
+  },
+  "parent": "naturesaura:potion_generator",
+  "criteria": {
+    "leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "auraddons:block_auto_wrath"
+          }
+        ]
+      }
+    }
+  }
+}

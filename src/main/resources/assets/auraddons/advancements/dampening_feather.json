@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "auraddons:item_dampening_feather"
+    },
+    "title": {
+      "translate": "advancement.auraddons.dampening_feather"
+    },
+    "description": {
+      "translate": "advancement.auraddons.dampening_feather.desc"
+    }
+  },
+  "parent": "auraddons:sky_feather",
+  "criteria": {
+    "leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "auraddons:item_dampening_feather"
+          }
+        ]
+      }
+    }
+  }
+}

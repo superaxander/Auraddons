@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "auraddons:item_sky_bottle"
+    },
+    "title": {
+      "translate": "advancement.auraddons.sky_bottle"
+    },
+    "description": {
+      "translate": "advancement.auraddons.sky_bottle.desc"
+    }
+  },
+  "parent": "naturesaura:sky_ingot",
+  "criteria": {
+    "leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "auraddons:item_sky_bottle"
+          }
+        ]
+      }
+    }
+  }
+}

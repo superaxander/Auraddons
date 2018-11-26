@@ -56,7 +56,7 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-    compile "vazkii.patchouli:Patchouli:1.0-10.45"
+    deobfCompile "vazkii.patchouli:Patchouli:1.0-10.45"
     compile "de.ellpeck.naturesaura:NaturesAura:b4-37"
     deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
     // real examples

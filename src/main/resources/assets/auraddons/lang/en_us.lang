@@ -14,3 +14,17 @@ item.auraddons.item_creative_aura_cache.name=Creative Aura Cache
 item.auraddons.item_dampening_feather.name=Dampening Feather
 item.auraddons.item_sky_feather.name=Feather of the Skies
 item.auraddons.item_sky_bottle.name=Bottle of the Skies
+
+advancement.auraddons.auto_wrath=Industrial Shockwaves
+advancement.auraddons.auto_wrath.desc=Create an Auto Wrath to automatically damage surrounding mobs
+advancement.auraddons.dampening_feather=Light as a Feather
+advancement.auraddons.dampening_feather.desc=Create a Dampening Feather to prevent fall damage
+advancement.auraddons.freezer=Freezing Cold
+advancement.auraddons.freezer.desc=Create a Freezer to freeze surrounding blocks
+advancement.auraddons.potion_enhancer=Industrial Brewing
+advancement.auraddons.potion_enhancer.desc=Create a Potion Enhancer to lengthen the usefullness of your potions
+advancement.auraddons.sky_bottle=Divine Clarity
+advancement.auraddons.sky_bottle.desc=Create a Bottle of the Skies using the Offering to the gods
+advancement.auraddons.sky_feather=The wings of Angels
+advancement.auraddons.sky_feather.desc=Create a Feather of the Skies using the Offering to the gods
+
