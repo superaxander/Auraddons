@@ -23,4 +23,14 @@ public final class ModNames {
     public static final String TAG_DURATION_ENHANCED = "auraddons__duration_enhanced";
     public static final String RECIPE_SKY_BOTTLE = "recipe_sky_bottle";
     public static final String ITEM_SKY_BOTTLE = "item_sky_bottle";
+    public static final String BLOCK_DISRUPTION_CATALYST = "block_disruption_catalyst";
+    public static final String RECIPE_QUARTZ_DISRUPTION = "recipe_quartz_disruption";
+    public static final String RECIPE_GRAVEL_DISRUPTION = "recipe_gravel_disruption";
+    //public static final String RECIPE_STONE_BRICKS_DISRUPTION = "recipe_stone_bricks_disruption";
+    public static final String RECIPE_WOOD_DISRUPTION = "recipe_wood_disruption";
+    public static final String RECIPE_WOOD_DISRUPTION_ANCIENT = RECIPE_WOOD_DISRUPTION + "_ancient";
+    public static final String RECIPE_CONCRETE_DISRUPTION = "recipe_concrete_disruption";
+    public static final String RECIPE_SANDSTONE_DISRUPTION = "recipe_sandstone_disruption";
+    public static final String RECIPE_RED_SANDSTONE_DISRUPTION = "recipe_red_sandstone_disruption";
+    public static final String RECIPE_DISRUPTION_CATALYST = "recipe_disruption_catalyst";
 }

@@ -38,6 +38,7 @@ public class ModConfig {
         public boolean enableFreezer = true;
         public boolean enableHardIce = true;
         public boolean enablePotionEnhancer = true;
+        public boolean enableDisruptionCatalyst = true;
     }
 
     public static class Aura {

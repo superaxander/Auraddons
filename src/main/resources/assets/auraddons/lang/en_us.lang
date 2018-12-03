@@ -9,6 +9,7 @@ tile.auraddons.block_ancient_ladder.name=Ancient Ladder
 tile.auraddons.block_freezer.name=Freezer
 tile.auraddons.block_hard_ice.name=Hard Ice
 tile.auraddons.block_potion_enhancer.name=Potion Enhancer
+tile.auraddons.block_disruption_catalyst.name=Disruption Catalyst
 
 item.auraddons.item_creative_aura_cache.name=Creative Aura Cache
 item.auraddons.item_dampening_feather.name=Dampening Feather
@@ -19,6 +20,8 @@ advancement.auraddons.auto_wrath=Industrial Shockwaves
 advancement.auraddons.auto_wrath.desc=Create an Auto Wrath to automatically damage surrounding mobs
 advancement.auraddons.dampening_feather=Light as a Feather
 advancement.auraddons.dampening_feather.desc=Create a Dampening Feather to prevent fall damage
+advancement.auraddons.disruption_catalyst=A disruptive Personality
+advancement.auraddons.disruption_catalyst.desc=Create a Disruption Catalyst to break things down to more basic elements
 advancement.auraddons.freezer=Freezing Cold
 advancement.auraddons.freezer.desc=Create a Freezer to freeze surrounding blocks
 advancement.auraddons.potion_enhancer=Industrial Brewing

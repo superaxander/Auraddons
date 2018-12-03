@@ -1,0 +1,43 @@
+{
+    "name": "Disruption Catalyst",
+    "icon": "auraddons:disruption_catalyst",
+    "category": "using",
+    "advancement": "naturesaura:conversion_catalyst",
+    "pages": [
+        {
+            "type": "text",
+            "text": "The $(l:collecting/altar)Natural Altar$() can not only be used for infusing objects $(aura) but also break down things into their more basic elements. This skill can be very useful for a botanist in some cases through efficiency gain in other cases through shear convenience."
+        },
+        {
+            "type": "naturesaura:tree_ritual",
+            "text": "Creating the $(item)Disruption Catalyst$() using the $(l:practices/tree_ritual)Ritual of the Forest$().",
+            "recipe": "auraddons:recipe_disruption_catalyst"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Breaking down $(item)Quartz Blocks$() into shards",
+            "recipe": "auraddons:recipe_quartz_disruption"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Filtering $(item)Gravel$() into $(item)Flint$()",
+            "recipe": "auraddons:recipe_gravel_disruption"
+        },
+        {
+            "type": "auraddons:altar_special",
+            "text": "Turning $(item)Concrete$() back into powder",
+            "recipe": "auraddons:recipe_concrete_disruption",
+            "suffix": "color"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Creating $(item)Nether Wart$() from poisonous mushrooms",
+            "recipe": "naturesaura:nether_wart"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Conjuring $(item)Prismarine Shards$() from the nether's ore",
+            "recipe": "naturesaura:prismarine"
+        }
+    ]
+}

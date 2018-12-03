@@ -1,14 +1,10 @@
 package alexanders.mods.auraddons.init;
 
 import alexanders.mods.auraddons.Auraddons;
-import alexanders.mods.auraddons.block.BlockAutoWrath;
-import alexanders.mods.auraddons.block.BlockFreezer;
-import alexanders.mods.auraddons.block.BlockHardIce;
-import alexanders.mods.auraddons.block.BlockPotionEnhancer;
+import alexanders.mods.auraddons.block.*;
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.block.tile.TileFreezer;
 import alexanders.mods.auraddons.block.tile.TilePotionEnhancer;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Objects;
 import net.minecraft.block.*;
@@ -26,7 +22,6 @@ import static alexanders.mods.auraddons.Constants.MOD_ID;
 
 @GameRegistry.ObjectHolder(MOD_ID)
 public final class ModBlocks {
-    @Nullable
     public static ArrayList<Block> blockRegistry = new ArrayList<>();
 
     @GameRegistry.ObjectHolder(ModNames.BLOCK_AUTO_WRATH)
@@ -37,6 +32,9 @@ public final class ModBlocks {
 
     @GameRegistry.ObjectHolder(ModNames.BLOCK_HARD_ICE)
     public static Block hardIce;
+    
+    @GameRegistry.ObjectHolder(ModNames.BLOCK_DISRUPTION_CATALYST)
+    public static Block disruptionCatalyst;
 
     public static void init() {
         if (ModConfig.blocks.enableAutoWrath) {
@@ -73,11 +71,12 @@ public final class ModBlocks {
         }
         if (ModConfig.blocks.enableHardIce)
             add(new BlockHardIce().setRegistryName(ModNames.BLOCK_HARD_ICE).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_HARD_ICE).setCreativeTab(ModTabs.MAIN_TAB));
-
         if (ModConfig.blocks.enablePotionEnhancer) {
             add(new BlockPotionEnhancer());
             GameRegistry.registerTileEntity(TilePotionEnhancer.class, new ResourceLocation(MOD_ID, ModNames.TILE_POTION_ENHANCER));
         }
+        if (ModConfig.blocks.enableDisruptionCatalyst)
+            add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
     }
 
     private static void add(Block block) {
