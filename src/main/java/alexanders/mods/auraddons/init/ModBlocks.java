@@ -12,6 +12,7 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -35,6 +36,9 @@ public final class ModBlocks {
     
     @GameRegistry.ObjectHolder(ModNames.BLOCK_DISRUPTION_CATALYST)
     public static Block disruptionCatalyst;
+    
+    @GameRegistry.ObjectHolder(ModNames.BLOCK_ANCIENT_LADDER)
+    public static Block ancientLadder;
 
     public static void init() {
         if (ModConfig.blocks.enableAutoWrath) {

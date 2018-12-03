@@ -25,6 +25,8 @@ public final class ModNames {
     public static final String ITEM_SKY_BOTTLE = "item_sky_bottle";
     public static final String BLOCK_DISRUPTION_CATALYST = "block_disruption_catalyst";
     public static final String RECIPE_QUARTZ_DISRUPTION = "recipe_quartz_disruption";
+    public static final String RECIPE_QUARTZ_DISRUPTION_CHISELED = RECIPE_QUARTZ_DISRUPTION + "_chiseled";
+    public static final String RECIPE_QUARTZ_DISRUPTION_PILLAR = RECIPE_QUARTZ_DISRUPTION + "_pillar";
     public static final String RECIPE_GRAVEL_DISRUPTION = "recipe_gravel_disruption";
     //public static final String RECIPE_STONE_BRICKS_DISRUPTION = "recipe_stone_bricks_disruption";
     public static final String RECIPE_WOOD_DISRUPTION = "recipe_wood_disruption";
@@ -32,6 +34,19 @@ public final class ModNames {
     public static final String RECIPE_WOOD_DISRUPTION_ANCIENT_BARK = RECIPE_WOOD_DISRUPTION + "_ancient_bark";
     public static final String RECIPE_CONCRETE_DISRUPTION = "recipe_concrete_disruption";
     public static final String RECIPE_SANDSTONE_DISRUPTION = "recipe_sandstone_disruption";
-    public static final String RECIPE_RED_SANDSTONE_DISRUPTION = "recipe_red_sandstone_disruption";
+    public static final String RECIPE_SANDSTONE_DISRUPTION_CHISELED = RECIPE_SANDSTONE_DISRUPTION + "_chiseled";
+    public static final String RECIPE_SANDSTONE_DISRUPTION_SMOOTH = RECIPE_SANDSTONE_DISRUPTION + "_smooth";
+    public static final String RECIPE_SANDSTONE_DISRUPTION_RED = RECIPE_SANDSTONE_DISRUPTION + "_red";
+    public static final String RECIPE_SANDSTONE_DISRUPTION_RED_CHISELED = RECIPE_SANDSTONE_DISRUPTION_RED + "_chiseled";
+    public static final String RECIPE_SANDSTONE_DISRUPTION_RED_SMOOTH = RECIPE_SANDSTONE_DISRUPTION_RED + "_smooth";
     public static final String RECIPE_DISRUPTION_CATALYST = "recipe_disruption_catalyst";
+    public static final String RECIPE_LADDER_DISRUPTION = "recipe_ladder_disruption";
+    public static final String RECIPE_LADDER_DISRUPTION_ANCIENT = RECIPE_LADDER_DISRUPTION + "_ancient";
+    public static final String RECIPE_BREAD_DISRUPTION = "recipe_bread_disruption";
+    public static final String RECIPE_SUGAR_CANE_DISRUPTION = "recipe_sugar_cane_disruption";
+    public static final String RECIPE_MELON_DISRUPTION = "recipe_melon_disruption";
+    public static final String RECIPE_JUKEBOX_DISRUPTION = "recipe_jukebox_disruption";
+    public static final String RECIPE_ENDER_CHEST_DISRUPTION = "recipe_ender_chest_disruption";
+    public static final String RECIPE_BEACON_DISRUPTION = "recipe_beacon_disruption";
+    public static final String RECIPE_GLOWSTONE_DISRUPTION = "recipe_glowstone_disruption";
 }

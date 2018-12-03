@@ -6,8 +6,10 @@ import de.ellpeck.naturesaura.api.recipes.AltarRecipe;
 import de.ellpeck.naturesaura.api.recipes.OfferingRecipe;
 import de.ellpeck.naturesaura.api.recipes.TreeRitualRecipe;
 import de.ellpeck.naturesaura.api.recipes.ing.AmountIngredient;
-import net.minecraft.block.BlockConcretePowder;
 import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockQuartz;
+import net.minecraft.block.BlockRedSandstone;
+import net.minecraft.block.BlockSandStone;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -30,6 +32,9 @@ public class ModRecipes {
 
     @GameRegistry.ObjectHolder("naturesaura:ancient_planks")
     public static Item ancientPlanks;
+
+    @GameRegistry.ObjectHolder("naturesaura:ancient_stick")
+    public static Item ancientStick;
 
     @GameRegistry.ObjectHolder("naturesaura:shockwave_creator")
     public static Item shockwaveCreator;
@@ -73,17 +78,21 @@ public class ModRecipes {
 
         if (ModConfig.blocks.enableDisruptionCatalyst) {
             new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_DISRUPTION_CATALYST),
-                                 Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.DARK_OAK.getMetadata())), new ItemStack(ModBlocks.disruptionCatalyst), 600,
-                                 Ingredient.fromStacks(new ItemStack(Blocks.TNT)),
-                                 Ingredient.fromStacks(new ItemStack(infusedStone)),
-                                 Ingredient.fromItem(Items.GUNPOWDER),
-                                 Ingredient.fromItem(skyIngot),
-                                 Ingredient.fromItem(goldLeaf),
-                                 Ingredient.fromStacks(new ItemStack(Blocks.TNT))).register();
-            
+                                 Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.DARK_OAK.getMetadata())), new ItemStack(ModBlocks.disruptionCatalyst),
+                                 600, Ingredient.fromStacks(new ItemStack(Blocks.TNT)), Ingredient.fromStacks(new ItemStack(infusedStone)), Ingredient.fromItem(Items.GUNPOWDER),
+                                 Ingredient.fromItem(skyIngot), Ingredient.fromItem(goldLeaf), Ingredient.fromStacks(new ItemStack(Blocks.TNT))).register();
+
             Ingredient destructionCatalyst = Ingredient.fromStacks(new ItemStack(ModBlocks.disruptionCatalyst));
-            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_QUARTZ_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.QUARTZ_BLOCK)),
-                            new ItemStack(Items.QUARTZ, 4), destructionCatalyst, 150, 100).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_QUARTZ_DISRUPTION),
+                            Ingredient.fromStacks(new ItemStack(Blocks.QUARTZ_BLOCK, 1, BlockQuartz.EnumType.DEFAULT.getMetadata())), new ItemStack(Items.QUARTZ, 4),
+                            destructionCatalyst, 150, 100).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_QUARTZ_DISRUPTION_CHISELED),
+                            Ingredient.fromStacks(new ItemStack(Blocks.QUARTZ_BLOCK, 1, BlockQuartz.EnumType.CHISELED.getMetadata())), new ItemStack(Items.QUARTZ, 4),
+                            destructionCatalyst, 150, 100).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_QUARTZ_DISRUPTION_PILLAR),
+                            Ingredient.fromStacks(new ItemStack(Blocks.QUARTZ_BLOCK, 1, BlockQuartz.EnumType.LINES_Y.getMetadata())), new ItemStack(Items.QUARTZ, 4),
+                            destructionCatalyst, 150, 100).register();
+
             new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_GRAVEL_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.GRAVEL)), new ItemStack(Items.FLINT, 2),
                             destructionCatalyst, 100, 50).register();
             //new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_STONE_BRICKS_DISRUPTION), Ingredient
@@ -99,13 +108,57 @@ public class ModRecipes {
                             destructionCatalyst, 150, 150).register();
             new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WOOD_DISRUPTION_ANCIENT_BARK), Ingredient.fromItems(ancientBark), new ItemStack(ancientPlanks, 4),
                             destructionCatalyst, 150, 150).register();
-            
+
             for (EnumDyeColor color : EnumDyeColor.values()) {
-                new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_CONCRETE_DISRUPTION+"_"+color.getName()), Ingredient.fromStacks(new ItemStack(Blocks.CONCRETE, 1, color.getMetadata())), new ItemStack(Blocks.CONCRETE_POWDER, 1, color.getMetadata()), destructionCatalyst, 100, 50).register();
+                new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_CONCRETE_DISRUPTION + "_" + color.getName()),
+                                Ingredient.fromStacks(new ItemStack(Blocks.CONCRETE, 1, color.getMetadata())), new ItemStack(Blocks.CONCRETE_POWDER, 1, color.getMetadata()),
+                                destructionCatalyst, 100, 50).register();
             }
-            
-            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SANDSTONE_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.SANDSTONE)), new ItemStack(Blocks.SAND, 4), destructionCatalyst, 100, 50).register();
-            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_RED_SANDSTONE_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.RED_SANDSTONE)), new ItemStack(Blocks.SAND, 4, 1), destructionCatalyst, 100, 50).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SANDSTONE_DISRUPTION),
+                            Ingredient.fromStacks(new ItemStack(Blocks.SANDSTONE, 1, BlockSandStone.EnumType.DEFAULT.getMetadata())), new ItemStack(Blocks.SAND, 4),
+                            destructionCatalyst, 100, 50).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SANDSTONE_DISRUPTION_CHISELED),
+                            Ingredient.fromStacks(new ItemStack(Blocks.SANDSTONE, 1, BlockSandStone.EnumType.CHISELED.getMetadata())), new ItemStack(Blocks.SAND, 4),
+                            destructionCatalyst, 100, 50).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SANDSTONE_DISRUPTION_SMOOTH),
+                            Ingredient.fromStacks(new ItemStack(Blocks.SANDSTONE, 1, BlockSandStone.EnumType.SMOOTH.getMetadata())), new ItemStack(Blocks.SAND, 4),
+                            destructionCatalyst, 100, 50).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SANDSTONE_DISRUPTION_RED),
+                            Ingredient.fromStacks(new ItemStack(Blocks.RED_SANDSTONE, 1, BlockRedSandstone.EnumType.DEFAULT.getMetadata())), new ItemStack(Blocks.SAND, 4, 1),
+                            destructionCatalyst, 100, 50).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SANDSTONE_DISRUPTION_RED_CHISELED),
+                            Ingredient.fromStacks(new ItemStack(Blocks.RED_SANDSTONE, 1, BlockRedSandstone.EnumType.CHISELED.getMetadata())), new ItemStack(Blocks.SAND, 4, 1),
+                            destructionCatalyst, 100, 50).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SANDSTONE_DISRUPTION_RED_SMOOTH),
+                            Ingredient.fromStacks(new ItemStack(Blocks.RED_SANDSTONE, 1, BlockRedSandstone.EnumType.SMOOTH.getMetadata())), new ItemStack(Blocks.SAND, 4, 1),
+                            destructionCatalyst, 100, 50).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_GLOWSTONE_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.GLOWSTONE)),
+                            new ItemStack(Items.GLOWSTONE_DUST, 4), destructionCatalyst, 100, 50).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_LADDER_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.LADDER)), new ItemStack(Items.STICK, 7),
+                            destructionCatalyst, 100, 50).register();
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_LADDER_DISRUPTION_ANCIENT), Ingredient.fromStacks(new ItemStack(ModBlocks.ancientLadder)),
+                            new ItemStack(ancientStick, 7), destructionCatalyst, 100, 50).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_BREAD_DISRUPTION), Ingredient.fromStacks(new ItemStack(Items.BREAD)), new ItemStack(Items.WHEAT, 3),
+                            destructionCatalyst, 100, 50).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SUGAR_CANE_DISRUPTION), Ingredient.fromStacks(new ItemStack(Items.REEDS)), new ItemStack(Items.SUGAR, 2),
+                            destructionCatalyst, 100, 50).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_MELON_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.MELON_BLOCK)), new ItemStack(Items.MELON, 9),
+                            destructionCatalyst, 100, 50).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_JUKEBOX_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.JUKEBOX)), new ItemStack(Items.DIAMOND, 1),
+                            destructionCatalyst, 150, 100).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_ENDER_CHEST_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.ENDER_CHEST)),
+                            new ItemStack(Items.ENDER_EYE, 1), destructionCatalyst, 150, 100).register();
+
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_BEACON_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.BEACON)),
+                            new ItemStack(Items.NETHER_STAR, 1), destructionCatalyst, 200, 100).register();
         }
     }
 

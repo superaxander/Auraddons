@@ -6,7 +6,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "The $(l:collecting/altar)Natural Altar$() can not only be used for infusing objects $(aura) but also break down things into their more basic elements. This skill can be very useful for a botanist in some cases through efficiency gain in other cases through shear convenience."
+            "text": "The $(l:collecting/altar)Natural Altar$() can not only be used for infusing objects $(aura) but also break down things into their more basic elements. This skill can be very useful for a botanist in some cases through efficiency gain in other cases through sheer convenience. To use the $(item)Disruption Catalyst$() place it on top of any of the four lower $(item)Mossy Stone Brick$() blocks around the altar."
         },
         {
             "type": "naturesaura:tree_ritual",
@@ -14,9 +14,10 @@
             "recipe": "auraddons:recipe_disruption_catalyst"
         },
         {
-            "type": "naturesaura:altar",
+            "type": "auraddons:altar_special",
             "text": "Breaking down $(item)Quartz Blocks$() into shards",
-            "recipe": "auraddons:recipe_quartz_disruption"
+            "recipe": "auraddons:recipe_quartz_disruption",
+            "suffix": ";chiseled;pillar"
         },
         {
             "type": "naturesaura:altar",
@@ -36,14 +37,51 @@
             "suffix": "wood"
         },
         {
-            "type": "naturesaura:altar",
-            "text": "Creating $(item)Nether Wart$() from poisonous mushrooms",
-            "recipe": "naturesaura:nether_wart"
+            "type": "auraddons:altar_special",
+            "text": "Reverting $(item)Sandstone$() back into $(item)Sand$()",
+            "recipe": "auraddons:recipe_sandstone_disruption",
+            "suffix": ";chiseled;smooth;red;red_chiseled;red_smooth"
         },
         {
             "type": "naturesaura:altar",
-            "text": "Conjuring $(item)Prismarine Shards$() from the nether's ore",
-            "recipe": "naturesaura:prismarine"
+            "text": "Breaking down $(item)Glowstone$() into $(item)Glowstone Dust$()",
+            "recipe": "auraddons:recipe_glowstone_disruption"
+        },
+        {
+            "type": "auraddons:altar_special",
+            "text": "Breaking down $(item)Ladders$() back into $(item)Sticks$()",
+            "recipe": "auraddons:recipe_ladder_disruption",
+            "suffix": ";ancient"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Extracting the $(item)Wheat$() from $(item)Bread$()",
+            "recipe": "auraddons:recipe_bread_disruption"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Transforming $(item)Sugar Cane$() into $(item)Sugar$() with an increased yield",
+            "recipe": "auraddons:recipe_sugar_cane_disruption"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Splitting a $(item)Melon Block$() into $(item)Melons$()",
+            "recipe": "auraddons:recipe_melon_disruption"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Removing the $(item)Diamond$() from a $(item)Jukebox$()",
+            "recipe": "auraddons:recipe_jukebox_disruption"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Removing the $(item)Ender Eye$() from an $(item)Ender Chest$()",
+            "recipe": "auraddons:recipe_ender_chest_disruption"
+        },
+        {
+            "type": "naturesaura:altar",
+            "text": "Removing the $(item)Nether Star$() from a $(item)Beacon$()",
+            "recipe": "auraddons:recipe_beacon_disruption"
         }
     ]
 }

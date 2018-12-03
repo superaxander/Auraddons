@@ -31,6 +31,9 @@ advancement.auraddons.sky_bottle.desc=Create a Bottle of the Skies using the Off
 advancement.auraddons.sky_feather=The wings of Angels
 advancement.auraddons.sky_feather.desc=Create a Feather of the Skies using the Offering to the gods
 
+auraddons:recipe_quartz_disruption=Quartz
 auraddons:recipe_concrete_disruption=Concrete Powder
 auraddons:recipe_wood_disruption=Planks
+auraddons:recipe_sandstone_disruption=Sand
+auraddons:recipe_ladder_disruption=Stick
 

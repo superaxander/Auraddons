@@ -2,7 +2,6 @@ package alexanders.mods.auraddons;
 
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.recipes.AltarRecipe;
-import java.util.ArrayList;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.EnumDyeColor;
@@ -37,20 +36,19 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
                 addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_ancient_bark")));
                 break;
             default:
-                Auraddons.logger.warn("Unknown suffix type: {}", suffix);
+                if (suffix.contains(";")) {
+                    String[] suffices = suffix.split(";");
+                    for (String suf : suffices) {
+                        if (suf.isEmpty()) addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName)));
+                        else addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_" + suf)));
+                    }
+                } else {
+                    Auraddons.logger.warn("Unknown suffix type: {}", suffix);
+                }
                 break;
         }
         name = recipeName;
     }
-
-    private void addRecipe(AltarRecipe recipe) {
-        if(recipe != null) {
-            input = Ingredient.fromStacks(ArrayUtils.addAll(input.getMatchingStacks(), recipe.input.getMatchingStacks()));
-            output = Ingredient.fromStacks(ArrayUtils.addAll(output.getMatchingStacks(), recipe.output));
-            catalyst = Ingredient.fromStacks(ArrayUtils.addAll(catalyst.getMatchingStacks(), recipe.catalyst.getMatchingStacks()));
-        }
-    }
-
 
     @Override
     public String process(String key) {
@@ -66,6 +64,14 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
                 return I18n.format(name);
             default:
                 return null;
+        }
+    }
+
+    private void addRecipe(AltarRecipe recipe) {
+        if (recipe != null) {
+            input = Ingredient.fromStacks(ArrayUtils.addAll(input.getMatchingStacks(), recipe.input.getMatchingStacks()));
+            output = Ingredient.fromStacks(ArrayUtils.addAll(output.getMatchingStacks(), recipe.output));
+            catalyst = Ingredient.fromStacks(ArrayUtils.addAll(catalyst.getMatchingStacks(), recipe.catalyst.getMatchingStacks()));
         }
     }
 }
