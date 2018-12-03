@@ -93,11 +93,13 @@ public class ModRecipes {
             for (BlockPlanks.EnumType e : BlockPlanks.EnumType.values()) {
                 new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WOOD_DISRUPTION + "_" + e.getName()), Ingredient
                         .fromStacks(new ItemStack(e.getMetadata() > 3 ? Blocks.LOG2 : Blocks.LOG, 1, e.getMetadata() > 3 ? e.getMetadata() - 4 : e.getMetadata())),
-                                new ItemStack(Blocks.PLANKS, 4, e.getMetadata()), destructionCatalyst, 150, 150).register();
+                                new ItemStack(Blocks.PLANKS, 5, e.getMetadata()), destructionCatalyst, 150, 150).register();
             }
-            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WOOD_DISRUPTION_ANCIENT), Ingredient.fromItems(ancientLog, ancientBark), new ItemStack(ancientPlanks, 4),
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WOOD_DISRUPTION_ANCIENT_LOG), Ingredient.fromItems(ancientLog), new ItemStack(ancientPlanks, 4),
                             destructionCatalyst, 150, 150).register();
-
+            new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WOOD_DISRUPTION_ANCIENT_BARK), Ingredient.fromItems(ancientBark), new ItemStack(ancientPlanks, 4),
+                            destructionCatalyst, 150, 150).register();
+            
             for (EnumDyeColor color : EnumDyeColor.values()) {
                 new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_CONCRETE_DISRUPTION+"_"+color.getName()), Ingredient.fromStacks(new ItemStack(Blocks.CONCRETE, 1, color.getMetadata())), new ItemStack(Blocks.CONCRETE_POWDER, 1, color.getMetadata()), destructionCatalyst, 100, 50).register();
             }

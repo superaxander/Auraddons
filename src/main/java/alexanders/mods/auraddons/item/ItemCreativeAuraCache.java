@@ -34,10 +34,13 @@ public class ItemCreativeAuraCache extends ItemSimple implements ITrinketItem {
         if (!worldIn.isRemote && entityIn instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entityIn;
             if (player.isSneaking()) {
-                ItemStack stack = player.getHeldItemMainhand();
-                if (stack.hasCapability(NaturesAuraAPI.capAuraRecharge, null)) {
-                    IAuraContainer container = stackIn.getCapability(NaturesAuraAPI.capAuraContainer, null);
-                    Objects.requireNonNull(stack.getCapability(NaturesAuraAPI.capAuraRecharge, null)).rechargeFromContainer(container);
+                for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+                    ItemStack stack = player.inventory.getStackInSlot(i);
+                    if (stack.hasCapability(NaturesAuraAPI.capAuraRecharge, null)) {
+                        IAuraContainer container = stackIn.getCapability(NaturesAuraAPI.capAuraContainer, null);
+                        if (Objects.requireNonNull(stack.getCapability(NaturesAuraAPI.capAuraRecharge, null))
+                                .rechargeFromContainer(container, itemSlot, i, player.inventory.currentItem == i)) break;
+                    }
                 }
             }
         }

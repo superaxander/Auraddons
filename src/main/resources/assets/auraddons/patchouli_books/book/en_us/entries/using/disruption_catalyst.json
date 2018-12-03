@@ -1,6 +1,6 @@
 {
     "name": "Disruption Catalyst",
-    "icon": "auraddons:disruption_catalyst",
+    "icon": "auraddons:block_disruption_catalyst",
     "category": "using",
     "advancement": "naturesaura:conversion_catalyst",
     "pages": [
@@ -28,6 +28,12 @@
             "text": "Turning $(item)Concrete$() back into powder",
             "recipe": "auraddons:recipe_concrete_disruption",
             "suffix": "color"
+        },
+        {
+            "type": "auraddons:altar_special",
+            "text": "Turning $(item)Log$()s into $(item)Planks$()",
+            "recipe": "auraddons:recipe_wood_disruption",
+            "suffix": "wood"
         },
         {
             "type": "naturesaura:altar",

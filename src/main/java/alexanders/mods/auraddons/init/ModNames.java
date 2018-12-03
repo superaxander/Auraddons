@@ -28,7 +28,8 @@ public final class ModNames {
     public static final String RECIPE_GRAVEL_DISRUPTION = "recipe_gravel_disruption";
     //public static final String RECIPE_STONE_BRICKS_DISRUPTION = "recipe_stone_bricks_disruption";
     public static final String RECIPE_WOOD_DISRUPTION = "recipe_wood_disruption";
-    public static final String RECIPE_WOOD_DISRUPTION_ANCIENT = RECIPE_WOOD_DISRUPTION + "_ancient";
+    public static final String RECIPE_WOOD_DISRUPTION_ANCIENT_LOG = RECIPE_WOOD_DISRUPTION + "_ancient_log";
+    public static final String RECIPE_WOOD_DISRUPTION_ANCIENT_BARK = RECIPE_WOOD_DISRUPTION + "_ancient_bark";
     public static final String RECIPE_CONCRETE_DISRUPTION = "recipe_concrete_disruption";
     public static final String RECIPE_SANDSTONE_DISRUPTION = "recipe_sandstone_disruption";
     public static final String RECIPE_RED_SANDSTONE_DISRUPTION = "recipe_red_sandstone_disruption";

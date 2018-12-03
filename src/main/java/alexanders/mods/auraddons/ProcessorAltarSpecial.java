@@ -4,6 +4,7 @@ import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.recipes.AltarRecipe;
 import java.util.ArrayList;
 import net.minecraft.block.BlockPlanks;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
@@ -25,19 +26,15 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
         switch (suffix) {
             case "color":
                 for (EnumDyeColor color : EnumDyeColor.values()) {
-                    AltarRecipe recipe = NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_" + color.getName()));
-                    input = Ingredient.fromStacks(ArrayUtils.addAll(input.getMatchingStacks(), recipe.input.getMatchingStacks()));
-                    output = Ingredient.fromStacks(ArrayUtils.addAll(output.getMatchingStacks(), recipe.output));
-                    catalyst = Ingredient.fromStacks(ArrayUtils.addAll(catalyst.getMatchingStacks(), recipe.catalyst.getMatchingStacks()));
+                    addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_" + color.getName())));
                 }
                 break;
             case "wood":
                 for (BlockPlanks.EnumType type : BlockPlanks.EnumType.values()) {
-                    AltarRecipe recipe = NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_" + type.getName()));
-                    input = Ingredient.fromStacks(ArrayUtils.addAll(input.getMatchingStacks(), recipe.input.getMatchingStacks()));
-                    output = Ingredient.fromStacks(ArrayUtils.addAll(output.getMatchingStacks(), recipe.output));
-                    catalyst = Ingredient.fromStacks(ArrayUtils.addAll(catalyst.getMatchingStacks(), recipe.catalyst.getMatchingStacks()));
+                    addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_" + type.getName())));
                 }
+                addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_ancient_log")));
+                addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_ancient_bark")));
                 break;
             default:
                 Auraddons.logger.warn("Unknown suffix type: {}", suffix);
@@ -45,6 +42,15 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
         }
         name = recipeName;
     }
+
+    private void addRecipe(AltarRecipe recipe) {
+        if(recipe != null) {
+            input = Ingredient.fromStacks(ArrayUtils.addAll(input.getMatchingStacks(), recipe.input.getMatchingStacks()));
+            output = Ingredient.fromStacks(ArrayUtils.addAll(output.getMatchingStacks(), recipe.output));
+            catalyst = Ingredient.fromStacks(ArrayUtils.addAll(catalyst.getMatchingStacks(), recipe.catalyst.getMatchingStacks()));
+        }
+    }
+
 
     @Override
     public String process(String key) {
@@ -57,7 +63,7 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
                 if (catalyst != Ingredient.EMPTY) return PatchouliAPI.instance.serializeIngredient(catalyst);
                 else return null;
             case "name":
-                return name;
+                return I18n.format(name);
             default:
                 return null;
         }
