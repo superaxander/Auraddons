@@ -1,0 +1,19 @@
+{
+  "name": "Aura Transporter",
+  "icon": "auraddons:block_aura_transporter",
+  "category": "naturesaura:using",
+  "advancement": "naturesaura:aura_bottle_end",
+  "pages": [
+    {
+      "type": "text",
+      "text": "Eventually you may realize that you don't have enough room to use your $(aura) near the location where it's being generated. The $(item)Aura Transporter$() can help a botanist move aura to wherever it is needed. This does however come at a cost, transporting aura over large distances will result in a lot of aura being lost."
+    }, {
+      "type": "text",
+      "text": "The $(item)Aura Transporter$() has a limited range but it can also reach $(aura) spots in a radius around it. Two aura transporters can be connected by interacting with one while you're sneaking and then interacting with the other one while you're not sneaking. You can put a transporter into $(thing)sending mode$() by providing it with a redstone signal."
+    },{
+      "type": "naturesaura:tree_ritual",
+      "text": "Creating the $(item)Aura Transporter$() using the $(l:practices/tree_ritual)Ritual of the Forest$()",
+      "recipe": "auraddons:recipe_aura_transporter"
+    }
+  ]
+}

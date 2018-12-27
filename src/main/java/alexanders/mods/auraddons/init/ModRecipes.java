@@ -6,10 +6,7 @@ import de.ellpeck.naturesaura.api.recipes.AltarRecipe;
 import de.ellpeck.naturesaura.api.recipes.OfferingRecipe;
 import de.ellpeck.naturesaura.api.recipes.TreeRitualRecipe;
 import de.ellpeck.naturesaura.api.recipes.ing.AmountIngredient;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockQuartz;
-import net.minecraft.block.BlockRedSandstone;
-import net.minecraft.block.BlockSandStone;
+import net.minecraft.block.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -24,6 +21,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
 public class ModRecipes {
+    @GameRegistry.ObjectHolder("naturesaura:ancient_sapling")
+    public static Block ancientSapling;
+
     @GameRegistry.ObjectHolder("naturesaura:ancient_log")
     public static Item ancientLog;
 
@@ -75,6 +75,14 @@ public class ModRecipes {
         if (ModConfig.items.enableSkyBottle)
             new OfferingRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_SKY_BOTTLE), new AmountIngredient(setType(new ItemStack(auraBottle, 3), NaturesAuraAPI.TYPE_OVERWORLD)),
                                Ingredient.fromItem(callingSpirit), new ItemStack(ModItems.skyBottle)).register();
+
+        if (ModConfig.blocks.enableAuraTransporter)
+            new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_AURA_TRANSPORTER), Ingredient.fromStacks(new ItemStack(ancientSapling)),
+                                 new ItemStack(ModBlocks.auraTransporter), ModConfig.general.auraTransporterRitualTime, Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)),
+                                 Ingredient.fromItem(skyIngot), Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)),
+                                 IngredientNBT.fromStacks(setType(new ItemStack(auraBottle), NaturesAuraAPI.TYPE_END)), Ingredient.fromItem(skyIngot),
+                                 Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)), Ingredient.fromItem(skyIngot), Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS))).register();
+        
 
         if (ModConfig.blocks.enableDisruptionCatalyst) {
             new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_DISRUPTION_CATALYST),

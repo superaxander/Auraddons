@@ -19,6 +19,10 @@ public class ModConfig {
         public boolean allowFreezerSnowCreation = true;
 
         public int autoWrathRitualTime = 800;
+        public int auraTransporterRitualTime = 500;
+
+        @Config.RangeDouble(min=1)
+        public double auraTransporterRange = 30;
     }
 
     public static class Items {
@@ -39,6 +43,7 @@ public class ModConfig {
         public boolean enableHardIce = true;
         public boolean enablePotionEnhancer = true;
         public boolean enableDisruptionCatalyst = true;
+        public boolean enableAuraTransporter = true;
     }
 
     public static class Aura {
@@ -49,5 +54,13 @@ public class ModConfig {
         public int freezerHardIceCreationCost = 80;
         public int dampeningFeatherAuraPerMeter = 40;
         public int potionEnhancerCostPerLevel = 50;
+        public int auraTransporterDrainRange = 15;
+        public int auraTransporterStoreRange = 15;
+        
+        @Config.RangeInt(min = 1)
+        public int auraTransporterAuraAmount = 1000;
+        
+        @Config.RangeDouble(min = 0, max = 1)
+        public double auraTransporterAuraMultiplierPerBlock = 0.97;
     }
 }

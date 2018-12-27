@@ -1,6 +1,7 @@
 package alexanders.mods.auraddons.init;
 
 import alexanders.mods.auraddons.Constants;
+import alexanders.mods.auraddons.net.ConnectionPacket;
 import alexanders.mods.auraddons.net.JumpPacket;
 import alexanders.mods.auraddons.net.ParticlePacket;
 import net.minecraft.util.math.BlockPos;
@@ -17,6 +18,7 @@ public class ModPackets {
         net = new SimpleNetworkWrapper(Constants.MOD_ID);
         net.registerMessage(ParticlePacket.Handler.class, ParticlePacket.class, 0, Side.CLIENT);
         net.registerMessage(JumpPacket.Handler.class, JumpPacket.class, 1, Side.CLIENT);
+        net.registerMessage(ConnectionPacket.Handler.class, ConnectionPacket.class, 2, Side.CLIENT);
     }
 
     public static void sendAround(World world, BlockPos pos, int range, IMessage message) {

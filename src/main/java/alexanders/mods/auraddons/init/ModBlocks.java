@@ -2,11 +2,13 @@ package alexanders.mods.auraddons.init;
 
 import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.block.*;
+import alexanders.mods.auraddons.block.tile.TileAuraTransporter;
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.block.tile.TileFreezer;
 import alexanders.mods.auraddons.block.tile.TilePotionEnhancer;
 import java.util.ArrayList;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -39,6 +41,9 @@ public final class ModBlocks {
     
     @GameRegistry.ObjectHolder(ModNames.BLOCK_ANCIENT_LADDER)
     public static Block ancientLadder;
+    
+    @GameRegistry.ObjectHolder(ModNames.BLOCK_AURA_TRANSPORTER)
+    public static Block auraTransporter;
 
     public static void init() {
         if (ModConfig.blocks.enableAutoWrath) {
@@ -56,13 +61,13 @@ public final class ModBlocks {
         }
         if (ModConfig.blocks.enableInfusedStoneWall) add(new BlockWall(Blocks.COBBLESTONE) {
             @Override
-            public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+            public void getSubBlocks(CreativeTabs itemIn, @Nonnull NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_INFUSED_STONE_WALL).setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableInfusedBrickWall) add(new BlockWall(Blocks.COBBLESTONE) {
             @Override
-            public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+            public void getSubBlocks(CreativeTabs itemIn, @Nonnull NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_INFUSED_BRICK_WALL).setCreativeTab(ModTabs.MAIN_TAB));
@@ -81,6 +86,11 @@ public final class ModBlocks {
         }
         if (ModConfig.blocks.enableDisruptionCatalyst)
             add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
+        
+        if(ModConfig.blocks.enableAuraTransporter) {
+            add(new BlockAuraTransporter());
+            GameRegistry.registerTileEntity(TileAuraTransporter.class, new ResourceLocation(MOD_ID, ModNames.TILE_AURA_TRANSPORTER));
+        }
     }
 
     private static void add(Block block) {
