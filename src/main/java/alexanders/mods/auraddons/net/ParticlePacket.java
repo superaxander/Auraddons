@@ -92,7 +92,8 @@ public class ParticlePacket implements IMessage {
                             }
                             break;
                         case PARTICLE_STREAM:
-                            NaturesAuraAPI.instance().spawnParticleStream(message.pos.getX(), message.pos.getY(), message.pos.getZ(), message.endPos.getX(), message.endPos.getY(), message.endPos.getZ(), message.speed, message.color, message.scale);
+                            NaturesAuraAPI.instance().spawnParticleStream(message.pos.getX(), message.pos.getY(), message.pos.getZ(), message.endPos.getX(), message.endPos.getY(),
+                                                                          message.endPos.getZ(), message.speed, message.color, message.scale);
                             break;
                         case FREEZE:
                             for (int i = world.rand.nextInt(20) + 20; i >= 0; i--) {

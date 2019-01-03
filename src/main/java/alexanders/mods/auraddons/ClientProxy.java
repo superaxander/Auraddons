@@ -1,6 +1,5 @@
 package alexanders.mods.auraddons;
 
-import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.init.ModItems;
 import baubles.api.BaublesApi;
 import com.google.common.collect.ImmutableMap;
@@ -28,7 +27,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.animation.AnimationTESR;
-import net.minecraftforge.common.animation.Event;
 import net.minecraftforge.common.animation.ITimeValue;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -98,10 +96,6 @@ public class ClientProxy implements IProxy {
     public void registerItemModel(Item item, int meta, String id) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), id));
     }
-    
-    private <T extends TileEntity> void registerTESR(Class<T> te, TileEntitySpecialRenderer<T> tesr) {
-        ClientRegistry.bindTileEntitySpecialRenderer(te, tesr);
-    }
 
     @Nullable
     @Override
@@ -137,5 +131,9 @@ public class ClientProxy implements IProxy {
     @Override
     public <T extends TileEntity> void registerAnimationTESR(Class<T> clazz) {
         registerTESR(clazz, new AnimationTESR<>());
+    }
+
+    private <T extends TileEntity> void registerTESR(Class<T> te, TileEntitySpecialRenderer<T> tesr) {
+        ClientRegistry.bindTileEntitySpecialRenderer(te, tesr);
     }
 }

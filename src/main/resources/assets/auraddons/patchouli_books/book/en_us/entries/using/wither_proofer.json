@@ -1,0 +1,20 @@
+{
+  "name": "Wither Proofer",
+  "icon": "auraddons:block_wither_proofer",
+  "category": "naturesaura:using",
+  "advancement": "naturesaura:end_flower",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The $(thing)Wither$() is a fearsome creature that can be disastrous for many a structure if it gets loose. To protect your buildings from the $(thing)Wither$()'s destructive power you can use the $(item)Wither Proofer$(). The $(item)Wither Proofer$() will neutralize any nearby $(thing)Withers$() causing them to be unable to destroy any blocks."
+    }, {
+      "type": "naturesaura:tree_ritual",
+      "text": "Creating the $(item)Wither Proofer$() using the $(l:practices/tree_ritual)Ritual of the Forest$()",
+      "recipe": "auraddons:recipe_wither_proofer"
+    }, {
+      "type": "naturesaura:animal_spawner",
+      "text": "Spawning a wither using the $(l:using/animal_spawner)Altar of Birthing$()",
+      "recipe": "auraddons:recipe_wither_spawner_1"
+    }
+  ]
+}

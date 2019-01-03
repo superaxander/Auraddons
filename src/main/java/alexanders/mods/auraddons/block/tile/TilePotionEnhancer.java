@@ -85,6 +85,37 @@ public class TilePotionEnhancer extends TileEntity {
         }
     }
 
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        synchronized (listenerList) {
+            listenerList.remove(this);
+        }
+    }
+
+    @Override
+    public void onChunkUnload() {
+        super.onChunkUnload();
+        synchronized (listenerList) {
+            listenerList.remove(this);
+        }
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        TileEntity te = world.getTileEntity(pos.up());
+        if (te instanceof TileEntityBrewingStand) return te.hasCapability(capability, facing);
+        return super.hasCapability(capability, facing);
+    }
+
+    @Nullable
+    @Override
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        TileEntity te = world.getTileEntity(pos.up());
+        if (te instanceof TileEntityBrewingStand) return te.getCapability(capability, facing);
+        return super.getCapability(capability, facing);
+    }
+
     private boolean checkHash(int hash) {
         TileEntity te = world.getTileEntity(pos.up());
         if (te instanceof TileEntityBrewingStand) {
@@ -120,20 +151,5 @@ public class TilePotionEnhancer extends TileEntity {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        TileEntity te = world.getTileEntity(pos.up());
-        if (te instanceof TileEntityBrewingStand) return te.hasCapability(capability, facing);
-        return super.hasCapability(capability, facing);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        TileEntity te = world.getTileEntity(pos.up());
-        if (te instanceof TileEntityBrewingStand) return te.getCapability(capability, facing);
-        return super.getCapability(capability, facing);
     }
 }

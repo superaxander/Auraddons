@@ -3,6 +3,7 @@ package alexanders.mods.auraddons.init;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.type.IAuraType;
 import de.ellpeck.naturesaura.api.recipes.AltarRecipe;
+import de.ellpeck.naturesaura.api.recipes.AnimalSpawnerRecipe;
 import de.ellpeck.naturesaura.api.recipes.OfferingRecipe;
 import de.ellpeck.naturesaura.api.recipes.TreeRitualRecipe;
 import de.ellpeck.naturesaura.api.recipes.ing.AmountIngredient;
@@ -57,6 +58,9 @@ public class ModRecipes {
     @GameRegistry.ObjectHolder("naturesaura:gold_leaf")
     public static Item goldLeaf;
 
+    @GameRegistry.ObjectHolder("naturesaura:birth_spirit")
+    public static Item birthingSpirit;
+
     public static void init() {
         if (ModConfig.blocks.enableAutoWrath) new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_AUTO_WRATH),
                                                                    Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.ACACIA.getMetadata())),
@@ -81,13 +85,14 @@ public class ModRecipes {
                                  new ItemStack(ModBlocks.auraTransporter), ModConfig.general.auraTransporterRitualTime, Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)),
                                  Ingredient.fromItem(skyIngot), Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)),
                                  IngredientNBT.fromStacks(setType(new ItemStack(auraBottle), NaturesAuraAPI.TYPE_END)), Ingredient.fromItem(skyIngot),
-                                 Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)), Ingredient.fromItem(skyIngot), Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS))).register();
-        
+                                 Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)), Ingredient.fromItem(skyIngot), Ingredient.fromStacks(new ItemStack(Blocks.IRON_BARS)))
+                    .register();
+
 
         if (ModConfig.blocks.enableDisruptionCatalyst) {
             new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_DISRUPTION_CATALYST),
                                  Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.DARK_OAK.getMetadata())), new ItemStack(ModBlocks.disruptionCatalyst),
-                                 600, Ingredient.fromStacks(new ItemStack(Blocks.TNT)), Ingredient.fromStacks(new ItemStack(infusedStone)), Ingredient.fromItem(Items.GUNPOWDER),
+                                 ModConfig.general.disruptionCatalystRitualTime, Ingredient.fromStacks(new ItemStack(Blocks.TNT)), Ingredient.fromStacks(new ItemStack(infusedStone)), Ingredient.fromItem(Items.GUNPOWDER),
                                  Ingredient.fromItem(skyIngot), Ingredient.fromItem(goldLeaf), Ingredient.fromStacks(new ItemStack(Blocks.TNT))).register();
 
             Ingredient destructionCatalyst = Ingredient.fromStacks(new ItemStack(ModBlocks.disruptionCatalyst));
@@ -167,6 +172,18 @@ public class ModRecipes {
 
             new AltarRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_BEACON_DISRUPTION), Ingredient.fromStacks(new ItemStack(Blocks.BEACON)),
                             new ItemStack(Items.NETHER_STAR, 1), destructionCatalyst, 200, 100).register();
+        }
+
+        if (ModConfig.blocks.enableWitherProofer) {
+            final Ingredient skullIngredient1 = Ingredient.fromStacks(new ItemStack(Items.SKULL, 1, 1));
+            final Ingredient skullIngredient2 = Ingredient.fromStacks(new ItemStack(Items.SKULL, 2, 1));
+            final Ingredient skullIngredient3 = Ingredient.fromStacks(new ItemStack(Items.SKULL, 3, 1));
+            
+            new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WITHER_PROOFER), Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.DARK_OAK.getMetadata())), new ItemStack(ModBlocks.witherProofer), ModConfig.general.witherProoferRitualTime, skullIngredient1, skullIngredient1, skullIngredient1, Ingredient.fromStacks(new ItemStack(Blocks.OBSIDIAN)), Ingredient.fromStacks(new ItemStack(Blocks.OBSIDIAN)), Ingredient.fromItem(skyIngot), Ingredient.fromItem(skyIngot), Ingredient.fromItem(Items.NETHER_STAR)).register();
+            
+            new AnimalSpawnerRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WITHER_SPAWNER+"_1"), new ResourceLocation("minecraft:wither"), ModConfig.aura.witherSpawnerCost, ModConfig.general.witherSpawnerTime, skullIngredient1, skullIngredient1, skullIngredient1, Ingredient.fromItem(birthingSpirit)).register();
+            new AnimalSpawnerRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WITHER_SPAWNER+"_2"), new ResourceLocation("minecraft:wither"), ModConfig.aura.witherSpawnerCost, ModConfig.general.witherSpawnerTime, skullIngredient2, skullIngredient1, Ingredient.fromItem(birthingSpirit)).register();
+            new AnimalSpawnerRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_WITHER_SPAWNER+"_3"), new ResourceLocation("minecraft:wither"), ModConfig.aura.witherSpawnerCost, ModConfig.general.witherSpawnerTime, skullIngredient3, Ingredient.fromItem(birthingSpirit)).register();
         }
     }
 

@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -41,6 +40,6 @@ public class ServerProxy implements IProxy {
 
     @Override
     public <T extends TileEntity> void registerAnimationTESR(Class<T> clazz) {
-        
+
     }
 }

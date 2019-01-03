@@ -95,7 +95,7 @@ public class BlockAuraTransporter extends BlockBase implements ITileEntityProvid
                     BlockPos selectedPos = BlockPos.fromLong(compound.getLong(ModNames.TAG_AURA_TRANSPORTER_POS));
                     if (selectedPos.equals(pos)) {
                         player.sendStatusMessage(new TextComponentTranslation("info." + Constants.MOD_ID + ".same_position"), true);
-                    } else if (pos.distanceSq(selectedPos) < ModConfig.general.auraTransporterRange * ModConfig.general.auraTransporterRange || !world.isBlockLoaded(selectedPos)) {
+                    } else if (pos.distanceSq(selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isBlockLoaded(selectedPos)) {
                         TileEntity other = world.getTileEntity(selectedPos);
                         if (other instanceof TileAuraTransporter) {
                             ((TileAuraTransporter) tile).other = selectedPos;

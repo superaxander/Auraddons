@@ -34,6 +34,12 @@ public class TileAuraTransporter extends TileEntity implements ITickable {
     }
 
     @Override
+    public void markDirty() {
+        super.markDirty();
+        ModPackets.sendTracking(world, pos, new ConnectionPacket(pos, other));
+    }
+
+    @Override
     @Nonnull
     public NBTTagCompound getUpdateTag() {
         NBTTagCompound compound = super.getUpdateTag();
@@ -46,7 +52,7 @@ public class TileAuraTransporter extends TileEntity implements ITickable {
         super.handleUpdateTag(compound);
         readDestination(compound);
     }
-    
+
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
         return oldState.getBlock() != newState.getBlock();
@@ -94,11 +100,5 @@ public class TileAuraTransporter extends TileEntity implements ITickable {
                 markDirty();
             }
         }
-    }
-
-    @Override
-    public void markDirty() {
-        super.markDirty();
-        ModPackets.sendTracking(world, pos, new ConnectionPacket(pos, other));
     }
 }

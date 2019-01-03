@@ -2,10 +2,7 @@ package alexanders.mods.auraddons.init;
 
 import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.block.*;
-import alexanders.mods.auraddons.block.tile.TileAuraTransporter;
-import alexanders.mods.auraddons.block.tile.TileAutoWrath;
-import alexanders.mods.auraddons.block.tile.TileFreezer;
-import alexanders.mods.auraddons.block.tile.TilePotionEnhancer;
+import alexanders.mods.auraddons.block.tile.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import javax.annotation.Nonnull;
@@ -35,15 +32,18 @@ public final class ModBlocks {
 
     @GameRegistry.ObjectHolder(ModNames.BLOCK_HARD_ICE)
     public static Block hardIce;
-    
+
     @GameRegistry.ObjectHolder(ModNames.BLOCK_DISRUPTION_CATALYST)
     public static Block disruptionCatalyst;
-    
+
     @GameRegistry.ObjectHolder(ModNames.BLOCK_ANCIENT_LADDER)
     public static Block ancientLadder;
-    
+
     @GameRegistry.ObjectHolder(ModNames.BLOCK_AURA_TRANSPORTER)
     public static Block auraTransporter;
+    
+    @GameRegistry.ObjectHolder(ModNames.BLOCK_WITHER_PROOFER)
+    public static Block witherProofer;
 
     public static void init() {
         if (ModConfig.blocks.enableAutoWrath) {
@@ -84,12 +84,16 @@ public final class ModBlocks {
             add(new BlockPotionEnhancer());
             GameRegistry.registerTileEntity(TilePotionEnhancer.class, new ResourceLocation(MOD_ID, ModNames.TILE_POTION_ENHANCER));
         }
-        if (ModConfig.blocks.enableDisruptionCatalyst)
-            add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
-        
-        if(ModConfig.blocks.enableAuraTransporter) {
+        if (ModConfig.blocks.enableDisruptionCatalyst) add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
+
+        if (ModConfig.blocks.enableAuraTransporter) {
             add(new BlockAuraTransporter());
             GameRegistry.registerTileEntity(TileAuraTransporter.class, new ResourceLocation(MOD_ID, ModNames.TILE_AURA_TRANSPORTER));
+        }
+
+        if (ModConfig.blocks.enableWitherProofer) {
+            add(new BlockWitherProofer());
+            GameRegistry.registerTileEntity(TileWitherProofer.class, new ResourceLocation(MOD_ID, ModNames.TILE_WITHER_PROOFER));
         }
     }
 

@@ -12,17 +12,19 @@ public final class ModNames {
     public static final String BLOCK_DISRUPTION_CATALYST = "block_disruption_catalyst";
     public static final String BLOCK_HARD_ICE = "block_hard_ice";
     public static final String BLOCK_POTION_ENHANCER = "block_potion_enhancer";
-    
+    public static final String BLOCK_WITHER_PROOFER = "block_wither_proofer";
+
     public static final String ITEM_DAMPING_FEATHER = "item_dampening_feather";
     public static final String ITEM_SKY_FEATHER = "item_sky_feather";
     public static final String ITEM_SKY_BOTTLE = "item_sky_bottle";
     public static final String ITEM_CREATIVE_AURA_CACHE = "item_creative_aura_cache";
-    
+
     public static final String TILE_FREEZER = "tile_freezer";
     public static final String TILE_POTION_ENHANCER = "tile_potion_enhancer";
     public static final String TILE_AUTO_WRATH = "tile_auto_wrath";
     public static final String TILE_AURA_TRANSPORTER = "tile_aura_transporter";
-    
+    public static final String TILE_WITHER_PROOFER = "tile_wither_proofer";
+
     public static final String TAG_DURATION_ENHANCED = "auraddons__duration_enhanced";
     public static final String TAG_AURA_TRANSPORTER_POS = "auraddons__aura_transporter_pos";
     public static final String NETHER_DEGRADE_EFFECT = "nether_degrade_effect";
@@ -57,4 +59,6 @@ public final class ModNames {
     public static final String RECIPE_BEACON_DISRUPTION = "recipe_beacon_disruption";
     public static final String RECIPE_GLOWSTONE_DISRUPTION = "recipe_glowstone_disruption";
     public static final String RECIPE_AURA_TRANSPORTER = "recipe_aura_transporter";
+    public static final String RECIPE_WITHER_SPAWNER = "recipe_wither_spawner";
+    public static final String RECIPE_WITHER_PROOFER = "recipe_wither_proofer";
 }

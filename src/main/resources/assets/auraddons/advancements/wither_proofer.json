@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "auraddons:block_wither_proofer"
+    },
+    "title": {
+      "translate": "advancement.auraddons.wither_proofer"
+    },
+    "description": {
+      "translate": "advancement.auraddons.wither_proofer.desc"
+    }
+  },
+  "parent": "naturesaura:end_flower",
+  "criteria": {
+    "leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "auraddons:block_wither_proofer"
+          }
+        ]
+      }
+    }
+  }
+}

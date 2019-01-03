@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube",
+    "textures": {
+      "particle": "auraddons:blocks/block_wither_proofer",
+      "down": "minecraft:blocks/wool_colored_white",
+      "up": "minecraft:blocks/wool_colored_white",
+      "south": "#particle",
+      "north": "#particle",
+      "east": "#particle",
+      "west": "#particle"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}
