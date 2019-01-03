@@ -20,9 +20,6 @@ public class ModConfig {
 
         public int autoWrathRitualTime = 800;
         public int auraTransporterRitualTime = 500;
-
-        @Config.RangeDouble(min=1)
-        public double auraTransporterRange = 30;
     }
 
     public static class Items {
@@ -47,20 +44,29 @@ public class ModConfig {
     }
 
     public static class Aura {
+        @Config.RangeInt(min = 0)
         public int autoWrathPulseCost = 10;
+        @Config.RangeInt(min = 0)
         public int autoWrathMobDamageCost = 10;
+        @Config.RangeInt(min = 0)
         public int freezerSnowCreationCost = 5;
+        @Config.RangeInt(min = 0)
         public int freezerIceCreationCost = 10;
+        @Config.RangeInt(min = 0)
         public int freezerHardIceCreationCost = 80;
+        @Config.RangeInt(min = 0)
         public int dampeningFeatherAuraPerMeter = 40;
+        @Config.RangeInt(min = 0)
         public int potionEnhancerCostPerLevel = 50;
+        @Config.RangeDouble(min = 1)
+        public double auraTransporterRange = 60;
+        @Config.RangeDouble(min = 0)
         public int auraTransporterDrainRange = 15;
+        @Config.RangeDouble(min = 0)
         public int auraTransporterStoreRange = 15;
-        
         @Config.RangeInt(min = 1)
         public int auraTransporterAuraAmount = 1000;
-        
         @Config.RangeDouble(min = 0, max = 1)
-        public double auraTransporterAuraMultiplierPerBlock = 0.97;
+        public double auraTransporterAuraMultiplierPerBlock = 0.99;
     }
 }

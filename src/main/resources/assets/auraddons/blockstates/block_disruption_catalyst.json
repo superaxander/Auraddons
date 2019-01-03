@@ -3,7 +3,7 @@
   "defaults": {
     "model": "minecraft:cube_all",
     "textures": {
-      "all": "auraddons:blocks/disruption_catalyst"
+      "all": "auraddons:blocks/block_disruption_catalyst"
     }
   },
   "variants": {

@@ -76,7 +76,7 @@ public class TileAuraTransporter extends TileEntity implements ITickable {
         if (!world.isRemote && world.getTotalWorldTime() % 40 == 2 && other != null && world.isBlockLoaded(other)) {
             TileEntity dest = world.getTileEntity(other);
             double distance = Math.sqrt(other.distanceSq(pos));
-            if (distance <= ModConfig.general.auraTransporterRange && dest instanceof TileAuraTransporter) {
+            if (distance <= ModConfig.aura.auraTransporterRange && dest instanceof TileAuraTransporter) {
                 if (!world.isRemote && world.getBlockState(pos).getValue(BlockAuraTransporter.SENDING) && !world.getBlockState(other).getValue(BlockAuraTransporter.SENDING)) {
                     BlockPos spot = NaturesAuraAPI.instance().getHighestAuraDrainSpot(world, pos, ModConfig.aura.auraTransporterDrainRange, pos);
                     int aura = NaturesAuraAPI.instance().getAuraInArea(world, spot, 0);
