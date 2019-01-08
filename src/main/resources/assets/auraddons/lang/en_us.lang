@@ -34,6 +34,8 @@ advancement.auraddons.sky_feather=The wings of Angels
 advancement.auraddons.sky_feather.desc=Create a Feather of the Skies using the Offering to the gods
 advancement.auraddons.aura_transporter=Aura Transportation
 advancement.auraddons.aura_transporter.desc=Create an Aura Transporter to move aura around the world
+advancement.auraddons.wither_proofer=Wither Proofing
+advancement.auraddons.wither_proofer.desc=Create a Wither Proofer to neutralize any nearby withers
 
 info.auraddons.same_position=This appears to be the same location...
 info.auraddons.too_far=This location seems to be too far away...

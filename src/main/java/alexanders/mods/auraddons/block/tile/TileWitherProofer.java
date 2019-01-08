@@ -3,6 +3,7 @@ package alexanders.mods.auraddons.block.tile;
 import alexanders.mods.auraddons.init.ModConfig;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityWither;
@@ -32,12 +33,19 @@ public class TileWitherProofer extends TileEntity {
     public static void onMobGriefEvent(EntityMobGriefingEvent event) {
         final double rangeSq = ModConfig.general.witherProoferRange * ModConfig.general.witherProoferRange;
         Entity entity = event.getEntity();
-        if (entity instanceof EntityWither) {
-            synchronized (listenerList) {
-                for (TileWitherProofer te : listenerList) {
-                    if (!te.powered && te.pos.distanceSq(entity.posX, entity.posY, entity.posZ) <= rangeSq && te.tryPrevent()) {
-                        event.setResult(Event.Result.DENY);
-                        return;
+        if (!entity.world.isRemote) {
+            if (entity instanceof EntityWither) {
+                synchronized (listenerList) {
+                    for (Iterator<TileWitherProofer> iterator = listenerList.iterator(); iterator.hasNext(); ) {
+                        TileWitherProofer te = iterator.next();
+                        if (te.world.isRemote) {
+                            iterator.remove();
+                            continue;
+                        }
+                        if (!te.powered && te.pos.distanceSq(entity.posX, entity.posY, entity.posZ) <= rangeSq && te.tryPrevent()) {
+                            event.setResult(Event.Result.DENY);
+                            return;
+                        }
                     }
                 }
             }
@@ -76,7 +84,6 @@ public class TileWitherProofer extends TileEntity {
 
     private boolean tryPrevent() {
         BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
-        IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, ModConfig.aura.witherProoferCost);
-        return false;
+        return IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, ModConfig.aura.witherProoferCost) >= ModConfig.aura.witherProoferCost;
     }
 }
