@@ -33,19 +33,17 @@ public class TileWitherProofer extends TileEntity {
     public static void onMobGriefEvent(EntityMobGriefingEvent event) {
         final double rangeSq = ModConfig.general.witherProoferRange * ModConfig.general.witherProoferRange;
         Entity entity = event.getEntity();
-        if (!entity.world.isRemote) {
-            if (entity instanceof EntityWither) {
-                synchronized (listenerList) {
-                    for (Iterator<TileWitherProofer> iterator = listenerList.iterator(); iterator.hasNext(); ) {
-                        TileWitherProofer te = iterator.next();
-                        if (te.world.isRemote) {
-                            iterator.remove();
-                            continue;
-                        }
-                        if (!te.powered && te.pos.distanceSq(entity.posX, entity.posY, entity.posZ) <= rangeSq && te.tryPrevent()) {
-                            event.setResult(Event.Result.DENY);
-                            return;
-                        }
+        if (entity instanceof EntityWither && entity.world != null && !entity.world.isRemote) {
+            synchronized (listenerList) {
+                for (Iterator<TileWitherProofer> iterator = listenerList.iterator(); iterator.hasNext(); ) {
+                    TileWitherProofer te = iterator.next();
+                    if (te.world.isRemote) {
+                        iterator.remove();
+                        continue;
+                    }
+                    if (!te.powered && te.pos.distanceSq(entity.posX, entity.posY, entity.posZ) <= rangeSq && te.tryPrevent()) {
+                        event.setResult(Event.Result.DENY);
+                        return;
                     }
                 }
             }
