@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class BlockFreezer extends BlockBase implements ITileEntityProvider {
     public BlockFreezer() {
-        super(ModNames.BLOCK_FREEZER, Material.WOOD);
+        super(ModNames.BLOCK_FREEZER, Material.ROCK);
     }
 
     @Nullable

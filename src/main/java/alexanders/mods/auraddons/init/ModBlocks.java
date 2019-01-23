@@ -11,7 +11,6 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -41,7 +40,7 @@ public final class ModBlocks {
 
     @GameRegistry.ObjectHolder(ModNames.BLOCK_AURA_TRANSPORTER)
     public static Block auraTransporter;
-    
+
     @GameRegistry.ObjectHolder(ModNames.BLOCK_WITHER_PROOFER)
     public static Block witherProofer;
 
@@ -52,11 +51,11 @@ public final class ModBlocks {
             Auraddons.proxy.registerAnimationTESR(TileAutoWrath.class);
         }
         if (ModConfig.blocks.enableAncientFence)
-            add(new BlockFence(Material.WOOD, MapColor.WOOD).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE)
-                        .setCreativeTab(ModTabs.MAIN_TAB));
+            add(new BlockFence(Material.WOOD, MapColor.WOOD) {{this.setSoundType(SoundType.WOOD);}}.setRegistryName(ModNames.BLOCK_ANCIENT_FENCE).setHardness(2.0F)
+                        .setResistance(5.0F).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE).setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableAncientFenceGate) {
-            add(ancientFenceGate = new BlockFenceGate(BlockPlanks.EnumType.OAK).setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE)
-                    .setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE_GATE).setCreativeTab(ModTabs.MAIN_TAB));
+            add(ancientFenceGate = new BlockFenceGate(BlockPlanks.EnumType.OAK) {{this.setSoundType(SoundType.WOOD);}}.setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE)
+                    .setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_FENCE_GATE).setHardness(2.0F).setResistance(5.0F).setCreativeTab(ModTabs.MAIN_TAB));
             Auraddons.proxy.ignoreState(ancientFenceGate, BlockFenceGate.POWERED);
         }
         if (ModConfig.blocks.enableInfusedStoneWall) add(new BlockWall(Blocks.COBBLESTONE) {
@@ -71,9 +70,8 @@ public final class ModBlocks {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_INFUSED_BRICK_WALL).setCreativeTab(ModTabs.MAIN_TAB));
-        if (ModConfig.blocks.enableAncientLadder)
-            add(new BlockLadder() {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_LADDER)
-                        .setCreativeTab(ModTabs.MAIN_TAB));
+        if (ModConfig.blocks.enableAncientLadder) add(new BlockLadder() {{this.setSoundType(SoundType.LADDER);}}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER).setHardness(0.4F)
+                                                              .setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_LADDER).setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableFreezer) {
             add(new BlockFreezer());
             GameRegistry.registerTileEntity(TileFreezer.class, new ResourceLocation(MOD_ID, ModNames.TILE_FREEZER));
