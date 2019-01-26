@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "auraddons:block_rainbow_beacon"
+    },
+    "title": {
+      "translate": "advancement.auraddons.rainbow_beacon"
+    },
+    "description": {
+      "translate": "advancement.auraddons.rainbow_beacon.desc"
+    }
+  },
+  "parent": "naturesaura:infused_materials",
+  "criteria": {
+    "leaf": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "auraddons:block_rainbow_beacon"
+          }
+        ]
+      }
+    }
+  }
+}

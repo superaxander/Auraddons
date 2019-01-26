@@ -32,6 +32,9 @@ public class ModConfig {
 
         @Config.RangeDouble(min = 0)
         public double witherProoferRange = 20;
+        
+        @Config.Comment("Makes beacons with a RainbowBeacon on top of them update their beam color 4x as often")
+        public boolean smoothRainbowBeacon = true;
     }
 
     public static class Items {
@@ -55,6 +58,7 @@ public class ModConfig {
         public boolean enableAuraTransporter = true;
         @Config.Comment("Also enables the animal spawner recipe for spawning withers")
         public boolean enableWitherProofer = true;
+        public boolean enableRainbowBeacon = true;
     }
 
     public static class Aura {

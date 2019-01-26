@@ -1,0 +1,24 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "GgG",
+    "gbg",
+    "GgG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "g": {
+      "item": "minecraft:stained_glass",
+      "data": 32767
+    },
+    "b": {
+      "item": "naturesaura:color_changer"
+    }
+  },
+  "result": {
+    "item": "auraddons:block_rainbow_beacon",
+    "count": 1
+  } 
+}

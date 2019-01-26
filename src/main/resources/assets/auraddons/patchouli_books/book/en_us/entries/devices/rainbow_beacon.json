@@ -1,0 +1,16 @@
+{
+  "name": "Rainbow Beacon",
+  "icon": "auraddons:block_rainbow_beacon",
+  "category": "naturesaura:devices",
+  "advancement": "naturesaura:infused_materials",
+  "pages": [
+    {
+      "type": "text",
+      "text": "The $(item)Beacon$() emits a beam that lights up the sky, but the range of colors this beam is quite limited. But with a bit $(aura) this can be fixed with ease. The $(item)Rainbow Beacon$() will slowly cycle the beam color through all the colors of the rainbow. "
+    }, {
+      "type": "crafting",
+      "text": "Creating the $(item)Rainbow Beacon$()",
+      "recipe": "auraddons:rainbow_beacon"
+    }
+  ]
+}

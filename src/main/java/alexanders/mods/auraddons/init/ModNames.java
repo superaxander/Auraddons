@@ -13,6 +13,7 @@ public final class ModNames {
     public static final String BLOCK_HARD_ICE = "block_hard_ice";
     public static final String BLOCK_POTION_ENHANCER = "block_potion_enhancer";
     public static final String BLOCK_WITHER_PROOFER = "block_wither_proofer";
+    public static final String BLOCK_RAINBOW_BEACON = "block_rainbow_beacon";
 
     public static final String ITEM_DAMPING_FEATHER = "item_dampening_feather";
     public static final String ITEM_SKY_FEATHER = "item_sky_feather";
@@ -24,6 +25,7 @@ public final class ModNames {
     public static final String TILE_AUTO_WRATH = "tile_auto_wrath";
     public static final String TILE_AURA_TRANSPORTER = "tile_aura_transporter";
     public static final String TILE_WITHER_PROOFER = "tile_wither_proofer";
+    public static final String TILE_RAINBOW_BEACON = "tile_rainbow_beacon";
 
     public static final String TAG_DURATION_ENHANCED = "auraddons__duration_enhanced";
     public static final String TAG_AURA_TRANSPORTER_POS = "auraddons__aura_transporter_pos";

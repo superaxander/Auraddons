@@ -93,6 +93,11 @@ public final class ModBlocks {
             add(new BlockWitherProofer());
             GameRegistry.registerTileEntity(TileWitherProofer.class, new ResourceLocation(MOD_ID, ModNames.TILE_WITHER_PROOFER));
         }
+
+        if (ModConfig.blocks.enableRainbowBeacon) {
+            add(new BlockRainbowBeacon());
+            GameRegistry.registerTileEntity(TileRainbowBeacon.class, new ResourceLocation(MOD_ID, ModNames.TILE_RAINBOW_BEACON));
+        }
     }
 
     private static void add(Block block) {

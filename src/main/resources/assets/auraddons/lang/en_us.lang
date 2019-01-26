@@ -12,6 +12,7 @@ tile.auraddons.block_potion_enhancer.name=Potion Enhancer
 tile.auraddons.block_disruption_catalyst.name=Disruption Catalyst
 tile.auraddons.block_aura_transporter.name=Aura Transporter
 tile.auraddons.block_wither_proofer.name=Wither Proofer
+tile.auraddons.block_rainbow_beacon.name=Rainbow Beacon
 
 item.auraddons.item_creative_aura_cache.name=Creative Aura Cache
 item.auraddons.item_dampening_feather.name=Dampening Feather
@@ -36,6 +37,8 @@ advancement.auraddons.aura_transporter=Aura Transportation
 advancement.auraddons.aura_transporter.desc=Create an Aura Transporter to move aura around the world
 advancement.auraddons.wither_proofer=Wither Proofing
 advancement.auraddons.wither_proofer.desc=Create a Wither Proofer to neutralize any nearby withers
+advancement.auraddons.rainbow_beacon=Rainbows!
+advancement.auraddons.rainbow_beacon.desc=Create a Rainbow Beacon to pimp out your Beacon beam
 
 info.auraddons.same_position=This appears to be the same location...
 info.auraddons.too_far=This location seems to be too far away...
