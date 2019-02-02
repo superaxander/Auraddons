@@ -11,7 +11,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.4"
+version = "1.5"
 group = "alexanders.mods.auraddons" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Auraddons"
 
@@ -56,8 +56,8 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-    deobfCompile "vazkii.patchouli:Patchouli:1.0-12.63"
-    compile "de.ellpeck.naturesaura:NaturesAura:b9-100"
+    deobfCompile "vazkii.patchouli:Patchouli:1.0-17.85"
+    compile "de.ellpeck.naturesaura:NaturesAura:r10-137"
     deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

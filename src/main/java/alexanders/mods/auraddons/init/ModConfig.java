@@ -63,32 +63,32 @@ public class ModConfig {
 
     public static class Aura {
         @Config.RangeInt(min = 0)
-        public int autoWrathPulseCost = 10;
+        public int autoWrathPulseCost = 1000;
         @Config.RangeInt(min = 0)
-        public int autoWrathMobDamageCost = 10;
+        public int autoWrathMobDamageCost = 1000;
         @Config.RangeInt(min = 0)
-        public int freezerSnowCreationCost = 5;
+        public int freezerSnowCreationCost = 500;
         @Config.RangeInt(min = 0)
-        public int freezerIceCreationCost = 10;
+        public int freezerIceCreationCost = 1000;
         @Config.RangeInt(min = 0)
-        public int freezerHardIceCreationCost = 80;
+        public int freezerHardIceCreationCost = 8000;
         @Config.RangeInt(min = 0)
-        public int dampeningFeatherAuraPerMeter = 40;
+        public int dampeningFeatherAuraPerMeter = 4000;
         @Config.RangeInt(min = 0)
-        public int potionEnhancerCostPerLevel = 50;
+        public int potionEnhancerCostPerLevel = 5000;
         @Config.RangeInt(min = 0)
-        public int witherProoferCost = 100;
+        public int witherProoferCost = 10000;
         @Config.RangeDouble(min = 1)
-        public double auraTransporterRange = 60;
+        public double auraTransporterRange = 6000;
         @Config.RangeDouble(min = 0)
-        public int auraTransporterDrainRange = 15;
+        public int auraTransporterDrainRange = 1500;
         @Config.RangeDouble(min = 0)
-        public int auraTransporterStoreRange = 15;
+        public int auraTransporterStoreRange = 1500;
         @Config.RangeInt(min = 1)
-        public int auraTransporterAuraAmount = 1000;
+        public int auraTransporterAuraAmount = 100000;
         @Config.RangeDouble(min = 0, max = 1)
         public double auraTransporterAuraMultiplierPerBlock = 0.99;
         @Config.RangeInt(min = 0)
-        public int witherSpawnerCost = 2000;
+        public int witherSpawnerCost = 200000;
     }
 }
