@@ -2,10 +2,12 @@ package alexanders.mods.auraddons;
 
 import alexanders.mods.auraddons.init.ModItems;
 import baubles.api.BaubleType;
+import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import baubles.api.cap.BaublesCapabilities;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -14,6 +16,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.items.IItemHandler;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -53,6 +56,10 @@ public class BaublesCompat {
 
     public static void init() {
 
+    }
+
+    public static IItemHandler getItemHandler() {
+        return BaublesApi.getBaublesHandler(Minecraft.getMinecraft().player);
     }
 
     @SubscribeEvent

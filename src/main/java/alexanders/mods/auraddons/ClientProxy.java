@@ -1,7 +1,7 @@
 package alexanders.mods.auraddons;
 
+import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModItems;
-import baubles.api.BaublesApi;
 import com.google.common.collect.ImmutableMap;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
@@ -44,15 +44,15 @@ public class ClientProxy implements IProxy {
             if (mc.player != null) {
                 ItemStack cache = ItemStack.EMPTY;
 
-                //if (Compat.baubles) {
-                IItemHandler baubles = BaublesApi.getBaublesHandler(mc.player);
-                for (int i = 0; i < baubles.getSlots(); i++) {
-                    ItemStack slot = baubles.getStackInSlot(i);
-                    if (!slot.isEmpty()) {
-                        if (slot.getItem() == ModItems.creativeAuraCache) cache = slot;
+                if (Auraddons.instance.baublesLoaded) {
+                    IItemHandler baubles = BaublesCompat.getItemHandler();
+                    for (int i = 0; i < baubles.getSlots(); i++) {
+                        ItemStack slot = baubles.getStackInSlot(i);
+                        if (!slot.isEmpty()) {
+                            if (slot.getItem() == ModItems.creativeAuraCache) cache = slot;
+                        }
                     }
                 }
-                //}
 
                 if (cache.isEmpty()) {
                     for (int i = 0; i < mc.player.inventory.getSizeInventory(); i++) {
