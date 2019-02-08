@@ -16,6 +16,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
@@ -58,6 +60,7 @@ public class BaublesCompat {
 
     }
 
+    @SideOnly(Side.CLIENT)
     public static IItemHandler getItemHandler() {
         return BaublesApi.getBaublesHandler(Minecraft.getMinecraft().player);
     }
