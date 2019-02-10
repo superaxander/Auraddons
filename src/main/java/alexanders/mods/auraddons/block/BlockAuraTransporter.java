@@ -5,6 +5,7 @@ import alexanders.mods.auraddons.block.tile.TileAuraTransporter;
 import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModNames;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
+import de.ellpeck.naturesaura.api.render.IVisualizable;
 import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,13 +20,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockAuraTransporter extends BlockBase implements ITileEntityProvider {
+public class BlockAuraTransporter extends BlockBase implements ITileEntityProvider, IVisualizable {
     public static PropertyBool SENDING = PropertyBool.create("sending");
 
     public BlockAuraTransporter() {
@@ -136,5 +138,15 @@ public class BlockAuraTransporter extends BlockBase implements ITileEntityProvid
         if (!world.isRemote) {
             world.setBlockState(pos, world.getBlockState(pos).withProperty(SENDING, world.isBlockIndirectlyGettingPowered(pos) > 0));
         }
+    }
+
+    @Override
+    public AxisAlignedBB getVisualizationBounds(World world, BlockPos pos) {
+        return new AxisAlignedBB(pos).grow(ModConfig.aura.auraTransporterRange);
+    }
+
+    @Override
+    public int getVisualizationColor(World world, BlockPos pos) {
+        return 0x3AC5FF;
     }
 }

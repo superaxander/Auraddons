@@ -79,11 +79,11 @@ public class ModConfig {
         @Config.RangeInt(min = 0)
         public int witherProoferCost = 10000;
         @Config.RangeDouble(min = 1)
-        public double auraTransporterRange = 6000;
+        public double auraTransporterRange = 60;
         @Config.RangeDouble(min = 0)
-        public int auraTransporterDrainRange = 1500;
+        public int auraTransporterDrainRange = 15;
         @Config.RangeDouble(min = 0)
-        public int auraTransporterStoreRange = 1500;
+        public int auraTransporterStoreRange = 15;
         @Config.RangeInt(min = 1)
         public int auraTransporterAuraAmount = 100000;
         @Config.RangeDouble(min = 0, max = 1)

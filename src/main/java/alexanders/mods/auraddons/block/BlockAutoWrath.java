@@ -2,6 +2,7 @@ package alexanders.mods.auraddons.block;
 
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.init.ModNames;
+import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.ITileEntityProvider;
@@ -15,6 +16,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -24,7 +26,7 @@ import net.minecraftforge.common.property.Properties;
 
 import static net.minecraft.block.BlockHorizontal.FACING;
 
-public class BlockAutoWrath extends BlockBase implements ITileEntityProvider {
+public class BlockAutoWrath extends BlockBase implements ITileEntityProvider, IVisualizable {
     public BlockAutoWrath() {
         super(ModNames.BLOCK_AUTO_WRATH, Material.ROCK);
     }
@@ -94,5 +96,15 @@ public class BlockAutoWrath extends BlockBase implements ITileEntityProvider {
     @Override
     public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
         return new TileAutoWrath();
+    }
+
+    @Override
+    public AxisAlignedBB getVisualizationBounds(World world, BlockPos pos) {
+        return new AxisAlignedBB(pos).grow(4.5, 0, 4.5); // TODO: Factor this value out into a config variable
+    }
+
+    @Override
+    public int getVisualizationColor(World world, BlockPos pos) {
+        return 0xD63439;
     }
 }

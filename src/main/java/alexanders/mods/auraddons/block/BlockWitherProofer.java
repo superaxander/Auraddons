@@ -1,7 +1,9 @@
 package alexanders.mods.auraddons.block;
 
 import alexanders.mods.auraddons.block.tile.TileWitherProofer;
+import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModNames;
+import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
@@ -9,10 +11,11 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockWitherProofer extends BlockBase implements ITileEntityProvider {
+public class BlockWitherProofer extends BlockBase implements ITileEntityProvider, IVisualizable {
     public BlockWitherProofer() {
         super(ModNames.BLOCK_WITHER_PROOFER, Material.CLOTH);
     }
@@ -41,5 +44,15 @@ public class BlockWitherProofer extends BlockBase implements ITileEntityProvider
                 ((TileWitherProofer) tile).powered = world.isBlockIndirectlyGettingPowered(pos) > 0;
             }
         }
+    }
+
+    @Override
+    public AxisAlignedBB getVisualizationBounds(World world, BlockPos pos) {
+        return new AxisAlignedBB(pos).grow(ModConfig.general.witherProoferRange);
+    }
+
+    @Override
+    public int getVisualizationColor(World world, BlockPos pos) {
+        return 0x738AD0;
     }
 }
