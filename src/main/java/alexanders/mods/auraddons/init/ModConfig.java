@@ -50,6 +50,7 @@ public class ModConfig {
         public boolean enableAncientFenceGate = true;
         public boolean enableInfusedStoneWall = true;
         public boolean enableInfusedBrickWall = true;
+        public boolean enableGoldBrickWall = true;
         public boolean enableAncientLadder = true;
         public boolean enableFreezer = true;
         public boolean enableHardIce = true;

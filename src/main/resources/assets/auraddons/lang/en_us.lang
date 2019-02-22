@@ -5,6 +5,7 @@ tile.auraddons.block_ancient_fence.name=Ancient Fence
 tile.auraddons.block_ancient_fence_gate.name=Ancient Fence Gate
 tile.auraddons.block_infused_stone_wall.name=Infused Stone Wall
 tile.auraddons.block_infused_brick_wall.name=Infused Brick Wall
+tile.auraddons.block_gold_brick_wall.name=Golden Brick Wall
 tile.auraddons.block_ancient_ladder.name=Ancient Ladder
 tile.auraddons.block_freezer.name=Freezer
 tile.auraddons.block_hard_ice.name=Hard Ice

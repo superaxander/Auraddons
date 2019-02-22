@@ -2,7 +2,7 @@
   "name": "Auto Wrath",
   "icon": "auraddons:block_auto_wrath",
   "category": "naturesaura:using",
-  "advancement": "naturesaura:potion_generator",
+  "advancement": "naturesaura:sky_ingot",
   "pages": [
     {
       "type": "text",

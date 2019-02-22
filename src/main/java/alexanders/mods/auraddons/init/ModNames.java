@@ -6,6 +6,7 @@ public final class ModNames {
     public static final String BLOCK_ANCIENT_FENCE_GATE = "block_ancient_fence_gate";
     public static final String BLOCK_INFUSED_STONE_WALL = "block_infused_stone_wall";
     public static final String BLOCK_INFUSED_BRICK_WALL = "block_infused_brick_wall";
+    public static final String BLOCK_GOLD_BRICK_WALL = "block_gold_brick_wall";
     public static final String BLOCK_ANCIENT_LADDER = "block_ancient_ladder";
     public static final String BLOCK_FREEZER = "block_freezer";
     public static final String BLOCK_AURA_TRANSPORTER = "block_aura_transporter";

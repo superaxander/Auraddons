@@ -10,7 +10,7 @@
       "translate": "advancement.auraddons.auto_wrath.desc"
     }
   },
-  "parent": "naturesaura:potion_generator",
+  "parent": "naturesaura:sky_ingot",
   "criteria": {
     "leaf": {
       "trigger": "minecraft:inventory_changed",

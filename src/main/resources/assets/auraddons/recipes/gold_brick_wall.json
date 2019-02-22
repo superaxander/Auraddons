@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SSS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "naturesaura:gold_brick"
+    }
+  },
+  "result": {
+    "item": "auraddons:block_gold_brick_wall",
+    "count": 6
+  }
+}

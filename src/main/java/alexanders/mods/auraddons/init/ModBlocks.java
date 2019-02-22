@@ -9,6 +9,7 @@ import javax.annotation.Nonnull;
 import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
@@ -70,6 +71,12 @@ public final class ModBlocks {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_INFUSED_BRICK_WALL).setCreativeTab(ModTabs.MAIN_TAB));
+        if (ModConfig.blocks.enableGoldBrickWall) add(new BlockWall(Blocks.COBBLESTONE) {
+            @Override
+            public void getSubBlocks(CreativeTabs itemIn, @Nonnull NonNullList<ItemStack> items) {
+                items.add(new ItemStack(this));
+            }
+        }.setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL).setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_GOLD_BRICK_WALL).setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableAncientLadder) add(new BlockLadder() {{this.setSoundType(SoundType.LADDER);}}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER).setHardness(0.4F)
                                                               .setUnlocalizedName(MOD_ID + "." + ModNames.BLOCK_ANCIENT_LADDER).setCreativeTab(ModTabs.MAIN_TAB));
         if (ModConfig.blocks.enableFreezer) {
