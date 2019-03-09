@@ -91,7 +91,7 @@ public class ModRecipes {
 
         if (ModConfig.blocks.enableDisruptionCatalyst) {
             new TreeRitualRecipe(new ResourceLocation(MOD_ID, ModNames.RECIPE_DISRUPTION_CATALYST),
-                                 Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.DARK_OAK.getMetadata())), new ItemStack(ModBlocks.disruptionCatalyst),
+                                 Ingredient.fromStacks(new ItemStack(Blocks.SAPLING, 1, BlockPlanks.EnumType.BIRCH.getMetadata())), new ItemStack(ModBlocks.disruptionCatalyst),
                                  ModConfig.general.disruptionCatalystRitualTime, Ingredient.fromStacks(new ItemStack(Blocks.TNT)), Ingredient.fromStacks(new ItemStack(infusedStone)), Ingredient.fromItem(Items.GUNPOWDER),
                                  Ingredient.fromItem(skyIngot), Ingredient.fromItem(goldLeaf), Ingredient.fromStacks(new ItemStack(Blocks.TNT))).register();
 
