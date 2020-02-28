@@ -1,19 +1,20 @@
 package alexanders.mods.auraddons.block.tile;
 
+import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.EntityMobGriefingEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -24,6 +25,7 @@ public class TileWitherProofer extends TileEntity {
     public boolean powered = false;
 
     public TileWitherProofer() {
+        super(ModBlocks.tileWitherProofer);
         synchronized (listenerList) {
             listenerList.add(this);
         }
@@ -33,15 +35,16 @@ public class TileWitherProofer extends TileEntity {
     public static void onMobGriefEvent(EntityMobGriefingEvent event) {
         final double rangeSq = ModConfig.general.witherProoferRange * ModConfig.general.witherProoferRange;
         Entity entity = event.getEntity();
-        if (entity instanceof EntityWither && entity.world != null && !entity.world.isRemote) {
+        if (entity instanceof WitherEntity && entity.world != null && !entity.world.isRemote) {
             synchronized (listenerList) {
                 for (Iterator<TileWitherProofer> iterator = listenerList.iterator(); iterator.hasNext(); ) {
                     TileWitherProofer te = iterator.next();
-                    if (te.world.isRemote) {
+                    if (te.world != null && te.world.isRemote) {
                         iterator.remove();
                         continue;
                     }
-                    if (!te.powered && te.pos.distanceSq(entity.posX, entity.posY, entity.posZ) <= rangeSq && te.tryPrevent()) {
+                    if (!te.powered && te.pos.distanceSq(entity.getPosX(), entity.getPosY(), entity.getPosZ(), true) <= rangeSq && te
+                            .tryPrevent()) { //TODO: What does the true here do?
                         event.setResult(Event.Result.DENY);
                         return;
                     }
@@ -51,36 +54,38 @@ public class TileWitherProofer extends TileEntity {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         powered = compound.getBoolean("powered");
     }
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setBoolean("powered", powered);
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
+        compound.putBoolean("powered", powered);
         return compound;
     }
 
+
     @Override
-    public void invalidate() {
-        super.invalidate();
+    public void remove() {
+        super.remove();
         synchronized (listenerList) {
             listenerList.remove(this);
         }
     }
 
     @Override
-    public void onChunkUnload() {
-        super.onChunkUnload();
+    public void onChunkUnloaded() {
+        super.onChunkUnloaded();
         synchronized (listenerList) {
             listenerList.remove(this);
         }
     }
 
     private boolean tryPrevent() {
+        if (world == null) return false;
         BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
         return IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, ModConfig.aura.witherProoferCost) >= ModConfig.aura.witherProoferCost;
     }

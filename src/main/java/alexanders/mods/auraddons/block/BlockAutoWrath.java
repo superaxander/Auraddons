@@ -2,99 +2,63 @@ package alexanders.mods.auraddons.block;
 
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import alexanders.mods.auraddons.init.ModNames;
+import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
+import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.property.ExtendedBlockState;
-import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.common.property.Properties;
 
-import static net.minecraft.block.BlockHorizontal.FACING;
+import static net.minecraft.block.HorizontalBlock.HORIZONTAL_FACING;
+import static net.minecraftforge.common.property.Properties.StaticProperty;
 
-public class BlockAutoWrath extends BlockBase implements ITileEntityProvider, IVisualizable {
+public class BlockAutoWrath extends BlockContainerBase implements IVisualizable, IStateProvider {
     public BlockAutoWrath() {
-        super(ModNames.BLOCK_AUTO_WRATH, Material.ROCK);
+        super(ModNames.BLOCK_AUTO_WRATH, Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 5.0F).notSolid());
     }
-
-    @SuppressWarnings("deprecation")
+    
     @Nonnull
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        EnumFacing enumfacing = EnumFacing.getFront(meta);
-
-        if (enumfacing.getAxis() == EnumFacing.Axis.Y) { // To make sure we default to North if we we are facing up or down
-            enumfacing = EnumFacing.NORTH;
-        }
-
-        return this.getDefaultState().withProperty(FACING, enumfacing);
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
+        return state.with(HORIZONTAL_FACING, rot.rotate(state.get(HORIZONTAL_FACING)));
     }
 
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getIndex();
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return state.withProperty(Properties.StaticProperty, true);
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
+        return state.with(HORIZONTAL_FACING, mirrorIn.mirror(state.get(HORIZONTAL_FACING)));
     }
 
-    @SuppressWarnings("deprecation")
-    @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-    @SuppressWarnings("deprecation")
-    @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
-    }
-
-    @SuppressWarnings("deprecation")
     @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
+    public void provideState(BlockStateGenerator generator) {
+        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_AUTO_WRATH)));
     }
 
     @Override
     @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new ExtendedBlockState(this, new IProperty[]{FACING, Properties.StaticProperty}, new IUnlistedProperty[]{Properties.AnimationProperty});
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        if (context.getPlayer() != null) return getDefaultState().with(HORIZONTAL_FACING, context.getPlayer().getHorizontalFacing().getOpposite());
+        return getDefaultState();
     }
 
     @Override
-    @Nonnull
-    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer, EnumHand hand) {
-        return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        super.fillStateContainer(container);
+        container.add(HORIZONTAL_FACING).add(StaticProperty);
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
         return new TileAutoWrath();
     }
 

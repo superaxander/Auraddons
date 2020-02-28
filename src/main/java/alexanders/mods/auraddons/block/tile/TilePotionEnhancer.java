@@ -1,36 +1,42 @@
 package alexanders.mods.auraddons.block.tile;
 
+import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModNames;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemPotion;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.PotionItem;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.tileentity.BrewingStandTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBrewingStand;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.brewing.PotionBrewEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -39,6 +45,7 @@ public class TilePotionEnhancer extends TileEntity {
     public static final ArrayList<TilePotionEnhancer> listenerList = new ArrayList<>();
 
     public TilePotionEnhancer() {
+        super(ModBlocks.tilePotionEnhancer);
         synchronized (listenerList) {
             listenerList.add(this);
         }
@@ -46,7 +53,17 @@ public class TilePotionEnhancer extends TileEntity {
 
     @SubscribeEvent
     public static void handlePotionBrew(PotionBrewEvent.Post event) {
-        NonNullList<ItemStack> stacks = ReflectionHelper.getPrivateValue(PotionBrewEvent.class, event, "stacks");
+        NonNullList<ItemStack> stacks;
+        try {
+            final Field field = PotionBrewEvent.class.getDeclaredField("stacks");
+            field.setAccessible(true);
+            //noinspection unchecked
+            stacks = (NonNullList<ItemStack>) field.get(event);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+            return;
+        }
+        //        NonNullList<ItemStack> stacks = ReflectionHelper.getPrivateValue(PotionBrewEvent.class, event, "stacks");
         synchronized (TilePotionEnhancer.listenerList) {
             for (TilePotionEnhancer te : TilePotionEnhancer.listenerList) {
                 te.enhancePotion(stacks);
@@ -56,71 +73,68 @@ public class TilePotionEnhancer extends TileEntity {
 
     @SubscribeEvent
     public static void handlePotionDrink(LivingEntityUseItemEvent.Finish event) {
-        if (event.getEntity() instanceof EntityPlayer) {
+        if (event.getEntity() instanceof PlayerEntity) {
             ItemStack stack = event.getItem();
-            if (stack.getItem().getClass() == ItemPotion.class && stack.hasTagCompound() && stack.getTagCompound() != null && stack.getTagCompound()
-                    .getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
-                for (PotionEffect effect : PotionUtils.getEffectsFromStack(stack)) {
-                    ((EntityPlayer) event.getEntity()).addPotionEffect(
-                            new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
+            if (stack.getItem().getClass() == PotionItem.class && stack.hasTag() && stack.getTag() != null && stack.getTag().getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
+                for (EffectInstance effect : PotionUtils.getEffectsFromStack(stack)) {
+                    ((PlayerEntity) event.getEntity()).addPotionEffect(
+                            new EffectInstance(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
                 }
             }
         }
     }
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static void handleTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        if (stack.getItem().getClass() == ItemPotion.class && stack.hasTagCompound() && stack.getTagCompound() != null && stack.getTagCompound()
-                .getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
-            List<String> toolTip = event.getToolTip();
+        if (stack.getItem().getClass() == PotionItem.class && stack.hasTag() && stack.getTag() != null && stack.getTag().getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
+            List<ITextComponent> toolTip = event.getToolTip();
             int duration = PotionUtils.getEffectsFromStack(stack).get(0).getDuration() / 10;
             for (int i = 0; i < toolTip.size(); i++) {
-                String t = toolTip.get(i);
-                if (t.matches(".* \\([0-9]+:[0-9][0-9]\\)")) {
-                    event.getToolTip().set(i, t.replaceFirst("\\([0-9]+:[0-9][0-9]\\)", String.format("%s(%d:%d0)", TextFormatting.DARK_PURPLE, duration / 60, duration % 60)));
+                if (toolTip.get(i) instanceof StringTextComponent || toolTip.get(i) instanceof TranslationTextComponent) {
+                    String t = toolTip.get(i).getString();
+                    if (t.matches(".* \\([0-9]+:[0-9][0-9]\\)")) {
+                        event.getToolTip().set(i, new StringTextComponent(
+                                t.replaceFirst("\\([0-9]+:[0-9][0-9]\\)", String.format("%s(%d:%d0)", TextFormatting.DARK_PURPLE, duration / 60, duration % 60))));
+                    }
                 }
             }
         }
     }
 
     @Override
-    public void invalidate() {
-        super.invalidate();
+    public void remove() {
+        super.remove();
         synchronized (listenerList) {
             listenerList.remove(this);
         }
     }
 
+
     @Override
-    public void onChunkUnload() {
-        super.onChunkUnload();
+    public void onChunkUnloaded() {
+        super.onChunkUnloaded();
         synchronized (listenerList) {
             listenerList.remove(this);
         }
     }
 
+    @Nonnull
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
+        assert world != null;
         TileEntity te = world.getTileEntity(pos.up());
-        if (te instanceof TileEntityBrewingStand) return te.hasCapability(capability, facing);
-        return super.hasCapability(capability, facing);
-    }
-
-    @Nullable
-    @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        TileEntity te = world.getTileEntity(pos.up());
-        if (te instanceof TileEntityBrewingStand) return te.getCapability(capability, facing);
+        if (te instanceof BrewingStandTileEntity) return te.getCapability(capability, facing);
         return super.getCapability(capability, facing);
     }
 
     private boolean checkHash(int hash) {
+        assert world != null;
         TileEntity te = world.getTileEntity(pos.up());
-        if (te instanceof TileEntityBrewingStand) {
+        if (te instanceof BrewingStandTileEntity) {
             return Objects.hashCode(
-                    ReflectionHelper.<NonNullList<ItemStack>, TileEntityBrewingStand>getPrivateValue(TileEntityBrewingStand.class, (TileEntityBrewingStand) te, "field_145945_j",
+                    ReflectionHelper.<NonNullList<ItemStack>, BrewingStandTileEntity>getPrivateValue(BrewingStandTileEntity.class, (BrewingStandTileEntity) te, "field_145945_j",
                                                                                                      "brewingItemStacks")) == hash;
         }
         return false;
@@ -131,17 +145,17 @@ public class TilePotionEnhancer extends TileEntity {
             if (brewingItemStacks != null) {
                 for (int i = 0; i < 3; i++) {
                     ItemStack stack = brewingItemStacks.get(i);
-                    if (stack.getItem().getClass() == ItemPotion.class) {
-                        List<PotionEffect> effects = PotionUtils.getEffectsFromStack(stack);
+                    if (stack.getItem().getClass() == PotionItem.class) {
+                        List<EffectInstance> effects = PotionUtils.getEffectsFromStack(stack);
                         if (effects.size() == 1) {
-                            if (stack.getTagCompound() != null && !stack.getTagCompound().getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
-                                stack.getTagCompound().setBoolean(ModNames.TAG_DURATION_ENHANCED, true);
-                                if (stack.getTagCompound().hasKey("Lore", Constants.NBT.TAG_LIST)) {
-                                    stack.getTagCompound().getTagList("Lore", Constants.NBT.TAG_STRING).appendTag(new NBTTagString("Duration enhanced"));
+                            if (stack.getTag() != null && !stack.getTag().getBoolean(ModNames.TAG_DURATION_ENHANCED)) {
+                                stack.getTag().putBoolean(ModNames.TAG_DURATION_ENHANCED, true);
+                                if (stack.getTag().contains("Lore", Constants.NBT.TAG_LIST)) {
+                                    stack.getTag().getList("Lore", Constants.NBT.TAG_STRING).add(StringNBT.valueOf("Duration enhanced"));
                                 } else {
-                                    NBTTagList list = new NBTTagList();
-                                    list.appendTag(new NBTTagString("Duration enhanced"));
-                                    stack.getTagCompound().setTag("Lore", list);
+                                    ListNBT list = new ListNBT();
+                                    list.add(StringNBT.valueOf("Duration enhanced"));
+                                    stack.getTag().put("Lore", list);
                                 }
                                 BlockPos spot = IAuraChunk.getHighestSpot(world, pos, 25, pos);
                                 IAuraChunk.getAuraChunk(world, spot).drainAura(spot, ModConfig.aura.potionEnhancerCostPerLevel * (effects.get(0).getAmplifier() + 1));

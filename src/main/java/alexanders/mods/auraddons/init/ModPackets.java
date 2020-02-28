@@ -4,28 +4,29 @@ import alexanders.mods.auraddons.Constants;
 import alexanders.mods.auraddons.net.ConnectionPacket;
 import alexanders.mods.auraddons.net.JumpPacket;
 import alexanders.mods.auraddons.net.ParticlePacket;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class ModPackets {
-    private static SimpleNetworkWrapper net;
+    private static final String VERSION = "1";
+    private static SimpleChannel net;
 
     public static void init() {
-        net = new SimpleNetworkWrapper(Constants.MOD_ID);
-        net.registerMessage(ParticlePacket.Handler.class, ParticlePacket.class, 0, Side.CLIENT);
-        net.registerMessage(JumpPacket.Handler.class, JumpPacket.class, 1, Side.CLIENT);
-        net.registerMessage(ConnectionPacket.Handler.class, ConnectionPacket.class, 2, Side.CLIENT);
+        net = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.MOD_ID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
+        net.registerMessage(0, ParticlePacket.class, ParticlePacket::toBytes, ParticlePacket::fromBytes, ParticlePacket::handleMessage);
+        net.registerMessage(1, JumpPacket.class, JumpPacket::toBytes, JumpPacket::fromBytes, JumpPacket::handleMessage);
+        net.registerMessage(2, ConnectionPacket.class, ConnectionPacket::toBytes, ConnectionPacket::fromBytes, ConnectionPacket::handleMessage);
     }
 
-    public static void sendAround(World world, BlockPos pos, int range, IMessage message) {
-        net.sendToAllAround(message, new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), range));
+    public static <MSG> void sendAround(World world, BlockPos pos, int range, MSG message) {
+        net.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), range, world.getDimension().getType())), message);
     }
 
-    public static void sendTracking(World world, BlockPos pos, IMessage message) {
-        net.sendToAllTracking(message, new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 0));
+    public static <MSG> void sendTracking(World world, BlockPos pos, MSG message) {
+        net.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunkAt(pos)), message);
     }
 }

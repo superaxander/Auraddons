@@ -4,31 +4,37 @@ import alexanders.mods.auraddons.Constants;
 import alexanders.mods.auraddons.block.tile.TileAuraTransporter;
 import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModNames;
+import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
+import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
 import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockAuraTransporter extends BlockBase implements ITileEntityProvider, IVisualizable {
-    public static PropertyBool SENDING = PropertyBool.create("sending");
+public class BlockAuraTransporter extends BlockContainerBase implements IVisualizable, IStateProvider {
+    public static BooleanProperty SENDING = BooleanProperty.create("sending");
 
     public BlockAuraTransporter() {
         super(ModNames.BLOCK_AURA_TRANSPORTER, Material.ROCK);
@@ -37,25 +43,21 @@ public class BlockAuraTransporter extends BlockBase implements ITileEntityProvid
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        return meta > 0 ? getDefaultState().withProperty(SENDING, true) : getDefaultState().withProperty(SENDING, false);
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        this.updateRedstoneState(worldIn, currentPos);
+        return stateIn;
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(SENDING) ? 1 : 0;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState stateIn, World world, BlockPos pos, Random rand) {
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(BlockState stateIn, World world, BlockPos pos, Random rand) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileAuraTransporter) {
             BlockPos other = ((TileAuraTransporter) te).other;
             if (other != null && world.isBlockLoaded(other)) {
-                IBlockState otherState = world.getBlockState(other);
-                boolean thisMode = stateIn.getValue(SENDING);
-                if (otherState.getBlock() == this && thisMode != otherState.getValue(SENDING)) {
+                BlockState otherState = world.getBlockState(other);
+                boolean thisMode = stateIn.get(SENDING);
+                if (otherState.getBlock() == this && thisMode != otherState.get(SENDING)) {
                     if (thisMode) {
                         for (int i = 0; i < 5; i++) {
                             NaturesAuraAPI.instance().spawnParticleStream(pos.getX() + 0.25F + rand.nextFloat() * 0.5F, pos.getY() + 0.25F + rand.nextFloat() * 0.5F,
@@ -76,67 +78,74 @@ public class BlockAuraTransporter extends BlockBase implements ITileEntityProvid
         }
     }
 
+    @Override
+    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
+        this.updateRedstoneState(world, pos);
+    }
+
     @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
         this.updateRedstoneState(worldIn, pos);
     }
 
+    @SuppressWarnings("deprecation")
+    @Nonnull
     @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-        this.updateRedstoneState(worldIn, pos);
-    }
-
-    @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileAuraTransporter) {
             if (!world.isRemote) {
-                NBTTagCompound compound = player.getEntityData();
-                if (!player.isSneaking() && compound.hasKey(ModNames.TAG_AURA_TRANSPORTER_POS)) {
+                CompoundNBT compound = player.getPersistentData();
+                if (!player.isShiftKeyDown() && compound.contains(ModNames.TAG_AURA_TRANSPORTER_POS)) {
                     BlockPos selectedPos = BlockPos.fromLong(compound.getLong(ModNames.TAG_AURA_TRANSPORTER_POS));
                     if (selectedPos.equals(pos)) {
-                        player.sendStatusMessage(new TextComponentTranslation("info." + Constants.MOD_ID + ".same_position"), true);
-                    } else if (pos.distanceSq(selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isBlockLoaded(selectedPos)) {
+                        player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".same_position"), true);
+                    } else if (pos.distanceSq(selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isAreaLoaded(selectedPos, 0)) {
                         TileEntity other = world.getTileEntity(selectedPos);
                         if (other instanceof TileAuraTransporter) {
                             ((TileAuraTransporter) tile).other = selectedPos;
                             ((TileAuraTransporter) other).other = pos;
                             tile.markDirty();
                             other.markDirty();
-                            player.sendStatusMessage(new TextComponentTranslation("info." + Constants.MOD_ID + ".connected"), true);
+                            player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".connected"), true);
                         } else {
-                            player.sendStatusMessage(new TextComponentTranslation("info." + Constants.MOD_ID + ".stored_pos_gone"), true);
+                            player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos_gone"), true);
                         }
                     } else {
-                        player.sendStatusMessage(new TextComponentTranslation("info." + Constants.MOD_ID + ".too_far"), true);
+                        player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".too_far"), true);
                     }
                 } else {
-                    compound.setLong(ModNames.TAG_AURA_TRANSPORTER_POS, pos.toLong());
-                    player.sendStatusMessage(new TextComponentTranslation("info." + Constants.MOD_ID + ".stored_pos"), true);
+                    compound.putLong(ModNames.TAG_AURA_TRANSPORTER_POS, pos.toLong());
+                    player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos"), true);
                 }
             }
-            return true;
+            return ActionResultType.SUCCESS;
         } else {
-            return false;
+            return ActionResultType.PASS;
         }
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, SENDING);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        super.fillStateContainer(container);
+        container.add(SENDING);
+    }
+
+    @Override
+    public void provideState(BlockStateGenerator generator) {
+        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_AURA_TRANSPORTER)));
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader worldIn) {
         return new TileAuraTransporter();
     }
 
-    private void updateRedstoneState(@Nonnull World world, BlockPos pos) {
-        if (!world.isRemote) {
-            world.setBlockState(pos, world.getBlockState(pos).withProperty(SENDING, world.isBlockIndirectlyGettingPowered(pos) > 0));
+    private void updateRedstoneState(@Nonnull IWorldReader world, BlockPos pos) {
+        if (!world.isRemote() && world instanceof World) {
+            ((World) world).setBlockState(pos, world.getBlockState(pos).with(SENDING, ((World) world).getRedstonePowerFromNeighbors(pos) > 0), 0);
         }
     }
 

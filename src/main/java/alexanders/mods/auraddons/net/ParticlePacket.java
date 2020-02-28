@@ -3,19 +3,17 @@ package alexanders.mods.auraddons.net;
 import alexanders.mods.auraddons.Auraddons;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import io.netty.buffer.ByteBuf;
+import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.network.NetworkEvent;
 
-public class ParticlePacket implements IMessage {
+public class ParticlePacket {
     private Type type = Type.SHOCK_WAVE;
-    private BlockPos pos = BlockPos.ORIGIN;
-    private BlockPos endPos = BlockPos.ORIGIN;
+    private BlockPos pos = BlockPos.ZERO;
+    private BlockPos endPos = BlockPos.ZERO;
     private float speed;
     private int color;
     private float scale;
@@ -37,30 +35,61 @@ public class ParticlePacket implements IMessage {
     public ParticlePacket() {
     }
 
-    @Override
-    public void fromBytes(ByteBuf buf) {
-        pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-        type = Type.fromIndex(buf.readInt());
-        if (type == Type.PARTICLE_STREAM) {
-            endPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+    public static ParticlePacket fromBytes(PacketBuffer buf) {
+        ParticlePacket pkt = new ParticlePacket();
+        pkt.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+        pkt.type = Type.fromIndex(buf.readInt());
+        if (pkt.type == Type.PARTICLE_STREAM) {
+            pkt.endPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+        }
+        return pkt;
+    }
+
+    public static void toBytes(ParticlePacket pkt, ByteBuf buf) {
+        buf.writeInt(pkt.pos.getX());
+        buf.writeInt(pkt.pos.getY());
+        buf.writeInt(pkt.pos.getZ());
+        buf.writeInt(pkt.type.ordinal());
+        if (pkt.type == Type.PARTICLE_STREAM) {
+            buf.writeInt(pkt.endPos.getX());
+            buf.writeInt(pkt.endPos.getY());
+            buf.writeInt(pkt.endPos.getZ());
+
+            buf.writeFloat(pkt.speed);
+            buf.writeInt(pkt.color);
+            buf.writeFloat(pkt.scale);
         }
     }
 
-    @Override
-    public void toBytes(ByteBuf buf) {
-        buf.writeInt(pos.getX());
-        buf.writeInt(pos.getY());
-        buf.writeInt(pos.getZ());
-        buf.writeInt(type.ordinal());
-        if (type == Type.PARTICLE_STREAM) {
-            buf.writeInt(endPos.getX());
-            buf.writeInt(endPos.getY());
-            buf.writeInt(endPos.getZ());
-
-            buf.writeFloat(speed);
-            buf.writeInt(color);
-            buf.writeFloat(scale);
-        }
+    public static void handleMessage(ParticlePacket message, Supplier<NetworkEvent.Context> ctx) {
+        ctx.get().enqueueWork(() -> {
+            World world = Minecraft.getInstance().world;
+            if (world != null) {
+                switch (message.type) {
+                    case SHOCK_WAVE:  // Shockwave
+                        for (int i = 0; i < 360; i += 2) {
+                            double rad = Math.toRadians(i);
+                            NaturesAuraAPI.instance()
+                                    .spawnMagicParticle(message.pos.getX() + .5f, message.pos.getY() + 0.01F, message.pos.getZ() + .5f, (float) Math.sin(rad) * 0.65F, 0F,
+                                                        (float) Math.cos(rad) * 0.65F, 0x911b07, 3F, 10, 0F, false, true);
+                        }
+                        break;
+                    case PARTICLE_STREAM:
+                        NaturesAuraAPI.instance().spawnParticleStream(message.pos.getX(), message.pos.getY(), message.pos.getZ(), message.endPos.getX(), message.endPos.getY(),
+                                                                      message.endPos.getZ(), message.speed, message.color, message.scale);
+                        break;
+                    case FREEZE:
+                        for (int i = world.rand.nextInt(20) + 20; i >= 0; i--) {
+                            boolean side = world.rand.nextBoolean();
+                            float x = side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
+                            float z = !side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
+                            NaturesAuraAPI.instance()
+                                    .spawnMagicParticle(message.pos.getX() + x, message.pos.getY() + 0.1F + world.rand.nextFloat() * 0.98F, message.pos.getZ() + z, 0F, 0F, 0F,
+                                                        0xBCE3FF, world.rand.nextFloat() + 1F, 50, 0F, true, true);
+                        }
+                }
+            }
+        });
     }
 
     public enum Type {
@@ -72,42 +101,6 @@ public class ParticlePacket implements IMessage {
                 return values()[0];
             }
             return values()[index];
-        }
-    }
-
-    public static class Handler implements IMessageHandler<ParticlePacket, IMessage> {
-        @Override
-        @SideOnly(Side.CLIENT)
-        public IMessage onMessage(ParticlePacket message, MessageContext ctx) {
-            Auraddons.proxy.runLater(() -> {
-                World world = Minecraft.getMinecraft().world;
-                if (world != null) {
-                    switch (message.type) {
-                        case SHOCK_WAVE:  // Shockwave
-                            for (int i = 0; i < 360; i += 2) {
-                                double rad = Math.toRadians(i);
-                                NaturesAuraAPI.instance()
-                                        .spawnMagicParticle(message.pos.getX() + .5f, message.pos.getY() + 0.01F, message.pos.getZ() + .5f, (float) Math.sin(rad) * 0.65F, 0F,
-                                                            (float) Math.cos(rad) * 0.65F, 0x911b07, 3F, 10, 0F, false, true);
-                            }
-                            break;
-                        case PARTICLE_STREAM:
-                            NaturesAuraAPI.instance().spawnParticleStream(message.pos.getX(), message.pos.getY(), message.pos.getZ(), message.endPos.getX(), message.endPos.getY(),
-                                                                          message.endPos.getZ(), message.speed, message.color, message.scale);
-                            break;
-                        case FREEZE:
-                            for (int i = world.rand.nextInt(20) + 20; i >= 0; i--) {
-                                boolean side = world.rand.nextBoolean();
-                                float x = side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
-                                float z = !side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
-                                NaturesAuraAPI.instance()
-                                        .spawnMagicParticle(message.pos.getX() + x, message.pos.getY() + 0.1F + world.rand.nextFloat() * 0.98F, message.pos.getZ() + z, 0F, 0F, 0F,
-                                                            0xBCE3FF, world.rand.nextFloat() + 1F, 50, 0F, true, true);
-                            }
-                    }
-                }
-            });
-            return null;
         }
     }
 }

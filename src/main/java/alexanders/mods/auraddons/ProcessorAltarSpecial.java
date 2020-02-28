@@ -2,9 +2,9 @@ package alexanders.mods.auraddons;
 
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.recipes.AltarRecipe;
-import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.WoodType;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,14 +24,14 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
         String suffix = provider.get("suffix");
         switch (suffix) {
             case "color":
-                for (EnumDyeColor color : EnumDyeColor.values()) {
+                for (DyeColor color : DyeColor.values()) {
                     addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_" + color.getName())));
                 }
                 break;
             case "wood":
-                for (BlockPlanks.EnumType type : BlockPlanks.EnumType.values()) {
+                WoodType.getValues().forEach(type -> {
                     addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_" + type.getName())));
-                }
+                });
                 addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_ancient_log")));
                 addRecipe(NaturesAuraAPI.ALTAR_RECIPES.get(new ResourceLocation(recipeName + "_ancient_bark")));
                 break;

@@ -2,24 +2,26 @@ package alexanders.mods.auraddons.block;
 
 import alexanders.mods.auraddons.block.tile.TilePotionEnhancer;
 import alexanders.mods.auraddons.init.ModNames;
+import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
+import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class BlockPotionEnhancer extends BlockBase implements ITileEntityProvider, IVisualizable {
+public class BlockPotionEnhancer extends BlockContainerBase implements IStateProvider, IVisualizable {
     public BlockPotionEnhancer() {
         super(ModNames.BLOCK_POTION_ENHANCER, Material.WOOD);
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new TilePotionEnhancer();
     }
 
@@ -31,5 +33,10 @@ public class BlockPotionEnhancer extends BlockBase implements ITileEntityProvide
     @Override
     public int getVisualizationColor(World world, BlockPos pos) {
         return 0x53D634;
+    }
+
+    @Override
+    public void provideState(BlockStateGenerator generator) {
+        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_POTION_ENHANCER)));
     }
 }

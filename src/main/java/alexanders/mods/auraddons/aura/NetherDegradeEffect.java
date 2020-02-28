@@ -5,9 +5,9 @@ import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import de.ellpeck.naturesaura.api.aura.chunk.IDrainSpotEffect;
 import de.ellpeck.naturesaura.api.aura.type.IAuraType;
-import net.minecraft.block.*;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -31,19 +31,19 @@ public class NetherDegradeEffect implements IDrainSpotEffect {
                         for (int i = amount / 2 + world.rand.nextInt(amount / 2); i >= 0; i--) {
                             BlockPos blockPos = new BlockPos(pos.getX() + world.rand.nextGaussian() * dist, pos.getY() + world.rand.nextGaussian() * dist,
                                                              pos.getZ() + world.rand.nextGaussian() * dist);
-                            if (blockPos.distanceSq(pos) <= dist * dist && world.isBlockLoaded(blockPos)) {
-                                IBlockState state = world.getBlockState(blockPos);
+                            if (blockPos.distanceSq(pos) <= dist * dist && world.isAreaLoaded(blockPos, 0)) {
+                                BlockState state = world.getBlockState(blockPos);
                                 Block block = state.getBlock();
 
-                                IBlockState newState = null;
-                                if (block instanceof BlockNetherrack) {
+                                BlockState newState = null;
+                                if (block == Blocks.NETHERRACK) {
                                     newState = Blocks.SOUL_SAND.getDefaultState();
-                                } else if (block instanceof BlockNetherBrick) {
+                                } else if (block == Blocks.NETHER_BRICKS) {
                                     newState = Blocks.NETHERRACK.getDefaultState();
-                                } else if (block instanceof BlockOre) {
-                                    newState = Blocks.NETHER_BRICK.getDefaultState();
-                                } else if (block instanceof BlockGlowstone) {
-                                    newState = Blocks.QUARTZ_ORE.getDefaultState();
+                                } else if (block == Blocks.NETHER_QUARTZ_ORE) {
+                                    newState = Blocks.NETHER_BRICKS.getDefaultState();
+                                } else if (block == Blocks.GLOWSTONE) {
+                                    newState = Blocks.NETHER_QUARTZ_ORE.getDefaultState();
                                 }
                                 if (newState != null) world.setBlockState(blockPos, newState);
                             }

@@ -1,58 +1,51 @@
 package alexanders.mods.auraddons;
 
-import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModItems;
 import com.google.common.collect.ImmutableMap;
+import com.mojang.blaze3d.systems.RenderSystem;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
-import java.util.Objects;
+import java.util.function.Function;
 import javax.annotation.Nullable;
-import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.Item;
+import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.animation.AnimationTESR;
+import net.minecraftforge.client.model.animation.TileEntityRendererAnimation;
 import net.minecraftforge.common.animation.ITimeValue;
+import net.minecraftforge.common.model.animation.AnimationStateMachine;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.items.IItemHandler;
 
 public class ClientProxy implements IProxy {
     public static final ResourceLocation OVERLAYS = new ResourceLocation(NaturesAuraAPI.MOD_ID, "textures/gui/overlays.png");
 
     @SubscribeEvent
     public void onOverlayRender(RenderGameOverlayEvent.Post event) {
-        Minecraft mc = Minecraft.getMinecraft();
+        Minecraft mc = Minecraft.getInstance();
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
-            ScaledResolution res = event.getResolution();
+            MainWindow window = event.getWindow();
             if (mc.player != null) {
                 ItemStack cache = ItemStack.EMPTY;
 
-                if (Auraddons.instance.baublesLoaded) {
-                    IItemHandler baubles = BaublesCompat.getItemHandler();
-                    for (int i = 0; i < baubles.getSlots(); i++) {
-                        ItemStack slot = baubles.getStackInSlot(i);
-                        if (!slot.isEmpty()) {
-                            if (slot.getItem() == ModItems.creativeAuraCache) cache = slot;
-                        }
-                    }
-                }
+                //                if (Auraddons.instance.baublesLoaded) {
+                //                    IItemHandler baubles = BaublesCompat.getItemHandler();
+                //                    for (int i = 0; i < baubles.getSlots(); i++) {
+                //                        ItemStack slot = baubles.getStackInSlot(i);
+                //                        if (!slot.isEmpty()) {
+                //                            if (slot.getItem() == ModItems.creativeAuraCache) cache = slot;
+                //                        }
+                //                    }
+                //                }
 
                 if (cache.isEmpty()) {
                     for (int i = 0; i < mc.player.inventory.getSizeInventory(); i++) {
@@ -64,76 +57,44 @@ public class ClientProxy implements IProxy {
                 }
 
                 if (!cache.isEmpty()) {
-                    IAuraContainer container = cache.getCapability(NaturesAuraAPI.capAuraContainer, null);
-                    if (container != null) {
-                        int width = MathHelper.ceil(container.getStoredAura() / (float) container.getMaxAura() * 80);
-                        int x = res.getScaledWidth() / 2 - 173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29);
-                        int y = res.getScaledHeight() - 8;
+                    LazyOptional<IAuraContainer> container = cache.getCapability(NaturesAuraAPI.capAuraContainer, null);
+                    ItemStack finalCache = cache;
+                    container.ifPresent(it -> {
+                        int width = MathHelper.ceil(it.getStoredAura() / (float) it.getMaxAura() * 80);
+                        int x = window.getScaledWidth() / 2 - 173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29);
+                        int y = window.getScaledHeight() - 8;
+                        int color = it.getAuraColor();
 
-                        GlStateManager.pushMatrix();
-
-                        int color = container.getAuraColor();
-                        GlStateManager.color((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F);
+                        RenderSystem.color4f((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 1);
                         mc.getTextureManager().bindTexture(OVERLAYS);
-                        if (width < 80) Gui.drawModalRectWithCustomSizedTexture(x + width, y, width, 0, 80 - width, 6, 256, 256);
-                        if (width > 0) Gui.drawModalRectWithCustomSizedTexture(x, y, 0, 6, width, 6, 256, 256);
+                        if (width < 80) AbstractGui.blit(x + width, y, width, 0, 80 - width, 6, 256, 256);
+                        if (width > 0) AbstractGui.blit(x, y, 0, 6, width, 6, 256, 256);
 
                         float scale = 0.75F;
-                        GlStateManager.scale(scale, scale, scale);
-                        String s = cache.getDisplayName();
-                        mc.fontRenderer.drawString(s, (x + 80) / scale - mc.fontRenderer.getStringWidth(s), (y - 7) / scale, color, true);
+                        RenderSystem.scalef(scale, scale, scale);
+                        String s = finalCache.getDisplayName().getFormattedText();
+                        mc.fontRenderer.drawStringWithShadow(s, (x + 80) / scale - mc.fontRenderer.getStringWidth(s), (y - 7) / scale, color);
 
-                        GlStateManager.color(1F, 1F, 1F);
-                        GlStateManager.popMatrix();
-                    }
+                        RenderSystem.color4f(1F, 1F, 1F, 1);
+                        RenderSystem.popMatrix();
+                    });
                 }
             }
         }
     }
 
-
-    @Override
-    public void registerItemModel(Item item, int meta, String id) {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), id));
-    }
-
     @Nullable
     @Override
     public IAnimationStateMachine loadASM(ResourceLocation resourceLocation, ImmutableMap<String, ITimeValue> map) {
-        return ModelLoaderRegistry.loadASM(resourceLocation, map);
+        return AnimationStateMachine.load(Minecraft.getInstance().getResourceManager(), resourceLocation, map);
     }
 
     @Override
-    public void runLater(Runnable runnable) {
-        Minecraft.getMinecraft().addScheduledTask(runnable);
+    public <T extends TileEntity> void registerAnimationTESR(TileEntityType<T> type) {
+        registerTESR(type, TileEntityRendererAnimation::new);
     }
 
-    @Override
-    public <T extends Comparable<T>> void ignoreState(Block block, IProperty<T> property) {
-        ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
-    }
-
-    @Override
-    public void renderItemInWorld(ItemStack stack) {
-        if (!stack.isEmpty()) {
-            GlStateManager.pushMatrix();
-            GlStateManager.disableLighting();
-            GlStateManager.pushAttrib();
-            RenderHelper.enableStandardItemLighting();
-            Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
-            RenderHelper.disableStandardItemLighting();
-            GlStateManager.popAttrib();
-            GlStateManager.enableLighting();
-            GlStateManager.popMatrix();
-        }
-    }
-
-    @Override
-    public <T extends TileEntity> void registerAnimationTESR(Class<T> clazz) {
-        registerTESR(clazz, new AnimationTESR<>());
-    }
-
-    private <T extends TileEntity> void registerTESR(Class<T> te, TileEntitySpecialRenderer<T> tesr) {
-        ClientRegistry.bindTileEntitySpecialRenderer(te, tesr);
+    private <T extends TileEntity> void registerTESR(TileEntityType<T> type, Function<? super TileEntityRendererDispatcher, ? extends TileEntityRenderer<? super TileEntity>> tesr) {
+        ClientRegistry.bindTileEntityRenderer(type, tesr);
     }
 }

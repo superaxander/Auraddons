@@ -1,6 +1,7 @@
 package alexanders.mods.auraddons.block.tile;
 
 import alexanders.mods.auraddons.block.BlockAuraTransporter;
+import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModPackets;
 import alexanders.mods.auraddons.net.ConnectionPacket;
@@ -8,29 +9,31 @@ import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 
-public class TileAuraTransporter extends TileEntity implements ITickable {
+public class TileAuraTransporter extends TileEntity implements ITickableTileEntity {
     @Nullable
     public BlockPos other = null;
 
+    public TileAuraTransporter() {
+        super(ModBlocks.tileAuraTransporter);
+    }
+
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         readDestination(compound);
     }
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public CompoundNBT write(CompoundNBT compound) {
         writeDestination(compound);
-        return super.writeToNBT(compound);
+        return super.write(compound);
     }
 
     @Override
@@ -41,32 +44,27 @@ public class TileAuraTransporter extends TileEntity implements ITickable {
 
     @Override
     @Nonnull
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound compound = super.getUpdateTag();
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT compound = super.getUpdateTag();
         writeDestination(compound);
         return compound;
     }
 
     @Override
-    public void handleUpdateTag(@Nonnull NBTTagCompound compound) {
+    public void handleUpdateTag(@Nonnull CompoundNBT compound) {
         super.handleUpdateTag(compound);
         readDestination(compound);
     }
 
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
-        return oldState.getBlock() != newState.getBlock();
-    }
-
-    private void readDestination(NBTTagCompound compound) {
-        if (compound.hasKey("destinationPos")) {
+    private void readDestination(CompoundNBT compound) {
+        if (compound.contains("destinationPos")) {
             other = BlockPos.fromLong(compound.getLong("destinationPos"));
         }
     }
 
-    private void writeDestination(NBTTagCompound compound) {
+    private void writeDestination(CompoundNBT compound) {
         if (other != null) {
-            compound.setLong("destinationPos", other.toLong());
+            compound.putLong("destinationPos", other.toLong());
         }
     }
 
@@ -78,12 +76,12 @@ public class TileAuraTransporter extends TileEntity implements ITickable {
     }
 
     @Override
-    public void update() {
-        if (!world.isRemote && world.getTotalWorldTime() % 40 == 2 && other != null && world.isBlockLoaded(other)) {
+    public void tick() {
+        if (world != null && !world.isRemote && world.getGameTime() % 40 == 2 && other != null && world.isAreaLoaded(other, 0)) {
             TileEntity dest = world.getTileEntity(other);
             double distance = Math.sqrt(other.distanceSq(pos));
             if (distance <= ModConfig.aura.auraTransporterRange && dest instanceof TileAuraTransporter) {
-                if (!world.isRemote && world.getBlockState(pos).getValue(BlockAuraTransporter.SENDING) && !world.getBlockState(other).getValue(BlockAuraTransporter.SENDING)) {
+                if (!world.isRemote && world.getBlockState(pos).get(BlockAuraTransporter.SENDING) && !world.getBlockState(other).get(BlockAuraTransporter.SENDING)) {
                     BlockPos spot = NaturesAuraAPI.instance().getHighestAuraDrainSpot(world, pos, ModConfig.aura.auraTransporterDrainRange, pos);
                     int aura = NaturesAuraAPI.instance().getAuraInArea(world, spot, 0);
                     if (aura >= ModConfig.aura.auraTransporterAuraAmount + IAuraChunk.DEFAULT_AURA) { // Only drain excess

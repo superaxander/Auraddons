@@ -6,24 +6,24 @@ import alexanders.mods.auraddons.item.ItemSimple;
 import java.util.ArrayList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
-@GameRegistry.ObjectHolder(MOD_ID)
+@ObjectHolder(MOD_ID)
 public final class ModItems {
     public static ArrayList<Item> itemRegistry = new ArrayList<>();
 
-    @GameRegistry.ObjectHolder(ModNames.ITEM_CREATIVE_AURA_CACHE)
+    @ObjectHolder(ModNames.ITEM_CREATIVE_AURA_CACHE)
     public static Item creativeAuraCache;
 
-    @GameRegistry.ObjectHolder(ModNames.ITEM_DAMPING_FEATHER)
+    @ObjectHolder(ModNames.ITEM_DAMPING_FEATHER)
     public static Item dampeningFeather;
 
-    @GameRegistry.ObjectHolder(ModNames.ITEM_SKY_FEATHER)
+    @ObjectHolder(ModNames.ITEM_SKY_FEATHER)
     public static Item skyFeather;
 
-    @GameRegistry.ObjectHolder(ModNames.ITEM_SKY_BOTTLE)
+    @ObjectHolder(ModNames.ITEM_SKY_BOTTLE)
     public static Item skyBottle;
 
     public static void init() {

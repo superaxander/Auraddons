@@ -1,10 +1,10 @@
 package alexanders.mods.auraddons.init;
 
-import net.minecraftforge.common.config.Config;
+import alexanders.mods.auraddons.init.generator.Config;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
-@Config(modid = MOD_ID, category = "")
+@Config(modid = MOD_ID)
 public class ModConfig {
     public static General general = new General();
     public static Items items = new Items();
@@ -52,7 +52,6 @@ public class ModConfig {
         public boolean enableInfusedBrickWall = true;
         public boolean enableGoldBrickWall = true;
         public boolean enableAncientLadder = true;
-        public boolean enableFreezer = true;
         public boolean enableHardIce = true;
         public boolean enablePotionEnhancer = true;
         public boolean enableDisruptionCatalyst = true;

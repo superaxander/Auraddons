@@ -2,66 +2,73 @@ package alexanders.mods.auraddons;
 
 import alexanders.mods.auraddons.aura.NetherDegradeEffect;
 import alexanders.mods.auraddons.init.*;
+import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
+import alexanders.mods.auraddons.init.generator.ItemModelGenerator;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import net.minecraft.block.Block;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static alexanders.mods.auraddons.Constants.*;
+import static alexanders.mods.auraddons.Constants.MOD_ID;
+import static alexanders.mods.auraddons.Constants.MOD_NAME;
 
-@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = DEPS)
+@Mod(MOD_ID)
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class Auraddons {
     public static final Logger logger = LogManager.getLogger(MOD_NAME);
-    @Mod.Instance(owner = MOD_ID)
     public static Auraddons instance;
-    @SidedProxy(modId = MOD_ID, clientSide = CLIENT_PROXY, serverSide = COMMON_PROXY)
-    public static IProxy proxy;
+    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    ;
     public boolean baublesLoaded;
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public Auraddons() {
+        instance = this;
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::initialization);
+    }
+
+    private void initialization(FMLCommonSetupEvent event) {
+        preInit(event);
+        init(event);
+        postInit(event);
+    }
+
+    public void preInit(FMLCommonSetupEvent event) {
         ModBlocks.init();
         ModItems.init();
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(proxy);
         ModPackets.init();
 
-        if (Loader.isModLoaded("baubles")) {
-            baublesLoaded = true;
-            BaublesCompat.init();
-            MinecraftForge.EVENT_BUS.register(new BaublesCompat());
-        }
+
+        //        if (ModList.get().isLoaded("baubles")) {
+        //            baublesLoaded = true;
+        //            BaublesCompat.init();
+        //            MinecraftForge.EVENT_BUS.register(new BaublesCompat());
+        //        } TODO: CURIOS
         logger.info("Auraddons pre-initialized");
     }
 
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLCommonSetupEvent event) {
         if (ModConfig.general.enableNetherDegradeEffect) NaturesAuraAPI.DRAIN_SPOT_EFFECTS.put(NetherDegradeEffect.NAME, NetherDegradeEffect::new);
         ModRecipes.init();
     }
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
+    public void postInit(FMLCommonSetupEvent event) {
         // Cleanup:
         ModBlocks.blockRegistry = null;
         ModItems.itemRegistry = null;
-        //System.gc();
     }
 
     @SubscribeEvent
@@ -81,11 +88,11 @@ public class Auraddons {
     }
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void registerModels(ModelRegistryEvent event) {
-        for (Item item : ModItems.itemRegistry) {
-            // Items with special models might implement an interface later which we can check for here
-            proxy.registerItemModel(item, 0, "inventory");
-        }
+    public static void gatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        ExistingFileHelper ex = event.getExistingFileHelper();
+     
+        generator.addProvider(new BlockStateGenerator(generator, ex));
+        generator.addProvider(new ItemModelGenerator(generator, ex));
     }
 }

@@ -3,45 +3,53 @@ package alexanders.mods.auraddons.block;
 import alexanders.mods.auraddons.block.tile.TileWitherProofer;
 import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModNames;
+import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
+import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class BlockWitherProofer extends BlockBase implements ITileEntityProvider, IVisualizable {
+public class BlockWitherProofer extends BlockContainerBase implements IVisualizable, IStateProvider {
     public BlockWitherProofer() {
-        super(ModNames.BLOCK_WITHER_PROOFER, Material.CLOTH);
+        super(ModNames.BLOCK_WITHER_PROOFER, Material.WOOL);
+    }
+
+    @Override
+    public void provideState(BlockStateGenerator generator) {
+        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_WITHER_PROOFER)));
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new TileWitherProofer();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        this.updateRedstoneState(worldIn, pos);
+    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
+        this.updateRedstoneState(world, pos);
     }
 
     @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-        this.updateRedstoneState(worldIn, pos);
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        this.updateRedstoneState(world, pos);
     }
 
-    private void updateRedstoneState(@Nonnull World world, BlockPos pos) {
-        if (!world.isRemote) {
+    private void updateRedstoneState(@Nonnull IWorldReader world, BlockPos pos) {
+        if (!world.isRemote()) {
             TileEntity tile = world.getTileEntity(pos);
-            if (tile instanceof TileWitherProofer) {
-                ((TileWitherProofer) tile).powered = world.isBlockIndirectlyGettingPowered(pos) > 0;
+            if (tile instanceof TileWitherProofer && world instanceof World) {
+                ((TileWitherProofer) tile).powered = ((World) world).getRedstonePowerFromNeighbors(pos) > 0;
             }
         }
     }

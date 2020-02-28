@@ -1,4 +1,4 @@
-package alexanders.mods.auraddons;
+/*package alexanders.mods.auraddons;
 
 import alexanders.mods.auraddons.init.ModItems;
 import baubles.api.BaubleType;
@@ -96,3 +96,4 @@ public class BaublesCompat {
         }
     }
 }
+*/

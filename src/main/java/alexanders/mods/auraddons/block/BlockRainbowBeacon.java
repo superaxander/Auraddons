@@ -2,51 +2,45 @@ package alexanders.mods.auraddons.block;
 
 import alexanders.mods.auraddons.block.tile.TileRainbowBeacon;
 import alexanders.mods.auraddons.init.ModNames;
+import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
+import alexanders.mods.auraddons.init.generator.IStateProvider;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 
-public class BlockRainbowBeacon extends BlockBase implements ITileEntityProvider {
+public class BlockRainbowBeacon extends BlockContainerBase implements IStateProvider {
     public BlockRainbowBeacon() {
-        super(ModNames.BLOCK_RAINBOW_BEACON, Material.GLASS);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean isFullBlock(IBlockState state) {
-        return false;
+        super(ModNames.BLOCK_RAINBOW_BEACON, Properties.create(Material.GLASS).notSolid().hardnessAndResistance(2.0F, 5.0F));
     }
 
     @Override
     @Nonnull
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Nullable
     @Override
-    public float[] getBeaconColorMultiplier(IBlockState state, World world, BlockPos pos, BlockPos beaconPos) {
+    public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
         TileEntity te = world.getTileEntity(pos);
-        if (te instanceof TileRainbowBeacon && ((TileRainbowBeacon) te).colorMultiplier[0] != -1) return ((TileRainbowBeacon)te).colorMultiplier;
+        if (te instanceof TileRainbowBeacon && ((TileRainbowBeacon) te).colorMultiplier[0] != -1) return ((TileRainbowBeacon) te).colorMultiplier;
         else return super.getBeaconColorMultiplier(state, world, pos, beaconPos);
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World worldIn, int meta) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new TileRainbowBeacon();
+    }
+
+    @Override
+    public void provideState(BlockStateGenerator generator) {
+        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_RAINBOW_BEACON)));
     }
 }

@@ -1,32 +1,37 @@
 package alexanders.mods.auraddons.block.tile;
 
 import alexanders.mods.auraddons.Auraddons;
+import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
 import java.lang.reflect.InvocationTargetException;
 import javax.annotation.Nonnull;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.BeaconTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
-public class TileRainbowBeacon extends TileEntity implements ITickable {
+public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity {
     private static boolean reflectionFail;
     public float[] colorMultiplier = new float[]{-1, -1, -1};
     private float hue = 0;
 
+    public TileRainbowBeacon() {
+        super(ModBlocks.tileRainbowBeacon);
+    }
+
     @Override
-    public void update() {
-        if (this.world.getTotalWorldTime() % 20L == 19L) { // Update the tick before the beacon
-            world.profiler.func_194340_a(() -> "RainbowBeaconUpdate");
+    public void tick() {
+        if (this.world != null && this.world.getGameTime() % 20L == 19L) { // Update the tick before the beacon
+            world.getProfiler().startSection(() -> "RainbowBeaconUpdate");
             setHSV(hue = (hue + 1) % 360, 1f, 1f);
-            if (ModConfig.general.smoothRainbowBeacon && !reflectionFail && this.world.getTotalWorldTime() % 80L != 79L) {
+            if (ModConfig.general.smoothRainbowBeacon && !reflectionFail && this.world.getGameTime() % 80L != 79L) {
                 TileEntity te = world.getTileEntity(pos.down());
-                if (te instanceof TileEntityBeacon) {
+                if (te instanceof BeaconTileEntity) {
                     try {
                         //ReflectionHelper.getPrivateValue(TileEntityBeacon.class, (TileEntityBeacon)te,"beamSegments", "field_174909_f");
                         //TODO: Perhaps update *all* the beam segments manually? This would probably be less laggy!
-                        ReflectionHelper.findMethod(TileEntityBeacon.class, "updateSegmentColors", "func_146003_y").invoke(te);
+                        ReflectionHelper.findMethod(BeaconTileEntity.class, "updateSegmentColors", "func_146003_y").invoke(te);
                     } catch (ReflectionHelper.UnableToFindMethodException e) {
                         reflectionFail = true;
                         Auraddons.logger
@@ -36,35 +41,35 @@ public class TileRainbowBeacon extends TileEntity implements ITickable {
                     }
                 }
             }
-            world.profiler.endSection();
+            world.getProfiler().endSection();
         }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         hue = compound.getFloat("hue");
         setHSV(hue, 1f, 1f);
     }
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setFloat("hue", hue);
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
+        compound.putFloat("hue", hue);
         return compound;
     }
 
     @Override
     @Nonnull
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound compound = super.getUpdateTag();
-        compound.setFloat("hue", hue);
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT compound = super.getUpdateTag();
+        compound.putFloat("hue", hue);
         return compound;
     }
 
     @Override
-    public void handleUpdateTag(@Nonnull NBTTagCompound tag) {
+    public void handleUpdateTag(@Nonnull CompoundNBT tag) {
         super.handleUpdateTag(tag);
         hue = tag.getFloat("hue");
         setHSV(hue, 1f, 1f);

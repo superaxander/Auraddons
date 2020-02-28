@@ -1,0 +1,25 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "F F", "IBI"
+  ],
+  "key": {
+    "I": {
+      "item": "naturesaura:sky_ingot"
+    },
+    "F": {
+      "item": "naturesaura:sky_feather"
+    },
+    "B": {
+      "type": "forge:nbt",
+      "item": "naturesaura:aura_bottle",
+      "nbt": {
+        "stored_type": "naturesaura:overworld"
+      }
+    },
+    "result": {
+      "item": "auraddons:item_dampening_feather",
+      "count": 1
+    }
+  }
+}

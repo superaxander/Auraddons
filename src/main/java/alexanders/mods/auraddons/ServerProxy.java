@@ -2,20 +2,13 @@ package alexanders.mods.auraddons;
 
 import com.google.common.collect.ImmutableMap;
 import javax.annotation.Nullable;
-import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.animation.ITimeValue;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class ServerProxy implements IProxy {
-    @Override
-    public void registerItemModel(Item item, int meta, String id) {
-    }
 
     @Override
     @Nullable
@@ -24,22 +17,6 @@ public class ServerProxy implements IProxy {
     }
 
     @Override
-    public void runLater(Runnable runnable) {
-        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(runnable);
-    }
-
-    @Override
-    public <T extends Comparable<T>> void ignoreState(Block block, IProperty<T> powered) {
-
-    }
-
-    @Override
-    public void renderItemInWorld(ItemStack stack) {
-
-    }
-
-    @Override
-    public <T extends TileEntity> void registerAnimationTESR(Class<T> clazz) {
-
+    public <T extends TileEntity> void registerAnimationTESR(TileEntityType<T> type) {
     }
 }
