@@ -1,6 +1,6 @@
 {
-    "parent": "minecraft:block/wall_side",
+  "parent": "minecraft:block/template_wall_side",
     "textures": {
-        "wall": "naturesaura:blocks/gold_brick"
+      "wall": "naturesaura:block/gold_brick"
     }
 }

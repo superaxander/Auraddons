@@ -8,6 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class ParticlePacket {
@@ -61,6 +63,7 @@ public class ParticlePacket {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void handleMessage(ParticlePacket message, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             World world = Minecraft.getInstance().world;
@@ -70,8 +73,7 @@ public class ParticlePacket {
                         for (int i = 0; i < 360; i += 2) {
                             double rad = Math.toRadians(i);
                             NaturesAuraAPI.instance()
-                                    .spawnMagicParticle(message.pos.getX() + .5f, message.pos.getY() + 0.01F, message.pos.getZ() + .5f, (float) Math.sin(rad) * 0.65F, 0F,
-                                                        (float) Math.cos(rad) * 0.65F, 0x911b07, 3F, 10, 0F, false, true);
+                                    .spawnMagicParticle(message.pos.getX() + .5f, message.pos.getY() + 0.01F, message.pos.getZ() + .5f, (float) Math.sin(rad) * 0.65F, 0F, (float) Math.cos(rad) * 0.65F, 0x911b07, 3F, 10, 0F, false, true);
                         }
                         break;
                     case PARTICLE_STREAM:
@@ -90,6 +92,7 @@ public class ParticlePacket {
                 }
             }
         });
+        ctx.get().setPacketHandled(true);
     }
 
     public enum Type {

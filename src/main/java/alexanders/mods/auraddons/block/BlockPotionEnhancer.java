@@ -7,6 +7,8 @@ import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -17,6 +19,13 @@ import net.minecraft.world.World;
 public class BlockPotionEnhancer extends BlockContainerBase implements IStateProvider, IVisualizable {
     public BlockPotionEnhancer() {
         super(ModNames.BLOCK_POTION_ENHANCER, Material.WOOD);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Nullable
@@ -37,6 +46,9 @@ public class BlockPotionEnhancer extends BlockContainerBase implements IStatePro
 
     @Override
     public void provideState(BlockStateGenerator generator) {
-        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_POTION_ENHANCER)));
+
+        generator.simpleBlock(this, generator.models().cubeBottomTop(ModNames.BLOCK_POTION_ENHANCER, generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER),
+                                                                     generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER + "_top"),
+                                                                     generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER + "_top")));
     }
 }

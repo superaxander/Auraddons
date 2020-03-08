@@ -1,15 +1,12 @@
 package alexanders.mods.auraddons.block.tile;
 
-import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
-import java.lang.reflect.InvocationTargetException;
 import javax.annotation.Nonnull;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity {
     private static boolean reflectionFail;
@@ -28,17 +25,18 @@ public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity
             if (ModConfig.general.smoothRainbowBeacon && !reflectionFail && this.world.getGameTime() % 80L != 79L) {
                 TileEntity te = world.getTileEntity(pos.down());
                 if (te instanceof BeaconTileEntity) {
-                    try {
-                        //ReflectionHelper.getPrivateValue(TileEntityBeacon.class, (TileEntityBeacon)te,"beamSegments", "field_174909_f");
-                        //TODO: Perhaps update *all* the beam segments manually? This would probably be less laggy!
-                        ReflectionHelper.findMethod(BeaconTileEntity.class, "updateSegmentColors", "func_146003_y").invoke(te);
-                    } catch (ReflectionHelper.UnableToFindMethodException e) {
-                        reflectionFail = true;
-                        Auraddons.logger
-                                .error("Unable to find TileEntityBeacon#updateSegmentColors with obf name func_146003_y. Auraddons may not be fully compatible with this version of minecraft");
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
+                    //                    try {
+                    //                        //ReflectionHelper.getPrivateValue(TileEntityBeacon.class, (TileEntityBeacon)te,"beamSegments", "field_174909_f");
+                    //                        //TODO: Perhaps update *all* the beam segments manually? This would probably be less laggy!
+                    //                        ObfuscationReflectionHelper.findMethod(BeaconTileEntity.class, "updateSegmentColors").invoke(te);
+                    //                    } catch (ObfuscationReflectionHelper.UnableToFindMethodException e) {
+                    //                        reflectionFail = true;
+                    //                        Auraddons.logger
+                    //                                .error("Unable to find TileEntityBeacon#updateSegmentColors with obf name func_146003_y. Auraddons may not be fully compatible with this version of minecraft");
+                    //                    } catch (IllegalAccessException | InvocationTargetException e) {
+                    //                        e.printStackTrace();
+                    //                    }
+                    ((BeaconTileEntity) te).tick();  
                 }
             }
             world.getProfiler().endSection();

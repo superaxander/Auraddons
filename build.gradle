@@ -20,6 +20,10 @@ archivesBaseName = "Auraddons"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   Snapshot are built nightly.
@@ -41,7 +45,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             mods {
                 auraddons {
@@ -57,7 +61,7 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             mods {
                 auraddons {
@@ -73,9 +77,9 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
-            args '--mod', 'auraddons', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'auraddons', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('src/generated/resources')
 
             mods {
                 auraddons {
@@ -106,7 +110,7 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.15.2-31.0.14'
-    compile "de.ellpeck.naturesaura:NaturesAura:22.0.21"
+    compile "de.ellpeck.naturesaura:NaturesAura:23.2.31"
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.15.1:6.0.0.4")
     compile fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.1-25.16")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-1.15.2-2.0-beta2")

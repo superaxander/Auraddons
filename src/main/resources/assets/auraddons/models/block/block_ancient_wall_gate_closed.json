@@ -1,6 +1,6 @@
 {
-    "parent": "minecraft:block/wall_gate_closed",
+  "parent": "block/template_fence_gate",
     "textures": {
-        "texture": "naturesaura:blocks/ancient_planks"
+      "texture": "naturesaura:block/ancient_planks"
     }
 }

@@ -12,18 +12,46 @@ import static net.minecraftforge.fml.config.ModConfig.Type.COMMON;
 
 public class ConfigBuilder {
     public static final Map<Class<?>, Map<Field, ForgeConfigSpec.ConfigValue<?>>> values = new HashMap<>();
+    private static final Map<Class<?>, Object> instances = new HashMap<>();
     private final ForgeConfigSpec.Builder builder;
 
     public ConfigBuilder() {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         this.builder = builder;
-        parseFields(ModConfig.class);
-
+        parseFields(ModConfig.class, null);
 
         ModLoadingContext.get().registerConfig(COMMON, builder.build());
     }
 
-    private void parseFields(Class<?> clazz) {
+    public static void updateFields() {
+        for (Class<?> clazz : values.keySet()) {
+            final Map<Field, ForgeConfigSpec.ConfigValue<?>> classValues = values.get(clazz);
+            Object instance = instances.get(clazz);
+            for (Field field : classValues.keySet()) {
+                try {
+                    if (field.getType() == int.class) {
+                        field.set(instance, (int) (long) (Long) classValues.get(field).get());
+                    } else if (field.getType() == long.class) {
+                        field.set(instance, (long) (Long) classValues.get(field).get());
+                    } else if (field.getType() == float.class) {
+                        field.set(instance, (float) (double) (Double) classValues.get(field).get());
+                    } else if (field.getType() == double.class) {
+                        field.set(instance, (double) (Double) classValues.get(field).get());
+                    } else if (field.getType() == boolean.class) {
+                        field.set(instance, (boolean) (Boolean) classValues.get(field).get());
+                    } else {
+                        field.set(instance, classValues.get(field).get());
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void parseFields(Class<?> clazz, Object instance) {
+        values.put(clazz, new HashMap<>());
+        instances.put(clazz, instance);
         Field[] fields = clazz.getFields();
         for (Field field : fields) {
             Annotation[] annotations = field.getAnnotations();
@@ -46,20 +74,20 @@ public class ConfigBuilder {
             if (ignore) continue;
             try {
                 if (field.getType() == boolean.class) {
-                    this.<Boolean>addConfigValue(clazz, field, comment, field.getName(), (Boolean) field.get(null));
+                    this.<Boolean>addConfigValue(clazz, field, comment, field.getName(), (Boolean) field.get(instance));
                 } else if (field.getType() == int.class) {
-                    this.addConfigValue(clazz, field, comment, field.getName(), (int) field.get(null), rangeInt);
+                    this.addConfigValue(clazz, field, comment, field.getName(), (int) field.get(instance), rangeInt);
                 } else if (field.getType() == long.class) {
-                    this.addConfigValue(clazz, field, comment, field.getName(), (long) field.get(null), rangeInt);
+                    this.addConfigValue(clazz, field, comment, field.getName(), (long) field.get(instance), rangeInt);
                 } else if (field.getType() == double.class) {
-                    this.addConfigValue(clazz, field, comment, field.getName(), (double) field.get(null), rangeDouble);
+                    this.addConfigValue(clazz, field, comment, field.getName(), (double) field.get(instance), rangeDouble);
                 } else if (field.getType() == float.class) {
-                    this.addConfigValue(clazz, field, comment, field.getName(), (float) field.get(null), rangeDouble);
+                    this.addConfigValue(clazz, field, comment, field.getName(), (float) field.get(instance), rangeDouble);
                 } else if (field.getType() == String.class) {
-                    this.<String>addConfigValue(clazz, field, comment, field.getName(), (String) field.get(null));
+                    this.<String>addConfigValue(clazz, field, comment, field.getName(), (String) field.get(instance));
                 } else {
                     builder.push(field.getName());
-                    parseFields(field.getType());
+                    parseFields(field.getType(), field.get(instance));
                     builder.pop();
                 }
             } catch (IllegalAccessException e) {

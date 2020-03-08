@@ -3,10 +3,12 @@ package alexanders.mods.auraddons.net;
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
 import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class JumpPacket {
@@ -35,10 +37,11 @@ public class JumpPacket {
         buf.writeBoolean(pkt.jumping);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void handleMessage(JumpPacket message, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             TileEntity te = null;
-            final ClientWorld world = Minecraft.getInstance().world;
+            final World world = Minecraft.getInstance().world;
             if (world != null) {
                 te = world.getTileEntity(message.pos);
             }
@@ -52,5 +55,6 @@ public class JumpPacket {
                 }
             }
         });
+        ctx.get().setPacketHandled(true);
     }
 }

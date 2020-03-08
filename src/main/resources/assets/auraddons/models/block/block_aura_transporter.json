@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "auraddons:blocks/block_aura_transporter",
+    "down": "auraddons:blocks/block_aura_transporter_top",
+    "up": "auraddons:blocks/block_aura_transporter_top",
+    "south": "#particle",
+    "north": "#particle",
+    "east": "#particle",
+    "west": "#particle"
+  }
+}

@@ -1,8 +1,10 @@
 package alexanders.mods.auraddons.init.generator;
 
 import alexanders.mods.auraddons.Constants;
+import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModItems;
 import javax.annotation.Nonnull;
+import net.minecraft.block.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -22,9 +24,12 @@ public class ItemModelGenerator extends ItemModelProvider {
             if (registryName != null) {
                 String name = registryName.getPath();
                 if (item instanceof BlockItem) {
-                    this.withExistingParent(name, this.modLoc("block/" + name));
+                    Block block = ((BlockItem) item).getBlock();
+                    if (!(block instanceof FenceBlock) && !(block instanceof FenceGateBlock) && !(block instanceof WallBlock) && !(block instanceof LadderBlock) && block != ModBlocks.auraTransporter) {
+                        this.withExistingParent(name, this.modLoc("block/" + name));
+                    }
                 } else {
-                    this.withExistingParent(name, "item/generated").texture("layer0", "item/" + name);
+                    this.withExistingParent(name, "item/generated").texture("layer0", "items/" + name);
                 }
             }
         }

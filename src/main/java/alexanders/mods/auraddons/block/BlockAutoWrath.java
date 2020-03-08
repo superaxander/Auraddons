@@ -8,6 +8,7 @@ import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
@@ -21,11 +22,17 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import static net.minecraft.block.HorizontalBlock.HORIZONTAL_FACING;
-import static net.minecraftforge.common.property.Properties.StaticProperty;
 
 public class BlockAutoWrath extends BlockContainerBase implements IVisualizable, IStateProvider {
     public BlockAutoWrath() {
         super(ModNames.BLOCK_AUTO_WRATH, Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 5.0F).notSolid());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
     
     @Nonnull
@@ -40,7 +47,8 @@ public class BlockAutoWrath extends BlockContainerBase implements IVisualizable,
 
     @Override
     public void provideState(BlockStateGenerator generator) {
-        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_AUTO_WRATH)));
+        //        generator.horizontalBlock(this, generator.modLoc());
+        //        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_AUTO_WRATH)));
     }
 
     @Override
@@ -53,7 +61,7 @@ public class BlockAutoWrath extends BlockContainerBase implements IVisualizable,
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         super.fillStateContainer(container);
-        container.add(HORIZONTAL_FACING).add(StaticProperty);
+        container.add(HORIZONTAL_FACING);
     }
 
     @Nullable

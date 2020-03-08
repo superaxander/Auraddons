@@ -1,6 +1,6 @@
 {
-    "parent": "minecraft:block/wall_post",
+  "parent": "minecraft:block/template_wall_post",
     "textures": {
-        "wall": "naturesaura:blocks/infused_stone"
+      "wall": "naturesaura:block/infused_stone"
     }
 }

@@ -27,15 +27,15 @@ public final class ModItems {
     public static Item skyBottle;
 
     public static void init() {
-        if (ModConfig.items.enableCreativeAuraCache) itemRegistry.add(new ItemCreativeAuraCache());
-        if (ModConfig.items.enableDampeningFeather) itemRegistry.add(new ItemDampeningFeather());
-        if (ModConfig.items.enableSkyFeather) itemRegistry.add(new ItemSimple(ModNames.ITEM_SKY_FEATHER) {
+        itemRegistry.add(creativeAuraCache = new ItemCreativeAuraCache());
+        itemRegistry.add(dampeningFeather = new ItemDampeningFeather());
+        itemRegistry.add(skyFeather = new ItemSimple(ModNames.ITEM_SKY_FEATHER) {
             @Override
             public boolean hasEffect(ItemStack stack) {
                 return true;
             }
         });
-        if (ModConfig.items.enableSkyBottle) itemRegistry.add(new ItemSimple(ModNames.ITEM_SKY_BOTTLE) {
+        itemRegistry.add(skyBottle = new ItemSimple(ModNames.ITEM_SKY_BOTTLE) {
             @Override
             public boolean hasEffect(ItemStack stack) {
                 return true;

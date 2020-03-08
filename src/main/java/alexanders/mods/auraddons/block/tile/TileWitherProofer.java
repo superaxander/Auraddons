@@ -43,8 +43,7 @@ public class TileWitherProofer extends TileEntity {
                         iterator.remove();
                         continue;
                     }
-                    if (!te.powered && te.pos.distanceSq(entity.getPosX(), entity.getPosY(), entity.getPosZ(), true) <= rangeSq && te
-                            .tryPrevent()) { //TODO: What does the true here do?
+                    if (!te.powered && te.pos.distanceSq(entity.getPosX(), entity.getPosY(), entity.getPosZ(), true) <= rangeSq && te.tryPrevent()) {
                         event.setResult(Event.Result.DENY);
                         return;
                     }

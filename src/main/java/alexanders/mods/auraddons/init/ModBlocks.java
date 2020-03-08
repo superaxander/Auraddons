@@ -1,6 +1,5 @@
 package alexanders.mods.auraddons.init;
 
-import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.block.*;
 import alexanders.mods.auraddons.block.tile.*;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
@@ -22,6 +20,7 @@ import static alexanders.mods.auraddons.Constants.MOD_ID;
 @ObjectHolder(MOD_ID)
 public final class ModBlocks {
     public static ArrayList<Block> blockRegistry = new ArrayList<>();
+    public static ArrayList<TileEntityType<?>> tileTypeRegistry = new ArrayList<>();
 
     @ObjectHolder(ModNames.BLOCK_AUTO_WRATH)
     public static BlockAutoWrath autoWrath;
@@ -46,62 +45,73 @@ public final class ModBlocks {
     public static Block witherProofer;
 
     public static TileEntityType<TileWitherProofer> tileWitherProofer;
-    public static TileEntityType<TilePotionEnhancer> tilePotionEnhancer;
+
+    @ObjectHolder(ModNames.BLOCK_RAINBOW_BEACON)
+    public static Block rainbowBeacon;
+
     public static TileEntityType<TileRainbowBeacon> tileRainbowBeacon;
 
+    @ObjectHolder(ModNames.BLOCK_POTION_ENHANCER)
+    public static Block potionEnhancer;
+
+    public static TileEntityType<TilePotionEnhancer> tilePotionEnhancer;
+
     public static void init() {
-        if (ModConfig.blocks.enableAutoWrath) {
-            add(autoWrath = new BlockAutoWrath());
-            registerTileEntity(TileAutoWrath.class, new ResourceLocation(MOD_ID, ModNames.TILE_AUTO_WRATH));
-            Auraddons.proxy.registerAnimationTESR(TileAutoWrath.class);
-        }
-        if (ModConfig.blocks.enableAncientFence)
-            add(new FenceBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_FENCE));
-        if (ModConfig.blocks.enableAncientFenceGate) {
-            add(ancientFenceGate = new FenceGateBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}
-                    .setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE));
-            Auraddons.proxy.ignoreState(ancientFenceGate, FenceGateBlock.POWERED);
-        }
-        if (ModConfig.blocks.enableInfusedStoneWall) add(new WallBlock(Block.Properties.create(Material.ROCK)) {
+
+        add(autoWrath = new BlockAutoWrath());
+        //noinspection ConstantConditions
+        tileTypeRegistry.add((tileAutoWrath = TileEntityType.Builder.create(TileAutoWrath::new, autoWrath).build(null)).setRegistryName(ModNames.TILE_AUTO_WRATH));
+
+
+        add(new FenceBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_FENCE));
+
+        add(ancientFenceGate = new FenceGateBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}
+                .setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE));
+
+        add(new WallBlock(Block.Properties.create(Material.ROCK)) {
             @Override
             public void fillItemGroup(ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL));
-        if (ModConfig.blocks.enableInfusedBrickWall) add(new WallBlock(Block.Properties.create(Material.ROCK)) {
+        add(new WallBlock(Block.Properties.create(Material.ROCK)) {
             @Override
             public void fillItemGroup(ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL));
-        if (ModConfig.blocks.enableGoldBrickWall) add(new WallBlock(Block.Properties.create(Material.ROCK)) {
+        add(new WallBlock(Block.Properties.create(Material.ROCK)) {
             @Override
             public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
                 items.add(new ItemStack(this));
             }
         }.setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL));
-        if (ModConfig.blocks.enableAncientLadder)
-            add(new LadderBlock(Block.Properties.create(Material.WOOD).sound(SoundType.LADDER).hardnessAndResistance(0.4F)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER));
-        if (ModConfig.blocks.enablePotionEnhancer) {
-            add(new BlockPotionEnhancer());
-            registerTileEntity(TilePotionEnhancer.class, new ResourceLocation(MOD_ID, ModNames.TILE_POTION_ENHANCER));
-        }
-        if (ModConfig.blocks.enableDisruptionCatalyst) add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
 
-        if (ModConfig.blocks.enableAuraTransporter) {
-            add(new BlockAuraTransporter());
-            registerTileEntity(TileAuraTransporter.class, new ResourceLocation(MOD_ID, ModNames.TILE_AURA_TRANSPORTER));
-        }
+        add(new LadderBlock(Block.Properties.create(Material.WOOD).sound(SoundType.LADDER).hardnessAndResistance(0.4F)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER));
 
-        if (ModConfig.blocks.enableWitherProofer) {
-            add(new BlockWitherProofer());
-            registerTileEntity(TileWitherProofer.class, new ResourceLocation(MOD_ID, ModNames.TILE_WITHER_PROOFER));
-        }
+        add(potionEnhancer = new BlockPotionEnhancer());
+        //noinspection ConstantConditions
+        tileTypeRegistry
+                .add((tilePotionEnhancer = TileEntityType.Builder.create(TilePotionEnhancer::new, potionEnhancer).build(null)).setRegistryName(ModNames.TILE_POTION_ENHANCER));
 
-        if (ModConfig.blocks.enableRainbowBeacon) {
-            add(new BlockRainbowBeacon());
-            registerTileEntity(TileRainbowBeacon.class, new ResourceLocation(MOD_ID, ModNames.TILE_RAINBOW_BEACON));
-        }
+        add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
+
+
+        add(auraTransporter = new BlockAuraTransporter());
+        //noinspection ConstantConditions
+        tileTypeRegistry
+                .add((tileAuraTransporter = TileEntityType.Builder.create(TileAuraTransporter::new, auraTransporter).build(null)).setRegistryName(ModNames.TILE_AURA_TRANSPORTER));
+
+
+        add(witherProofer = new BlockWitherProofer());
+        //noinspection ConstantConditions
+        tileTypeRegistry.add((tileWitherProofer = TileEntityType.Builder.create(TileWitherProofer::new, witherProofer).build(null)).setRegistryName(ModNames.TILE_WITHER_PROOFER));
+
+
+        add(rainbowBeacon = new BlockRainbowBeacon());
+        //noinspection ConstantConditions
+        tileTypeRegistry.add((tileRainbowBeacon = TileEntityType.Builder.create(TileRainbowBeacon::new, rainbowBeacon).build(null)).setRegistryName(ModNames.TILE_RAINBOW_BEACON));
+        
     }
 
     private static void add(Block block) {

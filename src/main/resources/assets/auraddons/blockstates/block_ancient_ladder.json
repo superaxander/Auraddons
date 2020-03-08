@@ -1,8 +1,19 @@
 {
   "variants": {
-    "facing=north": { "model": "auraddons:block_ancient_ladder" },
-    "facing=east":  { "model": "auraddons:block_ancient_ladder", "y": 90 },
-    "facing=south": { "model": "auraddons:block_ancient_ladder", "y": 180 },
-    "facing=west":  { "model": "auraddons:block_ancient_ladder", "y": 270 }
+    "facing=north": {
+      "model": "auraddons:block/block_ancient_ladder"
+    },
+    "facing=east": {
+      "model": "auraddons:block/block_ancient_ladder",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "auraddons:block/block_ancient_ladder",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "auraddons:block/block_ancient_ladder",
+      "y": 270
+    }
   }
 }

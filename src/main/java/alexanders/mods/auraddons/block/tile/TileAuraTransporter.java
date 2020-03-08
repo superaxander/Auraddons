@@ -72,7 +72,6 @@ public class TileAuraTransporter extends TileEntity implements ITickableTileEnti
         BlockPos spot = NaturesAuraAPI.instance().getLowestAuraDrainSpot(world, pos, ModConfig.aura.auraTransporterStoreRange, pos);
         IAuraChunk chunk = IAuraChunk.getAuraChunk(world, spot);
         chunk.storeAura(spot, amount);
-        System.out.println("Added " + amount + " aura");
     }
 
     @Override

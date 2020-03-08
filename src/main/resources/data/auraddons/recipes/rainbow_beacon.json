@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "GgG",
     "gbg",
@@ -10,8 +10,7 @@
       "item": "minecraft:glass"
     },
     "g": {
-      "item": "minecraft:stained_glass",
-      "data": 32767
+      "tag": "forge:stained_glass"
     },
     "b": {
       "item": "naturesaura:color_changer"

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "auraddons:block/block_potion_enhancer"
+    }
+  }
+}

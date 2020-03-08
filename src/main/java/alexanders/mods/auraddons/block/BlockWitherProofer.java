@@ -8,6 +8,7 @@ import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
@@ -26,7 +27,15 @@ public class BlockWitherProofer extends BlockContainerBase implements IVisualiza
 
     @Override
     public void provideState(BlockStateGenerator generator) {
-        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_WITHER_PROOFER)));
+        generator.simpleBlock(this, generator.models()
+                .cubeColumn(ModNames.BLOCK_WITHER_PROOFER, generator.modLoc("blocks/" + ModNames.BLOCK_WITHER_PROOFER), generator.mcLoc("block/white_wool")));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Nullable

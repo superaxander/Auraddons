@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "auraddons:blocks/block_wither_proofer",
+    "end": "block/white_wool"
+  }
+}

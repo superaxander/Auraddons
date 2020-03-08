@@ -1,14 +1,13 @@
 {
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "auraddons:blocks/steve_head",
+      "7": "auraddons:blocks/steve_head",
         "1": "auraddons:blocks/steve_head_second",
         "2": "auraddons:blocks/steve_body_first",
         "3": "auraddons:blocks/steve_body_second",
         "4": "auraddons:blocks/steve_bottom",
         "5": "auraddons:blocks/steve_arms",
-        "6": "auraddons:blocks/steve_leg",
-        "particle": "naturesaura:blocks/infused_stone"
+      "6": "auraddons:blocks/steve_leg"
     },
     "elements": [
         {
@@ -16,11 +15,20 @@
             "from": [ 7.0, 7.0, 7.0 ], 
             "to": [ 10.0, 10.0, 10.0 ], 
             "faces": {
-                "north": { "texture": "#0", "uv": [ 8.0, 8.0, 16.0, 16.0 ] },
-                "east": { "texture": "#0", "uv": [ 0.0, 8.0, 8.0, 16.0 ] },
+              "north": {
+                "texture": "#7",
+                "uv": [8.0, 8.0, 16.0, 16.0]
+              },
+              "east": {
+                "texture": "#7",
+                "uv": [0.0, 8.0, 8.0, 16.0]
+              },
                 "south": { "texture": "#1", "uv": [ 8.0, 8.0, 16.0, 16.0 ] },
                 "west": { "texture": "#1", "uv": [ 0.0, 8.0, 8.0, 16.0 ] },
-                "up": { "texture": "#0", "uv": [ 8.0, 0.0, 16.0, 8.0 ] },
+              "up": {
+                "texture": "#7",
+                "uv": [8.0, 0.0, 16.0, 8.0]
+              },
                 "down": { "texture": "#1", "uv": [ 0.0, 0.0, 8.0, 8.0 ] }
             }
         },

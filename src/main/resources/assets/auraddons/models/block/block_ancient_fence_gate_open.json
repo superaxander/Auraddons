@@ -1,6 +1,6 @@
 {
-    "parent": "minecraft:block/fence_gate_open",
+  "parent": "minecraft:block/template_fence_gate_open",
     "textures": {
-        "texture": "naturesaura:blocks/ancient_planks"
+      "texture": "naturesaura:block/ancient_planks"
     }
 }

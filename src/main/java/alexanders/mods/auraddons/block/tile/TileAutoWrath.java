@@ -26,10 +26,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.common.animation.TimeValues;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.model.animation.CapabilityAnimation;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
+import net.minecraftforge.common.property.Properties;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -47,7 +50,14 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
 
     public TileAutoWrath() {
         super(ModBlocks.tileAutoWrath);
-        asm = Auraddons.proxy.loadASM(new ResourceLocation(MOD_ID, "asms/block/block_auto_wrath_steve.json"), ImmutableMap.of("steps", steps));
+        asm = Auraddons.proxy.loadASM(new ResourceLocation(MOD_ID, "asms/block/block_auto_wrath.json"), ImmutableMap.of("steps", steps));
+
+    }
+
+    @Nonnull
+    @Override
+    public IModelData getModelData() {
+        return new ModelDataMap.Builder().withProperty(Properties.AnimationProperty).build();
     }
 
     public void startJumping() {
@@ -128,7 +138,7 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
                     }
                 }
                 if (found) {
-                    doDamage = getWorld().getGameTime() + 20;
+                    doDamage = world.getGameTime() + 20;
                     if (!jumping) {
                         jumping = true;
                         ModPackets.sendTracking(world, pos, new JumpPacket(pos, true));
@@ -158,6 +168,7 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
+    @Nonnull
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
         compound.putLong("doDamage", doDamage);

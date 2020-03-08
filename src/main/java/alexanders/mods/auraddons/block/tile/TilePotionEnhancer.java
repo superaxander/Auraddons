@@ -36,7 +36,7 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -63,7 +63,7 @@ public class TilePotionEnhancer extends TileEntity {
             e.printStackTrace();
             return;
         }
-        //        NonNullList<ItemStack> stacks = ReflectionHelper.getPrivateValue(PotionBrewEvent.class, event, "stacks");
+        //        NonNullList<ItemStack> stacks = ObfuscationReflectionHelper.getPrivateValue(PotionBrewEvent.class, event, "stacks");
         synchronized (TilePotionEnhancer.listenerList) {
             for (TilePotionEnhancer te : TilePotionEnhancer.listenerList) {
                 te.enhancePotion(stacks);
@@ -125,7 +125,8 @@ public class TilePotionEnhancer extends TileEntity {
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         assert world != null;
         TileEntity te = world.getTileEntity(pos.up());
-        if (te instanceof BrewingStandTileEntity) return te.getCapability(capability, facing);
+        if (te instanceof BrewingStandTileEntity) //noinspection ConstantConditions
+            return te.getCapability(capability, facing);
         return super.getCapability(capability, facing);
     }
 
@@ -134,14 +135,14 @@ public class TilePotionEnhancer extends TileEntity {
         TileEntity te = world.getTileEntity(pos.up());
         if (te instanceof BrewingStandTileEntity) {
             return Objects.hashCode(
-                    ReflectionHelper.<NonNullList<ItemStack>, BrewingStandTileEntity>getPrivateValue(BrewingStandTileEntity.class, (BrewingStandTileEntity) te, "field_145945_j",
-                                                                                                     "brewingItemStacks")) == hash;
+                    ObfuscationReflectionHelper.<NonNullList<ItemStack>, BrewingStandTileEntity>getPrivateValue(BrewingStandTileEntity.class, (BrewingStandTileEntity) te,
+                                                                                                                "brewingItemStacks")) == hash;
         }
         return false;
     }
 
     public void enhancePotion(NonNullList<ItemStack> brewingItemStacks) {
-        if (checkHash(Objects.hashCode(brewingItemStacks))) {
+        if (world != null && checkHash(Objects.hashCode(brewingItemStacks))) {
             if (brewingItemStacks != null) {
                 for (int i = 0; i < 3; i++) {
                     ItemStack stack = brewingItemStacks.get(i);

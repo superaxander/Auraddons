@@ -7,6 +7,8 @@ import alexanders.mods.auraddons.net.ParticlePacket;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -17,9 +19,16 @@ public class ModPackets {
 
     public static void init() {
         net = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.MOD_ID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
-        net.registerMessage(0, ParticlePacket.class, ParticlePacket::toBytes, ParticlePacket::fromBytes, ParticlePacket::handleMessage);
-        net.registerMessage(1, JumpPacket.class, JumpPacket::toBytes, JumpPacket::fromBytes, JumpPacket::handleMessage);
-        net.registerMessage(2, ConnectionPacket.class, ConnectionPacket::toBytes, ConnectionPacket::fromBytes, ConnectionPacket::handleMessage);
+        DistExecutor.runWhenOn(Dist.CLIENT, () -> () -> {
+            net.registerMessage(0, ParticlePacket.class, ParticlePacket::toBytes, ParticlePacket::fromBytes, ParticlePacket::handleMessage);
+            net.registerMessage(1, JumpPacket.class, JumpPacket::toBytes, JumpPacket::fromBytes, JumpPacket::handleMessage);
+            net.registerMessage(2, ConnectionPacket.class, ConnectionPacket::toBytes, ConnectionPacket::fromBytes, ConnectionPacket::handleMessage);
+        });
+        DistExecutor.runWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
+            net.registerMessage(0, ParticlePacket.class, ParticlePacket::toBytes, ParticlePacket::fromBytes, null);
+            net.registerMessage(1, JumpPacket.class, JumpPacket::toBytes, JumpPacket::fromBytes, null);
+            net.registerMessage(2, ConnectionPacket.class, ConnectionPacket::toBytes, ConnectionPacket::fromBytes, null);
+        });
     }
 
     public static <MSG> void sendAround(World world, BlockPos pos, int range, MSG message) {

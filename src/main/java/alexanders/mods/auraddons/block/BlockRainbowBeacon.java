@@ -19,10 +19,11 @@ public class BlockRainbowBeacon extends BlockContainerBase implements IStateProv
         super(ModNames.BLOCK_RAINBOW_BEACON, Properties.create(Material.GLASS).notSolid().hardnessAndResistance(2.0F, 5.0F));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @Nonnull
     public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
+        return BlockRenderType.MODEL;
     }
 
     @Nullable
@@ -41,6 +42,6 @@ public class BlockRainbowBeacon extends BlockContainerBase implements IStateProv
 
     @Override
     public void provideState(BlockStateGenerator generator) {
-        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_RAINBOW_BEACON)));
+        generator.simpleBlock(this, generator.models().cubeAll(ModNames.BLOCK_RAINBOW_BEACON, generator.modLoc("blocks/" + ModNames.BLOCK_RAINBOW_BEACON)));
     }
 }

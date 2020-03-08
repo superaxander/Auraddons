@@ -8,10 +8,11 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class ConnectionPacket {
-    // HAHA THIS CODE IS SHIT
     private static final long NULL_VALUE = 0xFFFFFFEFFFFFFFFFL; // Corresponds to BlockPos(-1, -1025, -1) 
 
     private BlockPos pos;
@@ -47,6 +48,7 @@ public class ConnectionPacket {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void handleMessage(ConnectionPacket message, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             World world = Minecraft.getInstance().world;

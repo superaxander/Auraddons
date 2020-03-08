@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "F F", "IBI"
   ],
@@ -8,7 +8,7 @@
       "item": "naturesaura:sky_ingot"
     },
     "F": {
-      "item": "naturesaura:sky_feather"
+      "item": "auraddons:item_sky_feather"
     },
     "B": {
       "type": "forge:nbt",
@@ -16,10 +16,10 @@
       "nbt": {
         "stored_type": "naturesaura:overworld"
       }
-    },
-    "result": {
-      "item": "auraddons:item_dampening_feather",
-      "count": 1
     }
+  },
+  "result": {
+    "item": "auraddons:item_dampening_feather",
+    "count": 1
   }
 }

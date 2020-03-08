@@ -1,31 +1,10 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "minecraft:cube",
-    "textures": {
-      "particle": "auraddons:blocks/block_aura_transporter",
-      "down": "auraddons:blocks/block_aura_transporter_top",
-      "up":   "auraddons:blocks/block_aura_transporter_top",
-      "south": "#particle",
-      "north": "#particle",
-      "east": "#particle",
-      "west": "#particle"
-    }
-  },
   "variants": {
-    "normal": [{}],
-    "sending": {
-      "true": {
-        "textures" : {
-          "south": "auraddons:blocks/block_aura_transporter_sending",
-          "north": "auraddons:blocks/block_aura_transporter_sending",
-          "east":  "auraddons:blocks/block_aura_transporter_sending",
-          "west":  "auraddons:blocks/block_aura_transporter_sending"
-        }
-      },
-      "false": {
-      }
+    "sending=false": {
+      "model": "auraddons:block/block_aura_transporter"
     },
-    "inventory": [{}]
+    "sending=true": {
+      "model": "auraddons:block/block_aura_transporter_sending"
+    }
   }
 }

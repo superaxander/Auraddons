@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
+import java.util.Optional;
 import java.util.function.Function;
 import javax.annotation.Nullable;
 import net.minecraft.client.MainWindow;
@@ -25,6 +26,8 @@ import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import top.theillusivec4.curios.api.CuriosAPI;
 
 public class ClientProxy implements IProxy {
     public static final ResourceLocation OVERLAYS = new ResourceLocation(NaturesAuraAPI.MOD_ID, "textures/gui/overlays.png");
@@ -36,7 +39,10 @@ public class ClientProxy implements IProxy {
             MainWindow window = event.getWindow();
             if (mc.player != null) {
                 ItemStack cache = ItemStack.EMPTY;
-
+                if (Auraddons.instance.curiosLoaded) {
+                    Optional<ItemStack> stack = CuriosAPI.getCurioEquipped(it -> it.getItem() == ModItems.creativeAuraCache, mc.player).map(ImmutableTriple::getRight);
+                    if (stack.isPresent()) cache = stack.get();
+                }
                 //                if (Auraddons.instance.baublesLoaded) {
                 //                    IItemHandler baubles = BaublesCompat.getItemHandler();
                 //                    for (int i = 0; i < baubles.getSlots(); i++) {
@@ -64,7 +70,7 @@ public class ClientProxy implements IProxy {
                         int x = window.getScaledWidth() / 2 - 173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29);
                         int y = window.getScaledHeight() - 8;
                         int color = it.getAuraColor();
-
+                        RenderSystem.pushMatrix();
                         RenderSystem.color4f((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 1);
                         mc.getTextureManager().bindTexture(OVERLAYS);
                         if (width < 80) AbstractGui.blit(x + width, y, width, 0, 80 - width, 6, 256, 256);

@@ -12,6 +12,7 @@ import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,6 +31,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -43,9 +45,16 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updatePostPlacement(@Nonnull BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
         this.updateRedstoneState(worldIn, currentPos);
         return stateIn;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override
@@ -54,7 +63,7 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileAuraTransporter) {
             BlockPos other = ((TileAuraTransporter) te).other;
-            if (other != null && world.isBlockLoaded(other)) {
+            if (other != null && world.isAreaLoaded(other, 0)) {
                 BlockState otherState = world.getBlockState(other);
                 boolean thisMode = stateIn.get(SENDING);
                 if (otherState.getBlock() == this && thisMode != otherState.get(SENDING)) {
@@ -76,11 +85,6 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
                 }
             }
         }
-    }
-
-    @Override
-    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
-        this.updateRedstoneState(world, pos);
     }
 
     @SuppressWarnings("deprecation")
@@ -133,8 +137,29 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     }
 
     @Override
+    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
+        this.updateRedstoneState(world, pos);
+    }
+
+    @Override
+    public int tickRate(IWorldReader worldIn) {
+        return 4;
+    }
+
+
+    @Override
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        updateRedstoneState(world, pos);
+    }
+
+    @Override
     public void provideState(BlockStateGenerator generator) {
-        generator.simpleBlock(this, generator.models().getExistingFile(generator.modLoc(ModNames.BLOCK_AURA_TRANSPORTER)));
+        //        generator.models().cubeBottomTop(ModNames.BLOCK_AURA_TRANSPORTER+"#sending=false", generator.modLoc("blocks/" + ModNames.BLOCK_AURA_TRANSPORTER),
+        //                                         generator.modLoc("blocks/" + ModNames.BLOCK_AURA_TRANSPORTER + "_top"),
+        //                                         generator.modLoc("blocks/" + ModNames.BLOCK_AURA_TRANSPORTER + "_top"));
+        //        generator.models().cubeBottomTop(ModNames.BLOCK_AURA_TRANSPORTER+"#sending=true", generator.modLoc("blocks/" + ModNames.BLOCK_AURA_TRANSPORTER+"_sending"),
+        //                                         generator.modLoc("blocks/" + ModNames.BLOCK_AURA_TRANSPORTER + "_top"),
+        //                                         generator.modLoc("blocks/" + ModNames.BLOCK_AURA_TRANSPORTER + "_top"));
     }
 
     @Nullable
@@ -145,7 +170,12 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
 
     private void updateRedstoneState(@Nonnull IWorldReader world, BlockPos pos) {
         if (!world.isRemote() && world instanceof World) {
-            ((World) world).setBlockState(pos, world.getBlockState(pos).with(SENDING, ((World) world).getRedstonePowerFromNeighbors(pos) > 0), 0);
+            final World wrld = (World) world;
+            wrld.setBlockState(pos, world.getBlockState(pos).with(SENDING, wrld.getRedstonePowerFromNeighbors(pos) > 0), 0);
+            wrld.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(world));
+            if (wrld instanceof ServerWorld) {
+                ((ServerWorld) wrld).getChunkProvider().markBlockChanged(pos);
+            }
         }
     }
 

@@ -3,8 +3,8 @@
     "step": ["/", "#steps"]
   },
   "clips": {
-    "default": "auraddons:block/block_auto_wrath_steve@default",
-    "jumping": ["apply", "auraddons:block/block_auto_wrath_steve@jumping", "#step"]
+    "default": "#identity",
+    "jumping": ["apply", "auraddons:block/block_auto_wrath@jumping", "#step"]
   },
   "states": [
     "default",
