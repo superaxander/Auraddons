@@ -147,6 +147,7 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
     public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         updateRedstoneState(world, pos);

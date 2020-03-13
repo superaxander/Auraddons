@@ -7,11 +7,13 @@ import alexanders.mods.auraddons.init.generator.ConfigBuilder;
 import alexanders.mods.auraddons.init.generator.ItemModelGenerator;
 import alexanders.mods.auraddons.init.generator.ItemTagGenerator;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
+import java.lang.reflect.Field;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,6 +40,7 @@ public class Auraddons {
 
     public boolean baublesLoaded;
     public boolean curiosLoaded;
+    public Integer cacheBarLocation = 0;
 
     public Auraddons() {
         instance = this;
@@ -104,6 +107,40 @@ public class Auraddons {
         MinecraftForge.EVENT_BUS.register(proxy);
         ModPackets.init();
 
+        try {
+            Class<?> modConfigClass = Class.forName("de.ellpeck.naturesaura.ModConfig");
+            if (modConfigClass != null) {
+                Field modConfigInstance = modConfigClass.getDeclaredField("instance");
+                if (!modConfigInstance.isAccessible()) modConfigInstance.setAccessible(true);
+                Object instance = modConfigInstance.get(null);
+                if (instance != null) {
+                    Field modConfigCacheBarLocation = modConfigClass.getDeclaredField("cacheBarLocation");
+                    if (!modConfigCacheBarLocation.isAccessible()) modConfigCacheBarLocation.setAccessible(true);
+                    Object cacheBarLocation = modConfigCacheBarLocation.get(instance);
+                    if (cacheBarLocation instanceof ForgeConfigSpec.ConfigValue) {
+                        final Object location = ((ForgeConfigSpec.ConfigValue) cacheBarLocation).get();
+                        if (location instanceof Integer) {
+                            this.cacheBarLocation = (Integer) location;
+                        } else {
+                            logger.warn(
+                                    "Can't get cacheBarLocation from NaturesAura config, defaulting to 0. You may have to update Auraddons or Nature's Aura to get this configuration option to load.");
+                        }
+                    } else {
+                        logger.warn(
+                                "Can't get cacheBarLocation from NaturesAura config, defaulting to 0. You may have to update Auraddons or Nature's Aura to get this configuration option to load.");
+                    }
+                } else {
+                    logger.warn(
+                            "Can't get cacheBarLocation from NaturesAura config, defaulting to 0. You may have to update Auraddons or Nature's Aura to get this configuration option to load.");
+                }
+            } else {
+                logger.warn(
+                        "Can't get cacheBarLocation from NaturesAura config, defaulting to 0. You may have to update Auraddons or Nature's Aura to get this configuration option to load.");
+            }
+        } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
+            logger.warn(
+                    "Can't get cacheBarLocation from NaturesAura config, defaulting to 0. You may have to update Auraddons or Nature's Aura to get this configuration option to load.");
+        }
 
         //        if (ModList.get().isLoaded("baubles")) {
         //            baublesLoaded = true;

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.systems.RenderSystem;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
+import de.ellpeck.naturesaura.items.ItemAuraCache;
 import java.util.Optional;
 import java.util.function.Function;
 import javax.annotation.Nullable;
@@ -24,6 +25,7 @@ import net.minecraftforge.common.animation.ITimeValue;
 import net.minecraftforge.common.model.animation.AnimationStateMachine;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
@@ -31,43 +33,54 @@ import top.theillusivec4.curios.api.CuriosAPI;
 
 public class ClientProxy implements IProxy {
     public static final ResourceLocation OVERLAYS = new ResourceLocation(NaturesAuraAPI.MOD_ID, "textures/gui/overlays.png");
+    private ItemStack creativeCache;
+    private ItemStack normalCache;
 
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) {
+            creativeCache = ItemStack.EMPTY;
+            normalCache = ItemStack.EMPTY;
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.world != null && mc.player != null && !mc.isGamePaused()) {
+                if (Auraddons.instance.curiosLoaded) {
+                    Optional<ItemStack> stack = CuriosAPI.getCurioEquipped(it -> it.getItem() instanceof ItemAuraCache, mc.player).map(ImmutableTriple::getRight);
+                    stack.ifPresent(itemStack -> normalCache = itemStack);
+                    if (normalCache.isEmpty()) {
+                        stack = CuriosAPI.getCurioEquipped(it -> it.getItem() == ModItems.creativeAuraCache, mc.player).map(ImmutableTriple::getRight);
+                        stack.ifPresent(itemStack -> creativeCache = itemStack);
+                    }
+                }
+
+                if (normalCache.isEmpty()) {
+                    for (int i = 0; i < mc.player.inventory.getSizeInventory(); i++) {
+                        ItemStack slot = mc.player.inventory.getStackInSlot(i);
+                        if (!slot.isEmpty()) {
+                            if (slot.getItem() instanceof ItemAuraCache) {
+                                normalCache = slot;
+                                break;
+                            } else if (slot.getItem() == ModItems.creativeAuraCache) {
+                                creativeCache = slot;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     @SubscribeEvent
     public void onOverlayRender(RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
         if (event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
             MainWindow window = event.getWindow();
             if (mc.player != null) {
-                ItemStack cache = ItemStack.EMPTY;
-                if (Auraddons.instance.curiosLoaded) {
-                    Optional<ItemStack> stack = CuriosAPI.getCurioEquipped(it -> it.getItem() == ModItems.creativeAuraCache, mc.player).map(ImmutableTriple::getRight);
-                    if (stack.isPresent()) cache = stack.get();
-                }
-                //                if (Auraddons.instance.baublesLoaded) {
-                //                    IItemHandler baubles = BaublesCompat.getItemHandler();
-                //                    for (int i = 0; i < baubles.getSlots(); i++) {
-                //                        ItemStack slot = baubles.getStackInSlot(i);
-                //                        if (!slot.isEmpty()) {
-                //                            if (slot.getItem() == ModItems.creativeAuraCache) cache = slot;
-                //                        }
-                //                    }
-                //                }
-
-                if (cache.isEmpty()) {
-                    for (int i = 0; i < mc.player.inventory.getSizeInventory(); i++) {
-                        ItemStack slot = mc.player.inventory.getStackInSlot(i);
-                        if (!slot.isEmpty()) {
-                            if (slot.getItem() == ModItems.creativeAuraCache) cache = slot;
-                        }
-                    }
-                }
-
-                if (!cache.isEmpty()) {
-                    LazyOptional<IAuraContainer> container = cache.getCapability(NaturesAuraAPI.capAuraContainer, null);
-                    ItemStack finalCache = cache;
+                if (normalCache.isEmpty() && !creativeCache.isEmpty()) {
+                    LazyOptional<IAuraContainer> container = creativeCache.getCapability(NaturesAuraAPI.capAuraContainer, null);
+                    ItemStack finalCache = creativeCache;
                     container.ifPresent(it -> {
                         int width = MathHelper.ceil(it.getStoredAura() / (float) it.getMaxAura() * 80);
-                        int x = window.getScaledWidth() / 2 - 173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29);
+                        int x = window.getScaledWidth() / 2 + (Auraddons.instance.cacheBarLocation == 0 ? -173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29) : 93);
                         int y = window.getScaledHeight() - 8;
                         int color = it.getAuraColor();
                         RenderSystem.pushMatrix();
@@ -79,7 +92,8 @@ public class ClientProxy implements IProxy {
                         float scale = 0.75F;
                         RenderSystem.scalef(scale, scale, scale);
                         String s = finalCache.getDisplayName().getFormattedText();
-                        mc.fontRenderer.drawStringWithShadow(s, (x + 80) / scale - mc.fontRenderer.getStringWidth(s), (y - 7) / scale, color);
+                        mc.fontRenderer.drawStringWithShadow(s, Auraddons.instance.cacheBarLocation == 1 ? x / scale : (x + 80) / scale - mc.fontRenderer.getStringWidth(s),
+                                                             (y - 7) / scale, color);
 
                         RenderSystem.color4f(1F, 1F, 1F, 1);
                         RenderSystem.popMatrix();

@@ -125,8 +125,11 @@ public class TilePotionEnhancer extends TileEntity {
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         assert world != null;
         TileEntity te = world.getTileEntity(pos.up());
-        if (te instanceof BrewingStandTileEntity) //noinspection ConstantConditions
-            return te.getCapability(capability, facing);
+        if (te instanceof BrewingStandTileEntity) {
+            final LazyOptional<T> capability1 = te.getCapability(capability, facing);
+            if (capability1 != null) return capability1.cast();
+            else return LazyOptional.empty();
+        }
         return super.getCapability(capability, facing);
     }
 
