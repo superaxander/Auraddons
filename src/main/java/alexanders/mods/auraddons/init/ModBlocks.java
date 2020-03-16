@@ -70,16 +70,16 @@ public final class ModBlocks {
         add(ancientFenceGate = new FenceGateBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}
                 .setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE));
 
-        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL));
-        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL));
-        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL));
-        add(new StairsBlock(() -> goldBrick.getDefaultState(), Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_STAIRS));
-        add(new SlabBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_SLAB));
-        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_WALL));
-        add(new StairsBlock(() -> goldNetherBrick.getDefaultState(), Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_STAIRS));
-        add(new SlabBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_SLAB));
+        add(new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL));
+        add(new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL));
+        add(new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL));
+        add(new StairsBlock(() -> goldBrick.getDefaultState(), Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_STAIRS));
+        add(new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_SLAB));
+        add(new WallBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_WALL));
+        add(new StairsBlock(() -> goldNetherBrick.getDefaultState(), Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_STAIRS));
+        add(new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_SLAB));
 
-        add(new LadderBlock(Block.Properties.create(Material.WOOD).sound(SoundType.LADDER).hardnessAndResistance(0.4F)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER));
+        add(new LadderBlock(Block.Properties.from(Blocks.LADDER)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER));
 
         add(potionEnhancer = new BlockPotionEnhancer());
         //noinspection ConstantConditions

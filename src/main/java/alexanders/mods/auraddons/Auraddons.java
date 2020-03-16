@@ -2,10 +2,7 @@ package alexanders.mods.auraddons;
 
 import alexanders.mods.auraddons.aura.NetherDegradeEffect;
 import alexanders.mods.auraddons.init.*;
-import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
-import alexanders.mods.auraddons.init.generator.ConfigBuilder;
-import alexanders.mods.auraddons.init.generator.ItemModelGenerator;
-import alexanders.mods.auraddons.init.generator.ItemTagGenerator;
+import alexanders.mods.auraddons.init.generator.*;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import java.lang.reflect.Field;
 import net.minecraft.block.Block;
@@ -89,6 +86,7 @@ public class Auraddons {
         generator.addProvider(new BlockStateGenerator(generator, ex));
         generator.addProvider(new ItemModelGenerator(generator, ex));
         generator.addProvider(new ItemTagGenerator(generator));
+        generator.addProvider(new BlockLootGenerator(generator));
     }
 
     @SubscribeEvent

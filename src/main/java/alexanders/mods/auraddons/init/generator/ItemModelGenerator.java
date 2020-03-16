@@ -25,7 +25,7 @@ public class ItemModelGenerator extends ItemModelProvider {
                 String name = registryName.getPath();
                 if (item instanceof BlockItem) {
                     Block block = ((BlockItem) item).getBlock();
-                    if (!(block instanceof FenceBlock) && !(block instanceof FenceGateBlock) && !(block instanceof WallBlock) && !(block instanceof LadderBlock) && block != ModBlocks.auraTransporter) {
+                    if (!(block instanceof FenceBlock) && !(block instanceof FenceGateBlock) && !(block instanceof WallBlock) && !(block instanceof LadderBlock) && !(block instanceof SlabBlock) && !(block instanceof StairsBlock) && block != ModBlocks.auraTransporter) {
                         this.withExistingParent(name, this.modLoc("block/" + name));
                     }
                 } else {
@@ -38,6 +38,6 @@ public class ItemModelGenerator extends ItemModelProvider {
     @Override
     @Nonnull
     public String getName() {
-        return "Auraddons Item Models";
+        return "Item Models";
     }
 }
