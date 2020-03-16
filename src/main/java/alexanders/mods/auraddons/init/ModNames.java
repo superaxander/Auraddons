@@ -7,6 +7,11 @@ public final class ModNames {
     public static final String BLOCK_INFUSED_STONE_WALL = "block_infused_stone_wall";
     public static final String BLOCK_INFUSED_BRICK_WALL = "block_infused_brick_wall";
     public static final String BLOCK_GOLD_BRICK_WALL = "block_gold_brick_wall";
+    public static final String BLOCK_GOLD_BRICK_STAIRS = "block_gold_brick_stairs";
+    public static final String BLOCK_GOLD_BRICK_SLAB = "block_gold_brick_slab";
+    public static final String BLOCK_GOLD_NETHER_BRICK_WALL = "block_gold_nether_brick_wall";
+    public static final String BLOCK_GOLD_NETHER_BRICK_STAIRS = "block_gold_nether_brick_stairs";
+    public static final String BLOCK_GOLD_NETHER_BRICK_SLAB = "block_gold_nether_brick_slab";
     public static final String BLOCK_ANCIENT_LADDER = "block_ancient_ladder";
     public static final String BLOCK_FREEZER = "block_freezer";
     public static final String BLOCK_AURA_TRANSPORTER = "block_aura_transporter";

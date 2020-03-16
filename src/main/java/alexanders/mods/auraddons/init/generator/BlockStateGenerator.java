@@ -20,7 +20,7 @@ public class BlockStateGenerator extends BlockStateProvider {
                 ((IStateProvider) block).provideState(this);
             } else if (block == ModBlocks.disruptionCatalyst) { //TODO: Give this its own class
                 this.simpleBlock(block, this.models().cubeAll(ModNames.BLOCK_DISRUPTION_CATALYST, modLoc("blocks/" + ModNames.BLOCK_DISRUPTION_CATALYST)));
-            } else if (!(block instanceof FenceBlock || block instanceof FenceGateBlock || block instanceof WallBlock || block instanceof LadderBlock)) { //TODO: Make sure these are in a different registry or something because it seems quite ridiculous to do this for each block
+            } else if (!(block instanceof FenceBlock || block instanceof FenceGateBlock || block instanceof WallBlock || block instanceof LadderBlock || block instanceof StairsBlock || block instanceof SlabBlock)) { //TODO: Make sure these are in a different registry or something because it seems quite ridiculous to do this for each block
                 this.simpleBlock(block);
             }
         }

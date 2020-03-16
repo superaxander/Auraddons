@@ -4,15 +4,11 @@ import alexanders.mods.auraddons.block.*;
 import alexanders.mods.auraddons.block.tile.*;
 import java.util.ArrayList;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.NonNullList;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
@@ -21,6 +17,12 @@ import static alexanders.mods.auraddons.Constants.MOD_ID;
 public final class ModBlocks {
     public static ArrayList<Block> blockRegistry = new ArrayList<>();
     public static ArrayList<TileEntityType<?>> tileTypeRegistry = new ArrayList<>();
+
+    @ObjectHolder("naturesaura:gold_brick")
+    public static Block goldBrick;
+
+    @ObjectHolder("naturesaura:gold_nether_brick")
+    public static Block goldNetherBrick;
 
     @ObjectHolder(ModNames.BLOCK_AUTO_WRATH)
     public static BlockAutoWrath autoWrath;
@@ -68,24 +70,14 @@ public final class ModBlocks {
         add(ancientFenceGate = new FenceGateBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}
                 .setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE));
 
-        add(new WallBlock(Block.Properties.create(Material.ROCK)) {
-            @Override
-            public void fillItemGroup(ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
-                items.add(new ItemStack(this));
-            }
-        }.setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL));
-        add(new WallBlock(Block.Properties.create(Material.ROCK)) {
-            @Override
-            public void fillItemGroup(ItemGroup group, @Nonnull NonNullList<ItemStack> items) {
-                items.add(new ItemStack(this));
-            }
-        }.setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL));
-        add(new WallBlock(Block.Properties.create(Material.ROCK)) {
-            @Override
-            public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-                items.add(new ItemStack(this));
-            }
-        }.setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL));
+        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL));
+        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL));
+        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL));
+        add(new StairsBlock(() -> goldBrick.getDefaultState(), Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_STAIRS));
+        add(new SlabBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_SLAB));
+        add(new WallBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_WALL));
+        add(new StairsBlock(() -> goldNetherBrick.getDefaultState(), Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_STAIRS));
+        add(new SlabBlock(Block.Properties.create(Material.ROCK)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_SLAB));
 
         add(new LadderBlock(Block.Properties.create(Material.WOOD).sound(SoundType.LADDER).hardnessAndResistance(0.4F)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER));
 
@@ -111,7 +103,7 @@ public final class ModBlocks {
         add(rainbowBeacon = new BlockRainbowBeacon());
         //noinspection ConstantConditions
         tileTypeRegistry.add((tileRainbowBeacon = TileEntityType.Builder.create(TileRainbowBeacon::new, rainbowBeacon).build(null)).setRegistryName(ModNames.TILE_RAINBOW_BEACON));
-        
+
     }
 
     private static void add(Block block) {

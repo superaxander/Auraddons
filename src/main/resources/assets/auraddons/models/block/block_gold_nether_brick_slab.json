@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab",
+    "textures": {
+        "bottom": "naturesaura:block/gold_nether_brick",
+        "top": "naturesaura:block/gold_nether_brick",
+        "side": "naturesaura:block/gold_nether_brick"
+    }
+}

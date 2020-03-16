@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "auraddons:block/block_gold_brick_slab"
+        },
+        "type=top": {
+            "model": "auraddons:block/block_gold_brick_slab_top"
+        },
+        "type=double": {
+            "model": "naturesaura:block/gold_brick"
+        }
+    }
+}
