@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    "auraddons:block_gold_brick_wall", "auraddons:block_gold_nether_brick_wall", "auraddons:block_infused_brick_wall", "auraddons:block_infused_stone_wall"
+  ]
+}

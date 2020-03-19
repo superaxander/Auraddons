@@ -1,0 +1,35 @@
+{
+  "parent": "auraddons:recipes/root",
+  "rewards": {
+    "recipes": [
+      "auraddons:potion_enhancer"
+    ]
+  },
+  "criteria": {
+    "has_items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:logs"
+          }, {
+            "item": "minecraft:brewing_stand"
+          }, {
+            "item": "auraddons:item_sky_bottle"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "auraddons:potion_enhancer"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_items", "has_the_recipe"
+    ]
+  ]
+}

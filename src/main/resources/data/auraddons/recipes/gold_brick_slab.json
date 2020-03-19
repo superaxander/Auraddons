@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "naturesaura:gold_brick"
+    }
+  },
+  "result": {
+    "item": "auraddons:block_gold_brick_slab",
+    "count": 3
+  }
+}

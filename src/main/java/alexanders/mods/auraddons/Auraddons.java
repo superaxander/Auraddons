@@ -86,6 +86,7 @@ public class Auraddons {
         generator.addProvider(new BlockStateGenerator(generator, ex));
         generator.addProvider(new ItemModelGenerator(generator, ex));
         generator.addProvider(new ItemTagGenerator(generator));
+        generator.addProvider(new BlockTagGenerator(generator));
         generator.addProvider(new BlockLootGenerator(generator));
     }
 

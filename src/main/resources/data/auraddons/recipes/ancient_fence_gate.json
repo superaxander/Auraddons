@@ -13,7 +13,6 @@
     }
   },
   "result": {
-    "item": "auraddons:block_ancient_fence_gate",
-    "count": 3
+    "item": "auraddons:block_ancient_fence_gate"
   }
 }

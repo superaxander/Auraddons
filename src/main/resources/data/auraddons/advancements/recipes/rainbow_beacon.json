@@ -1,0 +1,35 @@
+{
+  "parent": "auraddons:recipes/root",
+  "rewards": {
+    "recipes": [
+      "auraddons:rainbow_beacon"
+    ]
+  },
+  "criteria": {
+    "has_items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:glass"
+          }, {
+            "tag": "forge:stained_glass"
+          }, {
+            "item": "naturesaura:color_changer"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "auraddons:rainbow_beacon"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_items", "has_the_recipe"
+    ]
+  ]
+}

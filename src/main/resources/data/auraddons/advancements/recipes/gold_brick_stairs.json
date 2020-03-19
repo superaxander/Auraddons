@@ -1,0 +1,31 @@
+{
+  "parent": "auraddons:recipes/root",
+  "rewards": {
+    "recipes": [
+      "auraddons:gold_brick_stairs"
+    ]
+  },
+  "criteria": {
+    "has_items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "naturesaura:gold_brick"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "auraddons:gold_brick_stairs"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_items", "has_the_recipe"
+    ]
+  ]
+}

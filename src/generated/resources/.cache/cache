@@ -34,3 +34,8 @@ edc075b41e425b1e02538476516f2f9e4dd9def3 data\auraddons\loot_tables\blocks\block
 100cdb59b4d8215a384e043d60869e13cebcb6ad data\auraddons\loot_tables\blocks\block_wither_proofer.json
 aeb35e1992e931589181ea402a68e10ab1691dd9 data\curios\tags\items\belt.json
 17b2372ccfdd2844a1f690222716b5dfc14015ae data\curios\tags\items\ring.json
+825a7f0b5b237f64a9696dfd71b333eab688ec2e data\minecraft\tags\blocks\fences.json
+0dcdfc062120da5db432a2677c56e55ea5ecd110 data\minecraft\tags\blocks\slabs.json
+29df501250628b2d791f0c06af2754b813afd9d3 data\minecraft\tags\blocks\stairs.json
+af321264838d89abf17fbac178a9839d6bd1acc7 data\minecraft\tags\blocks\walls.json
+825a7f0b5b237f64a9696dfd71b333eab688ec2e data\minecraft\tags\blocks\wooden_fences.json

@@ -1,0 +1,35 @@
+{
+  "parent": "auraddons:recipes/root",
+  "rewards": {
+    "recipes": [
+      "auraddons:dampening_feather"
+    ]
+  },
+  "criteria": {
+    "has_items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "naturesaura:sky_ingot"
+          }, {
+            "item": "auraddons:item_sky_feather"
+          }, {
+            "item": "naturesaura:aura_bottle"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "auraddons:dampening_feather"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_items", "has_the_recipe"
+    ]
+  ]
+}
