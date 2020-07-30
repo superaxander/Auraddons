@@ -1,0 +1,31 @@
+{
+  "type": "naturesaura:tree_ritual",
+  "ingredients": [
+    {
+      "item": "minecraft:tnt"
+    },
+    {
+      "item": "naturesaura:infused_stone"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "naturesaura:sky_ingot"
+    },
+    {
+      "item": "naturesaura:gold_leaf"
+    },
+    {
+      "item": "minecraft:tnt"
+    }
+  ],
+  "sapling": {
+    "item": "minecraft:birch_sapling"
+  },
+  "output": {
+    "item": "auraddons:block_disruption_catalyst",
+    "count": 1
+  },
+  "time": 600
+}

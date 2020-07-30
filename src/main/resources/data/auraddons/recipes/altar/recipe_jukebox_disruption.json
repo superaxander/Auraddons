@@ -1,0 +1,16 @@
+{
+  "type": "naturesaura:altar",
+  "input": {
+    "item": "minecraft:jukebox"
+  },
+  "output": {
+    "item": "minecraft:diamond",
+    "count": 1
+  },
+  "aura_type": "naturesaura:overworld",
+  "catalyst": {
+    "item": "auraddons:block_disruption_catalyst"
+  },
+  "aura": 150,
+  "time": 100
+}

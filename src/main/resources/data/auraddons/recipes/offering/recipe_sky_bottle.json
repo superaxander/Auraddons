@@ -1,0 +1,15 @@
+{
+  "type": "naturesaura:offering",
+  "input": {
+    "type": "forge:nbt",
+    "item": "naturesaura:aura_bottle",
+    "count": 3,
+    "nbt": "{stored_type:\"naturesaura:overworld\"}"
+  },
+  "start_item": {
+    "item": "naturesaura:calling_spirit"
+  },
+  "output": {
+    "item": "auraddons:item_sky_bottle"
+  }
+}

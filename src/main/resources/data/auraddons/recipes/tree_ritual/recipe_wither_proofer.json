@@ -1,0 +1,37 @@
+{
+  "type": "naturesaura:tree_ritual",
+  "ingredients": [
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "minecraft:obsidian"
+    },
+    {
+      "item": "naturesaura:sky_ingot"
+    },
+    {
+      "item": "naturesaura:sky_ingot"
+    },
+    {
+      "item": "minecraft:nether_star"
+    }
+  ],
+  "sapling": {
+    "item": "minecraft:birch_sapling"
+  },
+  "output": {
+    "item": "auraddons:block_wither_proofer",
+    "count": 1
+  },
+  "time": 800
+}

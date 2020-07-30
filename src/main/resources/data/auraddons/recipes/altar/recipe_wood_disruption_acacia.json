@@ -1,0 +1,16 @@
+{
+  "type": "naturesaura:altar",
+  "input": {
+    "item": "minecraft:acacia_log"
+  },
+  "output": {
+    "item": "minecraft:acacia_planks",
+    "count": 5
+  },
+  "aura_type": "naturesaura:overworld",
+  "catalyst": {
+    "item": "auraddons:block_disruption_catalyst"
+  },
+  "aura": 150,
+  "time": 150
+}

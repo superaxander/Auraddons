@@ -1,0 +1,16 @@
+{
+  "type": "naturesaura:altar",
+  "input": {
+    "item": "minecraft:brown_concrete"
+  },
+  "output": {
+    "item": "minecraft:brown_concrete_powder",
+    "count": 1
+  },
+  "aura_type": "naturesaura:overworld",
+  "catalyst": {
+    "item": "auraddons:block_disruption_catalyst"
+  },
+  "aura": 100,
+  "time": 50
+}

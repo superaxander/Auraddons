@@ -1,0 +1,16 @@
+{
+  "type": "naturesaura:altar",
+  "input": {
+    "item": "minecraft:sugar_cane"
+  },
+  "output": {
+    "item": "minecraft:sugar",
+    "count": 2
+  },
+  "aura_type": "naturesaura:overworld",
+  "catalyst": {
+    "item": "auraddons:block_disruption_catalyst"
+  },
+  "aura": 100,
+  "time": 50
+}

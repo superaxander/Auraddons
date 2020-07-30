@@ -1,0 +1,43 @@
+{
+  "type": "naturesaura:tree_ritual",
+  "ingredients": [
+    {
+      "item": "naturesaura:infused_stone"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "naturesaura:aura_bottle",
+      "count": 1,
+      "nbt": "{stored_type:\"naturesaura:nether\"}"
+    },
+    {
+      "item": "naturesaura:infused_stone"
+    },
+    {
+      "item": "naturesaura:infused_iron"
+    },
+    {
+      "item": "naturesaura:shockwave_creator"
+    },
+    {
+      "item": "naturesaura:infused_iron"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "naturesaura:aura_bottle",
+      "count": 1,
+      "nbt": "{stored_type:\"naturesaura:nether\"}"
+    },
+    {
+      "item": "naturesaura:infused_stone"
+    }
+  ],
+  "sapling": {
+    "item": "minecraft:acacia_sapling"
+  },
+  "output": {
+    "item": "auraddons:block_auto_wrath",
+    "count": 1
+  },
+  "time": 800
+}

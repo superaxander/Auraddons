@@ -110,9 +110,9 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.15.2-31.0.14'
-    compile "de.ellpeck.naturesaura:NaturesAura:23.2.35"
+    compile "de.ellpeck.naturesaura:NaturesAura:28.4.116"
     compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.15.1:6.0.0.4")
-    compile fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.1-25.16")
+    compile fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.2-32.160")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-1.15.2-2.0-beta2")
     compileOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-1.15.2-2.0-beta2:api")
 

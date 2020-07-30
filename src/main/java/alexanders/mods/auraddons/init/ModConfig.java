@@ -13,18 +13,6 @@ public class ModConfig {
         @Config.Comment("Enables degrading nether blocks into soulsand when aura runs out")
         public boolean enableNetherDegradeEffect = true;
 
-        @Config.RangeInt(min = 0)
-        public int autoWrathRitualTime = 800;
-        @Config.RangeInt(min = 0)
-        public int auraTransporterRitualTime = 500;
-        @Config.RangeInt(min = 0)
-        public int disruptionCatalystRitualTime = 600;
-        @Config.RangeInt(min = 0)
-        public int witherProoferRitualTime = 800;
-
-        @Config.RangeInt(min = 0)
-        //        public int witherSpawnerTime = 200;
-
         @Config.RangeDouble(min = 0)
         public double witherProoferRange = 20;
         
@@ -53,7 +41,5 @@ public class ModConfig {
         public int auraTransporterAuraAmount = 100000;
         @Config.RangeDouble(min = 0, max = 1)
         public double auraTransporterAuraMultiplierPerBlock = 0.99;
-        //        @Config.RangeInt(min = 0)
-        //        public int witherSpawnerCost = 200000;
     }
 }

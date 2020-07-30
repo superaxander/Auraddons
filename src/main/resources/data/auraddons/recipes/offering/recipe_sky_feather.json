@@ -1,0 +1,12 @@
+{
+  "type": "naturesaura:offering",
+  "input": {
+    "item": "minecraft:feather"
+  },
+  "start_item": {
+    "item": "naturesaura:calling_spirit"
+  },
+  "output": {
+    "item": "auraddons:item_sky_feather"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "naturesaura:tree_ritual",
+  "ingredients": [
+    {
+      "item": "naturesaura:sky_ingot"
+    },
+    {
+      "item": "minecraft:iron_bars"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "naturesaura:aura_bottle",
+      "count": 1,
+      "nbt": "{stored_type:\"naturesaura:end\"}"
+    },
+    {
+      "item": "naturesaura:sky_ingot"
+    },
+    {
+      "item": "minecraft:iron_bars"
+    },
+    {
+      "item": "naturesaura:sky_ingot"
+    },
+    {
+      "item": "minecraft:iron_bars"
+    }
+  ],
+  "sapling": {
+    "item": "naturesaura:ancient_sapling"
+  },
+  "output": {
+    "item": "auraddons:block_aura_transporter",
+    "count": 1
+  },
+  "time": 500
+}

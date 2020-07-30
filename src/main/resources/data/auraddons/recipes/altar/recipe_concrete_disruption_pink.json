@@ -1,0 +1,16 @@
+{
+  "type": "naturesaura:altar",
+  "input": {
+    "item": "minecraft:pink_concrete"
+  },
+  "output": {
+    "item": "minecraft:pink_concrete_powder",
+    "count": 1
+  },
+  "aura_type": "naturesaura:overworld",
+  "catalyst": {
+    "item": "auraddons:block_disruption_catalyst"
+  },
+  "aura": 100,
+  "time": 50
+}
