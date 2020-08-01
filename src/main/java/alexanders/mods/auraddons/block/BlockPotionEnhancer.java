@@ -5,8 +5,6 @@ import alexanders.mods.auraddons.init.ModNames;
 import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
 import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -16,6 +14,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class BlockPotionEnhancer extends BlockContainerBase implements IStateProvider, IVisualizable {
     public BlockPotionEnhancer() {
         super(ModNames.BLOCK_POTION_ENHANCER, Material.WOOD);
@@ -24,7 +25,7 @@ public class BlockPotionEnhancer extends BlockContainerBase implements IStatePro
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nullable BlockState state) {
         return BlockRenderType.MODEL;
     }
 

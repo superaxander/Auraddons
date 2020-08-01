@@ -3,9 +3,6 @@ package alexanders.mods.auraddons.block.tile;
 import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.annotation.Nonnull;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -15,6 +12,10 @@ import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -53,14 +54,14 @@ public class TileWitherProofer extends TileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         powered = compound.getBoolean("powered");
     }
 
     @Override
     @Nonnull
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putBoolean("powered", powered);
         return compound;

@@ -3,12 +3,6 @@ package alexanders.mods.auraddons.init.generator;
 import alexanders.mods.auraddons.init.ModBlocks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
@@ -20,10 +14,17 @@ import net.minecraft.world.storage.loot.LootParameterSets;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraft.world.storage.loot.LootTableManager;
 
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
 public class BlockLootGenerator implements IDataProvider {
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
     private final DataGenerator dataGenerator;
-    private final Map<Block, Function<Block, LootTable.Builder>> lootFunctions = new HashMap();
+    private final Map<Block, Function<Block, LootTable.Builder>> lootFunctions = new HashMap<>();
 
     public BlockLootGenerator(DataGenerator dataGeneratorIn) {
         this.dataGenerator = dataGeneratorIn;

@@ -1,12 +1,13 @@
 package alexanders.mods.auraddons.init.generator;
 
 import alexanders.mods.auraddons.init.ModConfig;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.ModLoadingContext;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
 
 import static net.minecraftforge.fml.config.ModConfig.Type.COMMON;
 
@@ -23,6 +24,7 @@ public class ConfigBuilder {
         ModLoadingContext.get().registerConfig(COMMON, builder.build());
     }
 
+    @SuppressWarnings("RedundantCast")
     public static void updateFields() {
         for (Class<?> clazz : values.keySet()) {
             final Map<Field, ForgeConfigSpec.ConfigValue<?>> classValues = values.get(clazz);
@@ -49,6 +51,7 @@ public class ConfigBuilder {
         }
     }
 
+    @SuppressWarnings("RedundantTypeArguments")
     private void parseFields(Class<?> clazz, Object instance) {
         values.put(clazz, new HashMap<>());
         instances.put(clazz, instance);

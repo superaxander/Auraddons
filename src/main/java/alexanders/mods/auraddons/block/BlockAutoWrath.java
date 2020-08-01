@@ -5,8 +5,6 @@ import alexanders.mods.auraddons.init.ModNames;
 import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
 import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -21,6 +19,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import static net.minecraft.block.HorizontalBlock.HORIZONTAL_FACING;
 
 public class BlockAutoWrath extends BlockContainerBase implements IVisualizable, IStateProvider {
@@ -31,7 +32,7 @@ public class BlockAutoWrath extends BlockContainerBase implements IVisualizable,
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nullable BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
     
@@ -59,7 +60,7 @@ public class BlockAutoWrath extends BlockContainerBase implements IVisualizable,
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> container) {
         super.fillStateContainer(container);
         container.add(HORIZONTAL_FACING);
     }

@@ -112,22 +112,17 @@ public class Auraddons {
 
         try {
             Class<?> modConfigClass = Class.forName("de.ellpeck.naturesaura.ModConfig");
-            if (modConfigClass != null) {
-                Field modConfigInstance = modConfigClass.getDeclaredField("instance");
-                if (!modConfigInstance.isAccessible()) modConfigInstance.setAccessible(true);
-                Object instance = modConfigInstance.get(null);
-                if (instance != null) {
-                    Field modConfigCacheBarLocation = modConfigClass.getDeclaredField("cacheBarLocation");
-                    if (!modConfigCacheBarLocation.isAccessible()) modConfigCacheBarLocation.setAccessible(true);
-                    Object cacheBarLocation = modConfigCacheBarLocation.get(instance);
-                    if (cacheBarLocation instanceof ForgeConfigSpec.ConfigValue) {
-                        final Object location = ((ForgeConfigSpec.ConfigValue) cacheBarLocation).get();
-                        if (location instanceof Integer) {
-                            this.cacheBarLocation = (Integer) location;
-                        } else {
-                            logger.warn(
-                                    "Can't get cacheBarLocation from NaturesAura config, defaulting to 0. You may have to update Auraddons or Nature's Aura to get this configuration option to load.");
-                        }
+            Field modConfigInstance = modConfigClass.getDeclaredField("instance");
+            if (!modConfigInstance.isAccessible()) modConfigInstance.setAccessible(true);
+            Object instance = modConfigInstance.get(null);
+            if (instance != null) {
+                Field modConfigCacheBarLocation = modConfigClass.getDeclaredField("cacheBarLocation");
+                if (!modConfigCacheBarLocation.isAccessible()) modConfigCacheBarLocation.setAccessible(true);
+                Object cacheBarLocation = modConfigCacheBarLocation.get(instance);
+                if (cacheBarLocation instanceof ForgeConfigSpec.ConfigValue) {
+                    @SuppressWarnings("rawtypes") final Object location = ((ForgeConfigSpec.ConfigValue) cacheBarLocation).get();
+                    if (location instanceof Integer) {
+                        this.cacheBarLocation = (Integer) location;
                     } else {
                         logger.warn(
                                 "Can't get cacheBarLocation from NaturesAura config, defaulting to 0. You may have to update Auraddons or Nature's Aura to get this configuration option to load.");

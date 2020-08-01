@@ -10,9 +10,6 @@ import com.google.common.collect.ImmutableMap;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import de.ellpeck.naturesaura.api.aura.type.IAuraType;
-import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -37,6 +34,10 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -161,7 +162,7 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         doDamage = compound.getLong("doDamage");
         cooldown = compound.getInt("cooldown");
@@ -169,7 +170,7 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
 
     @Override
     @Nonnull
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putLong("doDamage", doDamage);
         compound.putInt("cooldown", cooldown);

@@ -6,8 +6,6 @@ import alexanders.mods.auraddons.init.ModNames;
 import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
 import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
@@ -20,6 +18,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class BlockWitherProofer extends BlockContainerBase implements IVisualizable, IStateProvider {
     public BlockWitherProofer() {
         super(ModNames.BLOCK_WITHER_PROOFER, Material.WOOL);
@@ -28,13 +29,14 @@ public class BlockWitherProofer extends BlockContainerBase implements IVisualiza
     @Override
     public void provideState(BlockStateGenerator generator) {
         generator.simpleBlock(this, generator.models()
-                .cubeColumn(ModNames.BLOCK_WITHER_PROOFER, generator.modLoc("blocks/" + ModNames.BLOCK_WITHER_PROOFER), generator.mcLoc("block/white_wool")));
+                .cubeColumn(ModNames.BLOCK_WITHER_PROOFER, generator.modLoc("blocks/" + ModNames.BLOCK_WITHER_PROOFER),
+                        generator.mcLoc("block/white_wool")));
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nullable BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -50,7 +52,8 @@ public class BlockWitherProofer extends BlockContainerBase implements IVisualiza
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nullable BlockState state,
+                                @Nullable LivingEntity placer, @Nullable ItemStack stack) {
         this.updateRedstoneState(world, pos);
     }
 

@@ -8,9 +8,6 @@ import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
 import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
-import java.util.Random;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -35,8 +32,12 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Random;
+
 public class BlockAuraTransporter extends BlockContainerBase implements IVisualizable, IStateProvider {
-    public static BooleanProperty SENDING = BooleanProperty.create("sending");
+    public static final BooleanProperty SENDING = BooleanProperty.create("sending");
 
     public BlockAuraTransporter() {
         super(ModNames.BLOCK_AURA_TRANSPORTER, Material.ROCK);
@@ -45,7 +46,9 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public BlockState updatePostPlacement(@Nonnull BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updatePostPlacement(@Nonnull BlockState stateIn, @Nullable Direction facing,
+                                          @Nullable BlockState facingState, @Nonnull IWorld worldIn,
+                                          @Nonnull BlockPos currentPos, @Nullable BlockPos facingPos) {
         this.updateRedstoneState(worldIn, currentPos);
         return stateIn;
     }
@@ -53,13 +56,14 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nullable BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState stateIn, World world, BlockPos pos, Random rand) {
+    public void animateTick(@Nonnull BlockState stateIn, @Nonnull World world, @Nonnull BlockPos pos,
+                            @Nonnull Random rand) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileAuraTransporter) {
             BlockPos other = ((TileAuraTransporter) te).other;
@@ -69,10 +73,13 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
                 if (otherState.getBlock() == this && thisMode != otherState.get(SENDING)) {
                     if (thisMode) {
                         for (int i = 0; i < 5; i++) {
-                            NaturesAuraAPI.instance().spawnParticleStream(pos.getX() + 0.25F + rand.nextFloat() * 0.5F, pos.getY() + 0.25F + rand.nextFloat() * 0.5F,
-                                                                          pos.getZ() + 0.25F + rand.nextFloat() * 0.5F, other.getX() + 0.25F + rand.nextFloat() * 0.5F,
-                                                                          other.getY() + 0.25F + rand.nextFloat() * 0.5F, other.getZ() + 0.25F + rand.nextFloat() * 0.5F, .65f,
-                                                                          0xCC3417, 1);
+                            NaturesAuraAPI.instance().spawnParticleStream(pos.getX() + 0.25F + rand.nextFloat() * 0.5F,
+                                    pos.getY() + 0.25F + rand.nextFloat() * 0.5F,
+                                    pos.getZ() + 0.25F + rand.nextFloat() * 0.5F,
+                                    other.getX() + 0.25F + rand.nextFloat() * 0.5F,
+                                    other.getY() + 0.25F + rand.nextFloat() * 0.5F,
+                                    other.getZ() + 0.25F + rand.nextFloat() * 0.5F, .65f,
+                                    0xCC3417, 1);
                         }
                     } else {
                         for (int i = 0; i < 5; i++) {
@@ -89,14 +96,17 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onBlockAdded(@Nullable BlockState state, @Nonnull World worldIn, @Nonnull BlockPos pos,
+                             @Nullable BlockState oldState, boolean isMoving) {
         this.updateRedstoneState(worldIn, pos);
     }
 
     @SuppressWarnings("deprecation")
     @Nonnull
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos,
+                                             @Nonnull PlayerEntity player, @Nullable Hand handIn,
+                                             @Nullable BlockRayTraceResult rayTraceResult) {
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileAuraTransporter) {
             if (!world.isRemote) {
@@ -104,17 +114,23 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
                 if (!player.isShiftKeyDown() && compound.contains(ModNames.TAG_AURA_TRANSPORTER_POS)) {
                     BlockPos selectedPos = BlockPos.fromLong(compound.getLong(ModNames.TAG_AURA_TRANSPORTER_POS));
                     if (selectedPos.equals(pos)) {
-                        player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".same_position"), true);
-                    } else if (pos.distanceSq(selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isAreaLoaded(selectedPos, 0)) {
+                        player.sendStatusMessage(
+                                new TranslationTextComponent("info." + Constants.MOD_ID + ".same_position"), true);
+                    } else if (pos.distanceSq(
+                            selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isAreaLoaded(
+                            selectedPos, 0)) {
                         TileEntity other = world.getTileEntity(selectedPos);
                         if (other instanceof TileAuraTransporter) {
                             ((TileAuraTransporter) tile).other = selectedPos;
                             ((TileAuraTransporter) other).other = pos;
                             tile.markDirty();
                             other.markDirty();
-                            player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".connected"), true);
+                            player.sendStatusMessage(
+                                    new TranslationTextComponent("info." + Constants.MOD_ID + ".connected"), true);
                         } else {
-                            player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos_gone"), true);
+                            player.sendStatusMessage(
+                                    new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos_gone"),
+                                    true);
                         }
                     } else {
                         player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".too_far"), true);
@@ -131,7 +147,7 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> container) {
         super.fillStateContainer(container);
         container.add(SENDING);
     }
@@ -142,14 +158,15 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     }
 
     @Override
-    public int tickRate(IWorldReader worldIn) {
+    public int tickRate(@Nullable IWorldReader worldIn) {
         return 4;
     }
 
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(@Nullable BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos,
+                     @Nullable Random random) {
         updateRedstoneState(world, pos);
     }
 

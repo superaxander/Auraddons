@@ -3,10 +3,12 @@ package alexanders.mods.auraddons.init;
 import alexanders.mods.auraddons.item.ItemCreativeAuraCache;
 import alexanders.mods.auraddons.item.ItemDampeningFeather;
 import alexanders.mods.auraddons.item.ItemSimple;
-import java.util.ArrayList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.registries.ObjectHolder;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -31,13 +33,13 @@ public final class ModItems {
         itemRegistry.add(dampeningFeather = new ItemDampeningFeather());
         itemRegistry.add(skyFeather = new ItemSimple(ModNames.ITEM_SKY_FEATHER) {
             @Override
-            public boolean hasEffect(ItemStack stack) {
+            public boolean hasEffect(@Nullable ItemStack stack) {
                 return true;
             }
         });
         itemRegistry.add(skyBottle = new ItemSimple(ModNames.ITEM_SKY_BOTTLE) {
             @Override
-            public boolean hasEffect(ItemStack stack) {
+            public boolean hasEffect(@Nullable ItemStack stack) {
                 return true;
             }
         });

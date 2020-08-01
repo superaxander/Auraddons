@@ -2,15 +2,16 @@ package alexanders.mods.auraddons.block.tile;
 
 import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
-import javax.annotation.Nonnull;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
+import javax.annotation.Nonnull;
+
 public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity {
     private static boolean reflectionFail;
-    public float[] colorMultiplier = new float[]{-1, -1, -1};
+    public final float[] colorMultiplier = new float[]{-1, -1, -1};
     private float hue = 0;
 
     public TileRainbowBeacon() {
@@ -44,7 +45,7 @@ public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         hue = compound.getFloat("hue");
         setHSV(hue, 1f, 1f);
@@ -52,7 +53,7 @@ public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity
 
     @Override
     @Nonnull
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putFloat("hue", hue);
         return compound;

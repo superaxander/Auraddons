@@ -7,13 +7,14 @@ import alexanders.mods.auraddons.init.ModPackets;
 import alexanders.mods.auraddons.net.ConnectionPacket;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileAuraTransporter extends TileEntity implements ITickableTileEntity {
     @Nullable
@@ -24,14 +25,14 @@ public class TileAuraTransporter extends TileEntity implements ITickableTileEnti
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         readDestination(compound);
     }
 
     @Override
     @Nonnull
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         writeDestination(compound);
         return super.write(compound);
     }
@@ -69,9 +70,12 @@ public class TileAuraTransporter extends TileEntity implements ITickableTileEnti
     }
 
     private void addAura(int amount) {
-        BlockPos spot = NaturesAuraAPI.instance().getLowestAuraDrainSpot(world, pos, ModConfig.aura.auraTransporterStoreRange, pos);
-        IAuraChunk chunk = IAuraChunk.getAuraChunk(world, spot);
-        chunk.storeAura(spot, amount);
+        if (world != null) {
+            BlockPos spot = NaturesAuraAPI.instance().getLowestAuraDrainSpot(world, pos,
+                    ModConfig.aura.auraTransporterStoreRange, pos);
+            IAuraChunk chunk = IAuraChunk.getAuraChunk(world, spot);
+            chunk.storeAura(spot, amount);
+        }
     }
 
     @Override

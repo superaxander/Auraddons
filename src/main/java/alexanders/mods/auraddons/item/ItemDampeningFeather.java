@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 public class ItemDampeningFeather extends ItemSimple implements ITrinketItem {
     public ItemDampeningFeather() {
         super(new Properties().maxStackSize(1), ModNames.ITEM_DAMPING_FEATHER);
@@ -25,11 +27,14 @@ public class ItemDampeningFeather extends ItemSimple implements ITrinketItem {
 
 
     @Override
-    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    public void inventoryTick(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull Entity entityIn, int itemSlot,
+                              boolean isSelected) {
         if (!worldIn.isRemote && entityIn instanceof PlayerEntity && entityIn.fallDistance >= 2.5) {
-            if (NaturesAuraAPI.instance().extractAuraFromPlayer((PlayerEntity) entityIn, (int) Math.ceil(ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5), true)) {
+            if (NaturesAuraAPI.instance().extractAuraFromPlayer((PlayerEntity) entityIn,
+                    (int) Math.ceil(ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5), true)) {
                 entityIn.fallDistance -= 2.5;
-                NaturesAuraAPI.instance().extractAuraFromPlayer((PlayerEntity) entityIn, (int) Math.ceil(ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5), false);
+                NaturesAuraAPI.instance().extractAuraFromPlayer((PlayerEntity) entityIn,
+                        (int) Math.ceil(ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5), false);
             }
         }
     }

@@ -3,9 +3,6 @@ package alexanders.mods.auraddons.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 
 public class BlockBase extends Block {
 
@@ -22,10 +19,5 @@ public class BlockBase extends Block {
     public BlockBase(String unlocalizedName, Properties properties) {
         super(properties);
         setRegistryName(unlocalizedName);
-    }
-
-    @Override
-    public void fillItemGroup(ItemGroup p_149666_1_, NonNullList<ItemStack> p_149666_2_) {
-        super.fillItemGroup(p_149666_1_, p_149666_2_);
     }
 }
