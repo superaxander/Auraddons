@@ -16,7 +16,7 @@
         {
             "type": "crafting",
             "text": "Creating the $(item)Dampening Feather$().",
-            "recipe": "auraddons:recipe_dampening_feather"
+            "recipe": "auraddons:dampening_feather"
         }
     ]
 }
