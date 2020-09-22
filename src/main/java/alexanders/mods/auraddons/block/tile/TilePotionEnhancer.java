@@ -1,5 +1,6 @@
 package alexanders.mods.auraddons.block.tile;
 
+import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
 import alexanders.mods.auraddons.init.ModNames;
@@ -43,6 +44,7 @@ import static alexanders.mods.auraddons.Constants.MOD_ID;
 @Mod.EventBusSubscriber(modid = MOD_ID)
 public class TilePotionEnhancer extends TileEntity {
     public static final ArrayList<TilePotionEnhancer> listenerList = new ArrayList<>();
+    public static Field brewingItemStacksField;
 
     public TilePotionEnhancer() {
         super(ModBlocks.tilePotionEnhancer);
@@ -137,9 +139,30 @@ public class TilePotionEnhancer extends TileEntity {
         assert world != null;
         TileEntity te = world.getTileEntity(pos.up());
         if (te instanceof BrewingStandTileEntity) {
-            return Objects.hashCode(
-                    ObfuscationReflectionHelper.<NonNullList<ItemStack>, BrewingStandTileEntity>getPrivateValue(BrewingStandTileEntity.class, (BrewingStandTileEntity) te,
-                                                                                                                "brewingItemStacks")) == hash;
+            if(brewingItemStacksField == null) {
+                try {
+                    //noinspection JavaReflectionMemberAccess
+                    brewingItemStacksField = BrewingStandTileEntity.class.getDeclaredField("field_145945_j");
+                    brewingItemStacksField.setAccessible(true);
+                } catch (NoSuchFieldException e) {
+                    try {
+                        brewingItemStacksField = BrewingStandTileEntity.class.getDeclaredField("brewingItemStacks");
+                        brewingItemStacksField.setAccessible(true);
+                    }catch (NoSuchFieldException e2) {
+                        Auraddons.logger.error("There is a bug in the potion enhancer code. Please report this on the Auraddons issue tracker!",e2);
+                    }
+                }
+            }
+            if(brewingItemStacksField != null) {
+                try {
+                    //return Objects.hashCode(ObfuscationReflectionHelper.<NonNullList<ItemStack>, BrewingStandTileEntity>getPrivateValue(BrewingStandTileEntity.class, (BrewingStandTileEntity) te,"brewingItemStacks")) == hash;
+                    return Objects.hashCode(brewingItemStacksField.get(te)) == hash;
+                } catch (IllegalAccessException | IllegalArgumentException e) {
+                    Auraddons.logger.error(
+                            "There is a bug in the potion enhancer code. Please report this on the Auraddons issue tracker!",
+                            e);
+                }
+            }
         }
         return false;
     }
