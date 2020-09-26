@@ -83,36 +83,40 @@ public final class ModBlocks {
         tileTypeRegistry.add((tileAutoWrath = TileEntityType.Builder.create(TileAutoWrath::new, autoWrath).build(null)).setRegistryName(ModNames.TILE_AUTO_WRATH));
 
 
-        add(ancientFence = new FenceBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}
-                .setRegistryName(ModNames.BLOCK_ANCIENT_FENCE));
+        add(ancientFence = new FenceBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}.setRegistryName(
+                ModNames.BLOCK_ANCIENT_FENCE));
 
-        add(ancientFenceGate = new FenceGateBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}
-                .setRegistryName(ModNames.BLOCK_ANCIENT_FENCE_GATE));
+        add(ancientFenceGate = new FenceGateBlock(
+                Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}.setRegistryName(
+                ModNames.BLOCK_ANCIENT_FENCE_GATE));
 
         add(infusedStoneWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL));
         add(infusedBrickWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL));
         add(goldBrickWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL));
-        add(goldBrickStairs = new StairsBlock(() -> goldBrick.getDefaultState(), Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_STAIRS));
+        add(goldBrickStairs = new StairsBlock(() -> goldBrick.getDefaultState(), Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(
+                ModNames.BLOCK_GOLD_BRICK_STAIRS));
         add(goldBrickSlab = new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_SLAB));
         add(goldNetherBrickWall = new WallBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_WALL));
-        add(goldNetherBrickStairs = new StairsBlock(() -> goldNetherBrick.getDefaultState(), Block.Properties.from(Blocks.NETHER_BRICKS))
-                .setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_STAIRS));
+        add(goldNetherBrickStairs = new StairsBlock(() -> goldNetherBrick.getDefaultState(), Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(
+                ModNames.BLOCK_GOLD_NETHER_BRICK_STAIRS));
         add(goldNetherBrickSlab = new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_SLAB));
 
-        add(ancientLadder = new LadderBlock(Block.Properties.from(Blocks.LADDER)) {}.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER));
+        add(ancientLadder = new LadderBlock(Block.Properties.from(Blocks.LADDER).notSolid()) {
+
+        }.setRegistryName(ModNames.BLOCK_ANCIENT_LADDER));
 
         add(potionEnhancer = new BlockPotionEnhancer());
         //noinspection ConstantConditions
-        tileTypeRegistry
-                .add((tilePotionEnhancer = TileEntityType.Builder.create(TilePotionEnhancer::new, potionEnhancer).build(null)).setRegistryName(ModNames.TILE_POTION_ENHANCER));
+        tileTypeRegistry.add((tilePotionEnhancer = TileEntityType.Builder.create(TilePotionEnhancer::new, potionEnhancer).build(null)).setRegistryName(
+                ModNames.TILE_POTION_ENHANCER));
 
         add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
 
 
         add(auraTransporter = new BlockAuraTransporter());
         //noinspection ConstantConditions
-        tileTypeRegistry
-                .add((tileAuraTransporter = TileEntityType.Builder.create(TileAuraTransporter::new, auraTransporter).build(null)).setRegistryName(ModNames.TILE_AURA_TRANSPORTER));
+        tileTypeRegistry.add((tileAuraTransporter = TileEntityType.Builder.create(TileAuraTransporter::new, auraTransporter).build(null)).setRegistryName(
+                ModNames.TILE_AURA_TRANSPORTER));
 
 
         add(witherProofer = new BlockWitherProofer());

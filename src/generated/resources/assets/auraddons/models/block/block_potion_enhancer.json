@@ -1,5 +1,5 @@
 {
-  "parent": "block/cube_bottom_top",
+  "parent": "minecraft:block/cube_bottom_top",
   "textures": {
     "side": "auraddons:blocks/block_potion_enhancer",
     "bottom": "auraddons:blocks/block_potion_enhancer_top",

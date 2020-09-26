@@ -10,6 +10,10 @@ import com.google.common.collect.ImmutableMap;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import de.ellpeck.naturesaura.api.aura.type.IAuraType;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
@@ -22,7 +26,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.common.animation.TimeValues;
@@ -34,10 +38,6 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -86,7 +86,7 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
                 BlockPos spot = IAuraChunk.getHighestSpot(world, pos, 25, pos);
                 for (LivingEntity mob : mobs) {
                     if (!mob.isAlive()) continue;
-                    if (getDistanceSq(mob.getPosX(), mob.getPosY(), mob.getPosZ()) > range * range) continue;
+                    if (pos.distanceSq(mob.getPositionVec(), true) > range * range) continue;
                     IAuraChunk.getAuraChunk(world, spot).drainAura(spot, ModConfig.aura.autoWrathMobDamageCost);
                     mob.attackEntityFrom(DamageSource.MAGIC, 4F);
                 }
@@ -123,7 +123,7 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
                                             ItemStack glass = new ItemStack(Items.GLASS_BOTTLE);
                                             if (!ItemHandlerHelper.insertItemStacked(handler, glass, false).isEmpty()) {
                                                 ItemEntity e = new ItemEntity(world, pos.getX() + .5, pos.getY() + 1.5, pos.getZ() + .5, glass);
-                                                final Vec3d motion = e.getMotion();
+                                                final Vector3d motion = e.getMotion();
                                                 e.setMotion(motion.x + world.rand.nextGaussian() * 0.007499999832361937D * 6,
                                                             motion.y + world.rand.nextGaussian() * 0.007499999832361937D * 6,
                                                             motion.z + world.rand.nextGaussian() * 0.007499999832361937D * 6);
@@ -162,8 +162,8 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         doDamage = compound.getLong("doDamage");
         cooldown = compound.getInt("cooldown");
     }
@@ -177,10 +177,10 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
         return compound;
     }
 
-    @Override
-    public boolean hasFastRenderer() {
-        return true;
-    }
+    //    @Override
+    //    public boolean hasFastRenderer() {
+    //        return true;
+    //    }
 
 
     @SuppressWarnings("unchecked")

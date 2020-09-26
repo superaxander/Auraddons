@@ -48,14 +48,18 @@ public class ConnectionPacket {
         }
     }
 
+    @SuppressWarnings("Convert2Lambda")
     @OnlyIn(Dist.CLIENT)
     public static void handleMessage(ConnectionPacket message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            World world = Minecraft.getInstance().world;
-            if (world != null) {
-                TileEntity te = world.getTileEntity(message.pos);
-                if (te instanceof TileAuraTransporter) {
-                    ((TileAuraTransporter) te).other = message.other;
+        ctx.get().enqueueWork(new Runnable() {
+            @Override
+            public void run() {
+                World world = Minecraft.getInstance().world;
+                if (world != null) {
+                    TileEntity te = world.getTileEntity(message.pos);
+                    if (te instanceof TileAuraTransporter) {
+                        ((TileAuraTransporter) te).other = message.other;
+                    }
                 }
             }
         });

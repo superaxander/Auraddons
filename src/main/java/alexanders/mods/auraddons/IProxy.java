@@ -9,6 +9,8 @@ import net.minecraftforge.common.animation.ITimeValue;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 
 public interface IProxy {
+    void postInit();
+
     @Nullable
     IAnimationStateMachine loadASM(ResourceLocation resourceLocation, ImmutableMap<String, ITimeValue> map);
 

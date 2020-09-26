@@ -1,8 +1,9 @@
 package alexanders.mods.auraddons;
 
+import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModItems;
 import com.google.common.collect.ImmutableMap;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
 import de.ellpeck.naturesaura.items.ItemAuraCache;
@@ -12,6 +13,8 @@ import javax.annotation.Nullable;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
@@ -20,7 +23,6 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.model.animation.TileEntityRendererAnimation;
 import net.minecraftforge.common.animation.ITimeValue;
 import net.minecraftforge.common.model.animation.AnimationStateMachine;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
@@ -29,12 +31,19 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
-import top.theillusivec4.curios.api.CuriosAPI;
+import org.lwjgl.opengl.GL11;
+import top.theillusivec4.curios.api.CuriosApi;
 
 public class ClientProxy implements IProxy {
     public static final ResourceLocation OVERLAYS = new ResourceLocation(NaturesAuraAPI.MOD_ID, "textures/gui/overlays.png");
     private ItemStack creativeCache;
     private ItemStack normalCache;
+
+    @Override
+    public void postInit() {
+        RenderTypeLookup.setRenderLayer(ModBlocks.ancientLadder, RenderType.getCutout());
+    }
+
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
@@ -44,10 +53,14 @@ public class ClientProxy implements IProxy {
             Minecraft mc = Minecraft.getInstance();
             if (mc.world != null && mc.player != null && !mc.isGamePaused()) {
                 if (Auraddons.instance.curiosLoaded) {
-                    Optional<ItemStack> stack = CuriosAPI.getCurioEquipped(it -> it.getItem() instanceof ItemAuraCache, mc.player).map(ImmutableTriple::getRight);
+                    Optional<ItemStack> stack = CuriosApi.getCuriosHelper()
+                                                         .findEquippedCurio(it -> it.getItem() instanceof ItemAuraCache, mc.player)
+                                                         .map(ImmutableTriple::getRight);
                     stack.ifPresent(itemStack -> normalCache = itemStack);
                     if (normalCache.isEmpty()) {
-                        stack = CuriosAPI.getCurioEquipped(it -> it.getItem() == ModItems.creativeAuraCache, mc.player).map(ImmutableTriple::getRight);
+                        stack = CuriosApi.getCuriosHelper()
+                                         .findEquippedCurio(it -> it.getItem() == ModItems.creativeAuraCache, mc.player)
+                                         .map(ImmutableTriple::getRight);
                         stack.ifPresent(itemStack -> creativeCache = itemStack);
                     }
                 }
@@ -76,27 +89,29 @@ public class ClientProxy implements IProxy {
             MainWindow window = event.getWindow();
             if (mc.player != null) {
                 if (normalCache.isEmpty() && !creativeCache.isEmpty()) {
+                    MatrixStack stack = event.getMatrixStack();
                     LazyOptional<IAuraContainer> container = creativeCache.getCapability(NaturesAuraAPI.capAuraContainer, null);
                     ItemStack finalCache = creativeCache;
                     container.ifPresent(it -> {
                         int width = MathHelper.ceil(it.getStoredAura() / (float) it.getMaxAura() * 80);
-                        int x = window.getScaledWidth() / 2 + (Auraddons.instance.cacheBarLocation == 0 ? -173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29) : 93);
+                        int x = window.getScaledWidth() / 2 + (Auraddons.instance.cacheBarLocation == 0 ?
+                                -173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29) : 93);
                         int y = window.getScaledHeight() - 8;
                         int color = it.getAuraColor();
-                        RenderSystem.pushMatrix();
-                        RenderSystem.color4f((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 1);
+                        stack.push();
+                        GL11.glColor4f((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 1);
                         mc.getTextureManager().bindTexture(OVERLAYS);
-                        if (width < 80) AbstractGui.blit(x + width, y, width, 0, 80 - width, 6, 256, 256);
-                        if (width > 0) AbstractGui.blit(x, y, 0, 6, width, 6, 256, 256);
+                        if (width < 80) AbstractGui.blit(stack, x + width, y, width, 0, 80 - width, 6, 256, 256);
+                        if (width > 0) AbstractGui.blit(stack, x, y, 0, 6, width, 6, 256, 256);
 
                         float scale = 0.75F;
-                        RenderSystem.scalef(scale, scale, scale);
-                        String s = finalCache.getDisplayName().getFormattedText();
-                        mc.fontRenderer.drawStringWithShadow(s, Auraddons.instance.cacheBarLocation == 1 ? x / scale : (x + 80) / scale - mc.fontRenderer.getStringWidth(s),
-                                                             (y - 7) / scale, color);
+                        GL11.glScalef(scale, scale, scale);
+                        String s = finalCache.getDisplayName().getString();
+                        mc.fontRenderer.drawStringWithShadow(stack, s, Auraddons.instance.cacheBarLocation == 1 ? x / scale :
+                                (x + 80) / scale - mc.fontRenderer.getStringWidth(s), (y - 7) / scale, color);
 
-                        RenderSystem.color4f(1F, 1F, 1F, 1);
-                        RenderSystem.popMatrix();
+                        GL11.glColor4f(1F, 1F, 1F, 1);
+                        stack.pop();
                     });
                 }
             }
@@ -111,7 +126,7 @@ public class ClientProxy implements IProxy {
 
     @Override
     public <T extends TileEntity> void registerAnimationTESR(TileEntityType<T> type) {
-        registerTESR(type, TileEntityRendererAnimation::new);
+        //registerTESR(type, TileEntityRendererAnimation::new);
     }
 
     private <T extends TileEntity> void registerTESR(TileEntityType<T> type, Function<? super TileEntityRendererDispatcher, ? extends TileEntityRenderer<? super TileEntity>> tesr) {

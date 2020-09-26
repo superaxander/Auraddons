@@ -6,11 +6,14 @@ import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
+import net.minecraftforge.common.data.ExistingFileHelper;
+
+import static alexanders.mods.auraddons.Constants.MOD_ID;
 
 public class BlockTagGenerator extends BlockTagsProvider {
-    public BlockTagGenerator(DataGenerator generatorIn) {
-        super(generatorIn);
+    public BlockTagGenerator(DataGenerator generatorIn, ExistingFileHelper ex) {
+        super(generatorIn, MOD_ID, ex);
     }
 
     @Override
@@ -25,7 +28,7 @@ public class BlockTagGenerator extends BlockTagsProvider {
     }
 
     @Nonnull
-    public Tag.Builder<Block> getBuilder(@Nonnull Tag<Block> tagIn) {
-        return super.getBuilder(tagIn);
+    public Builder<Block> getBuilder(@Nonnull ITag.INamedTag<Block> tagIn) {
+        return super.getOrCreateBuilder(tagIn);
     }
 }

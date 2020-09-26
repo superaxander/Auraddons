@@ -37,21 +37,25 @@ public class JumpPacket {
         buf.writeBoolean(pkt.jumping);
     }
 
+    @SuppressWarnings("Convert2Lambda")
     @OnlyIn(Dist.CLIENT)
     public static void handleMessage(JumpPacket message, Supplier<NetworkEvent.Context> ctx) {
-        ctx.get().enqueueWork(() -> {
-            TileEntity te = null;
-            final World world = Minecraft.getInstance().world;
-            if (world != null) {
-                te = world.getTileEntity(message.pos);
-            }
-            if (te instanceof TileAutoWrath) {
-                ((TileAutoWrath) te).jumping = message.jumping;
-                if (message.jumping) {
-                    ((TileAutoWrath) te).startJumping();
-                } else {
-                    ((TileAutoWrath) te).stopJumping();
-
+        ctx.get().enqueueWork(new Runnable() {
+            @Override
+            public void run() {
+                TileEntity te = null;
+                final World world = Minecraft.getInstance().world;
+                if (world != null) {
+                    te = world.getTileEntity(message.pos);
+                }
+                if (te instanceof TileAutoWrath) {
+                    ((TileAutoWrath) te).jumping = message.jumping;
+                    //                    if (message.jumping) {
+                    //                        // ((TileAutoWrath) te).startJumping();
+                    //                    } else {
+                    //                        // ((TileAutoWrath) te).stopJumping();
+                    //
+                    //                    }
                 }
             }
         });

@@ -9,6 +9,9 @@ import net.minecraftforge.common.animation.ITimeValue;
 import net.minecraftforge.common.model.animation.IAnimationStateMachine;
 
 public class ServerProxy implements IProxy {
+    @Override
+    public void postInit() {
+    }
 
     @Override
     @Nullable

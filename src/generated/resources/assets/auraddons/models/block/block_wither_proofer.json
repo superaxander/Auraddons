@@ -1,7 +1,7 @@
 {
-  "parent": "block/cube_column",
+  "parent": "minecraft:block/cube_column",
   "textures": {
     "side": "auraddons:blocks/block_wither_proofer",
-    "end": "block/white_wool"
+    "end": "minecraft:block/white_wool"
   }
 }

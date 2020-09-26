@@ -2,6 +2,9 @@ package alexanders.mods.auraddons;
 
 import de.ellpeck.naturesaura.api.aura.type.IAuraType;
 import de.ellpeck.naturesaura.recipes.AltarRecipe;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 import net.minecraft.block.WoodType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -14,8 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ObjectHolder;
 import org.apache.commons.lang3.ArrayUtils;
 import vazkii.patchouli.api.IComponentProcessor;
+import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
-import vazkii.patchouli.api.PatchouliAPI;
 
 public class ProcessorAltarSpecial implements IComponentProcessor {
     @ObjectHolder("naturesaura:aura_bottle")
@@ -49,13 +52,13 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
     }
 
     @Override
-    public void setup(IVariableProvider<String> provider) {
-        String recipeName = provider.get("recipe");
-        String suffix = provider.get("suffix");
+    public void setup(IVariableProvider provider) {
+        String recipeName = provider.get("recipe").asString();
+        String suffix = provider.get("suffix").asString();
         switch (suffix) {
             case "color":
                 for (DyeColor color : DyeColor.values()) {
-                    addRecipe(getRecipe(recipeName + "_" + color.getName()));
+                    addRecipe(getRecipe(recipeName + "_" + color.getTranslationKey()));
                 }
                 break;
             case "wood":
@@ -97,19 +100,21 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
     }
 
     @Override
-    public String process(String key) {
+    @Nonnull
+    public IVariable process(String key) {
         switch (key) {
             case "input":
-                return PatchouliAPI.instance.serializeIngredient(input);
+                return IVariable.wrapList(Arrays.stream(input.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
             case "output":
-                return PatchouliAPI.instance.serializeIngredient(output);
+                return IVariable.wrapList(Arrays.stream(output.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
             case "type":
-                return PatchouliAPI.instance.serializeIngredient(requiredType);
+                return IVariable.wrapList(Arrays.stream(requiredType.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
             case "catalyst":
-                if (catalyst != Ingredient.EMPTY) return PatchouliAPI.instance.serializeIngredient(catalyst);
+                if (catalyst != Ingredient.EMPTY)
+                    return IVariable.wrapList(Arrays.stream(catalyst.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
                 else return null;
             case "name":
-                return I18n.format(name);
+                return IVariable.wrap(I18n.format(name));
             default:
                 return null;
         }

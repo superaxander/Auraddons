@@ -8,6 +8,9 @@ import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
 import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
+import java.util.Random;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -31,10 +34,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BlockAuraTransporter extends BlockContainerBase implements IVisualizable, IStateProvider {
     public static final BooleanProperty SENDING = BooleanProperty.create("sending");
@@ -111,13 +110,11 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
         if (tile instanceof TileAuraTransporter) {
             if (!world.isRemote) {
                 CompoundNBT compound = player.getPersistentData();
-                if (!player.isShiftKeyDown() && compound.contains(ModNames.TAG_AURA_TRANSPORTER_POS)) {
+                if (!player.isSneaking() && compound.contains(ModNames.TAG_AURA_TRANSPORTER_POS)) {
                     BlockPos selectedPos = BlockPos.fromLong(compound.getLong(ModNames.TAG_AURA_TRANSPORTER_POS));
                     if (selectedPos.equals(pos)) {
-                        player.sendStatusMessage(
-                                new TranslationTextComponent("info." + Constants.MOD_ID + ".same_position"), true);
-                    } else if (pos.distanceSq(
-                            selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isAreaLoaded(
+                        player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".same_position"), true);
+                    } else if (pos.distanceSq(selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isAreaLoaded(
                             selectedPos, 0)) {
                         TileEntity other = world.getTileEntity(selectedPos);
                         if (other instanceof TileAuraTransporter) {
@@ -125,8 +122,7 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
                             ((TileAuraTransporter) other).other = pos;
                             tile.markDirty();
                             other.markDirty();
-                            player.sendStatusMessage(
-                                    new TranslationTextComponent("info." + Constants.MOD_ID + ".connected"), true);
+                            player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".connected"), true);
                         } else {
                             player.sendStatusMessage(
                                     new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos_gone"),
@@ -157,16 +153,16 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
         this.updateRedstoneState(world, pos);
     }
 
-    @Override
-    public int tickRate(@Nullable IWorldReader worldIn) {
-        return 4;
-    }
+
+    //    @Override
+    //    public int tickRate(@Nullable IWorldReader worldIn) {
+    //        return 4;
+    //    }
 
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(@Nullable BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos,
-                     @Nullable Random random) {
+    public void tick(@Nullable BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nullable Random random) {
         updateRedstoneState(world, pos);
     }
 
@@ -190,7 +186,7 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
         if (!world.isRemote() && world instanceof World) {
             final World wrld = (World) world;
             wrld.setBlockState(pos, world.getBlockState(pos).with(SENDING, wrld.getRedstonePowerFromNeighbors(pos) > 0), 0);
-            wrld.getPendingBlockTicks().scheduleTick(pos, this, this.tickRate(world));
+            wrld.getPendingBlockTicks().scheduleTick(pos, this, 4);
             if (wrld instanceof ServerWorld) {
                 ((ServerWorld) wrld).getChunkProvider().markBlockChanged(pos);
             }

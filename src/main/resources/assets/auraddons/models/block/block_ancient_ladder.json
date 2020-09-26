@@ -2,7 +2,7 @@
   "ambientocclusion": false,
   "textures": {
     "particle": "auraddons:blocks/block_ancient_ladder",
-    "texture":  "auraddons:blocks/block_ancient_ladder"
+    "texture": "auraddons:blocks/block_ancient_ladder"
   },
   "elements": [
     {   "from": [ 0, 0, 15.2 ],

@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.9.1"
+version = "1.10"
 group = "alexanders.mods.auraddons" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Auraddons"
 
@@ -30,7 +30,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20200128-1.15.1'
+    mappings channel: 'snapshot', version: '20200723-1.16.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -46,6 +46,8 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'info'
+
+            property 'mixin.env.disableRefMap', 'true'
 
             mods {
                 auraddons {
@@ -63,6 +65,8 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'info'
 
+            property 'mixin.env.disableRefMap', 'true'
+
             mods {
                 auraddons {
                     source sourceSets.main
@@ -79,7 +83,9 @@ minecraft {
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'info'
 
-            args '--mod', 'auraddons', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('src/generated/resources')
+            property 'mixin.env.disableRefMap', 'true'
+            
+            args '--mod', 'auraddons', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('src/generated/resources'), '--existing', file('C:\\Users\\anoni\\.gradle\\caches\\modules-2\\files-2.1\\de.ellpeck.naturesaura\\NaturesAura\\29.0.137\\7dbcb2386c6e29c5d76ba44acdd22b841745c383\\NaturesAura-29.0.137.jar')
 
             mods {
                 auraddons {
@@ -109,12 +115,12 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.15.2-31.0.14'
-    compile "de.ellpeck.naturesaura:NaturesAura:28.4.116"
-    compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker-1.15.1:6.0.0.4")
-    compile fg.deobf("vazkii.patchouli:Patchouli:1.15.2-1.2-32.160")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-1.15.2-2.0-beta2")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-1.15.2-2.0-beta2:api")
+    minecraft 'net.minecraftforge:forge:1.16.3-34.0.9'
+    compile "de.ellpeck.naturesaura:NaturesAura:29.0.137"
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-44:api")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-44")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.3-4.0.2.0")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.3-4.0.2.0:api")
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"

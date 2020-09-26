@@ -1,0 +1,6 @@
+{
+  "replace": false,
+  "values": [
+    "auraddons:block_gold_brick_slab", "auraddons:block_gold_nether_brick_slab"
+  ]
+}

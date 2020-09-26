@@ -7,13 +7,14 @@ import alexanders.mods.auraddons.init.ModItems;
 import alexanders.mods.auraddons.init.ModPackets;
 import alexanders.mods.auraddons.init.generator.*;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
+import java.lang.reflect.Field;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -26,8 +27,6 @@ import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.Field;
-
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 import static alexanders.mods.auraddons.Constants.MOD_NAME;
 
@@ -36,7 +35,7 @@ import static alexanders.mods.auraddons.Constants.MOD_NAME;
 public class Auraddons {
     public static final Logger logger = LogManager.getLogger(MOD_NAME);
     public static Auraddons instance;
-    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     public static ConfigBuilder configBuilder;
 
     public boolean baublesLoaded;
@@ -84,13 +83,14 @@ public class Auraddons {
         instance.curiosLoaded = true;
         final CuriosCompat compat = new CuriosCompat();
         MinecraftForge.EVENT_BUS.register(compat);
-        FMLJavaModLoadingContext.get().getModEventBus().register(compat);
+        //        FMLJavaModLoadingContext.get().getModEventBus().register(compat);
         CuriosCompat.init();
 
         generator.addProvider(new BlockStateGenerator(generator, ex));
         generator.addProvider(new ItemModelGenerator(generator, ex));
-        generator.addProvider(new ItemTagGenerator(generator));
-        generator.addProvider(new BlockTagGenerator(generator));
+        BlockTagGenerator blockTagsProvider;
+        generator.addProvider(blockTagsProvider = new BlockTagGenerator(generator, ex));
+        generator.addProvider(new ItemTagGenerator(generator, blockTagsProvider, ex));
         generator.addProvider(new BlockLootGenerator(generator));
     }
 
@@ -160,6 +160,7 @@ public class Auraddons {
     }
 
     public void postInit(FMLCommonSetupEvent event) {
+        proxy.postInit();
         // Cleanup:
         //ModBlocks.blockRegistry = null;
         // ModItems.itemRegistry = null;

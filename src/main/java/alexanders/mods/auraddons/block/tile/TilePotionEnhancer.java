@@ -37,7 +37,6 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -97,8 +96,10 @@ public class TilePotionEnhancer extends TileEntity {
                 if (toolTip.get(i) instanceof StringTextComponent || toolTip.get(i) instanceof TranslationTextComponent) {
                     String t = toolTip.get(i).getString();
                     if (t.matches(".* \\([0-9]+:[0-9][0-9]\\)")) {
-                        event.getToolTip().set(i, new StringTextComponent(
-                                t.replaceFirst("\\([0-9]+:[0-9][0-9]\\)", String.format("%s(%d:%d0)", TextFormatting.DARK_PURPLE, duration / 60, duration % 60))));
+                        event.getToolTip()
+                             .set(i, new StringTextComponent(t.replaceFirst("\\([0-9]+:[0-9][0-9]\\)",
+                                                                            String.format("%s(%d:%02d)", TextFormatting.DARK_PURPLE, duration / 60,
+                                                                                          duration % 60))));
                     }
                 }
             }
