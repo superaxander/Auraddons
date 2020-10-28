@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.10"
+version = "1.11.1"
 group = "alexanders.mods.auraddons" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Auraddons"
 
@@ -116,7 +116,7 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.3-34.0.9'
-    compile "de.ellpeck.naturesaura:NaturesAura:29.0.137"
+    compile "de.ellpeck.naturesaura:NaturesAura:32.0.183"
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-44:api")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.2-44")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:1.16.3-4.0.2.0")

@@ -7,9 +7,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
 import de.ellpeck.naturesaura.items.ItemAuraCache;
-import java.util.Optional;
-import java.util.function.Function;
-import javax.annotation.Nullable;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -33,6 +30,10 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.lwjgl.opengl.GL11;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.function.Function;
 
 public class ClientProxy implements IProxy {
     public static final ResourceLocation OVERLAYS = new ResourceLocation(NaturesAuraAPI.MOD_ID, "textures/gui/overlays.png");
@@ -98,7 +99,7 @@ public class ClientProxy implements IProxy {
                                 -173 - (mc.player.getHeldItemOffhand().isEmpty() ? 0 : 29) : 93);
                         int y = window.getScaledHeight() - 8;
                         int color = it.getAuraColor();
-                        stack.push();
+                        GL11.glPushMatrix();
                         GL11.glColor4f((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F, 1);
                         mc.getTextureManager().bindTexture(OVERLAYS);
                         if (width < 80) AbstractGui.blit(stack, x + width, y, width, 0, 80 - width, 6, 256, 256);
@@ -111,7 +112,7 @@ public class ClientProxy implements IProxy {
                                 (x + 80) / scale - mc.fontRenderer.getStringWidth(s), (y - 7) / scale, color);
 
                         GL11.glColor4f(1F, 1F, 1F, 1);
-                        stack.pop();
+                        GL11.glPopMatrix();
                     });
                 }
             }
