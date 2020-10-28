@@ -1,15 +1,14 @@
 package alexanders.mods.auraddons.net;
 
 import alexanders.mods.auraddons.block.tile.TileAutoWrath;
-import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 public class JumpPacket {
     private BlockPos pos = BlockPos.ZERO;
@@ -38,7 +37,7 @@ public class JumpPacket {
     }
 
     @SuppressWarnings("Convert2Lambda")
-    @OnlyIn(Dist.CLIENT)
+    //@OnlyIn(Dist.CLIENT)
     public static void handleMessage(JumpPacket message, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(new Runnable() {
             @Override

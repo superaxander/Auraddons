@@ -2,15 +2,14 @@ package alexanders.mods.auraddons.net;
 
 import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.block.tile.TileAuraTransporter;
-import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 public class ConnectionPacket {
     private static final long NULL_VALUE = 0xFFFFFFEFFFFFFFFFL; // Corresponds to BlockPos(-1, -1025, -1) 
@@ -18,7 +17,8 @@ public class ConnectionPacket {
     private BlockPos pos;
     private BlockPos other;
 
-    public ConnectionPacket() {}
+    public ConnectionPacket() {
+    }
 
     public ConnectionPacket(BlockPos pos, BlockPos other) {
         this.pos = pos;
@@ -49,7 +49,7 @@ public class ConnectionPacket {
     }
 
     @SuppressWarnings("Convert2Lambda")
-    @OnlyIn(Dist.CLIENT)
+    //@OnlyIn(Dist.CLIENT)
     public static void handleMessage(ConnectionPacket message, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(new Runnable() {
             @Override

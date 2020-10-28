@@ -3,14 +3,13 @@ package alexanders.mods.auraddons.net;
 import alexanders.mods.auraddons.Auraddons;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import io.netty.buffer.ByteBuf;
-import java.util.function.Supplier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 public class ParticlePacket {
     private Type type = Type.SHOCK_WAVE;
@@ -64,7 +63,6 @@ public class ParticlePacket {
     }
 
     @SuppressWarnings("Convert2Lambda")
-    @OnlyIn(Dist.CLIENT)
     public static void handleMessage(ParticlePacket message, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(new Runnable() {
             @Override
