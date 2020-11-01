@@ -29,12 +29,19 @@ public class ItemDampeningFeather extends ItemSimple implements ITrinketItem {
     @Override
     public void inventoryTick(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull Entity entityIn, int itemSlot,
                               boolean isSelected) {
-        if (!worldIn.isRemote && entityIn instanceof PlayerEntity && entityIn.fallDistance >= 2.5) {
-            if (NaturesAuraAPI.instance().extractAuraFromPlayer((PlayerEntity) entityIn,
-                    (int) Math.ceil(ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5), true)) {
-                entityIn.fallDistance -= 2.5;
-                NaturesAuraAPI.instance().extractAuraFromPlayer((PlayerEntity) entityIn,
-                        (int) Math.ceil(ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5), false);
+        if (!worldIn.isRemote && entityIn instanceof PlayerEntity) {
+            final PlayerEntity player = (PlayerEntity) entityIn;
+            if (entityIn.fallDistance >= 2.5) {
+                if (NaturesAuraAPI.instance().extractAuraFromPlayer(player,
+                        (int) Math.ceil(
+                                ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5 * (player.isElytraFlying() ? 0.25 : 1)),
+                        true)) {
+                    entityIn.fallDistance -= 2.5;
+                    NaturesAuraAPI.instance().extractAuraFromPlayer(player,
+                            (int) Math.ceil(
+                                    ModConfig.aura.dampeningFeatherAuraPerMeter * 2.5 * (player.isElytraFlying() ? 0.25 : 1)),
+                            false);
+                }
             }
         }
     }

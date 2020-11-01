@@ -6,7 +6,7 @@
     "pages": [
         {
             "type": "text",
-            "text": "Falling and getting back up is an essential part of life, sometimes however you'd like it to hurt less. Therefore botanists have devised a device that will dissipate the energy that is released when falling using $(aura). That device is the $(item)Dampening Feather$() and all you need to create it are some $(item)Feathers of the Skies$(), $(item)Ingots of the Skies$() and a bit of $(thing)Sunlight$()."
+            "text": "Falling and getting back up is an essential part of life, sometimes however you'd like it to hurt less. Therefore botanists have devised a device that will dissipate the energy that is released when falling using $(aura). That device is the $(item)Dampening Feather$() and all you need to create it are some $(item)Feathers of the Skies$(), $(item)Ingots of the Skies$() and a bit of $(thing)Sunlight$(). The $(item)Dampening Feather$() uses less aura if you're flying."
         },
         {
             "type":"naturesaura:offering",
