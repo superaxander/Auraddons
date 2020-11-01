@@ -7,8 +7,6 @@ import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.container.IAuraContainer;
 import de.ellpeck.naturesaura.api.aura.item.IAuraRecharge;
 import de.ellpeck.naturesaura.api.render.ITrinketItem;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -27,6 +25,9 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class ItemCreativeAuraCache extends ItemSimple implements ITrinketItem {
 
     public ItemCreativeAuraCache() {
@@ -41,11 +42,14 @@ public class ItemCreativeAuraCache extends ItemSimple implements ITrinketItem {
             if (player.isSneaking()) {
                 for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
                     ItemStack stack = player.inventory.getStackInSlot(i);
-                    final LazyOptional<IAuraRecharge> optStack = stack.getCapability(NaturesAuraAPI.capAuraRecharge, null);
+                    final LazyOptional<IAuraRecharge> optStack = stack.getCapability(NaturesAuraAPI.capAuraRecharge,
+                            null);
                     if (optStack.isPresent()) {
-                        IAuraContainer container = stackIn.getCapability(NaturesAuraAPI.capAuraContainer, null).orElseThrow(IllegalStateException::new);
+                        IAuraContainer container = stackIn.getCapability(NaturesAuraAPI.capAuraContainer,
+                                null).orElseThrow(IllegalStateException::new);
                         int finalI = i;
-                        optStack.ifPresent(it -> it.rechargeFromContainer(container, itemSlot, finalI, player.inventory.currentItem == finalI));
+                        optStack.ifPresent(it -> it.rechargeFromContainer(container, itemSlot, finalI,
+                                player.inventory.currentItem == finalI));
                         break;
                     }
                 }
@@ -74,7 +78,8 @@ public class ItemCreativeAuraCache extends ItemSimple implements ITrinketItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void render(ItemStack stack, PlayerEntity player, RenderType type, MatrixStack matrixStack, IRenderTypeBuffer renderBuffer, int packedLight, boolean isHolding) {
+    public void render(ItemStack stack, PlayerEntity player, RenderType type, MatrixStack matrixStack,
+                       IRenderTypeBuffer renderBuffer, int packedLight, boolean isHolding) {
         if (type == RenderType.BODY && !isHolding) {
             boolean chest = !player.inventory.armorInventory.get(EquipmentSlotType.CHEST.getIndex()).isEmpty();
             boolean legs = !player.inventory.armorInventory.get(EquipmentSlotType.LEGS.getIndex()).isEmpty();
@@ -82,8 +87,9 @@ public class ItemCreativeAuraCache extends ItemSimple implements ITrinketItem {
             matrixStack.scale(0.25F, 0.25F, 0.25F);
             matrixStack.rotate(Vector3f.XP.rotationDegrees(180.0F));
             Minecraft.getInstance()
-                     .getItemRenderer()
-                     .renderItem(stack, ItemCameraTransforms.TransformType.GROUND, packedLight, OverlayTexture.NO_OVERLAY, matrixStack, renderBuffer);
+                    .getItemRenderer()
+                    .renderItem(stack, ItemCameraTransforms.TransformType.GROUND, packedLight,
+                            OverlayTexture.NO_OVERLAY, matrixStack, renderBuffer);
         }
     }
 }

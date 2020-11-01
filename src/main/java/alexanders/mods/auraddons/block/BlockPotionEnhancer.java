@@ -48,8 +48,9 @@ public class BlockPotionEnhancer extends BlockContainerBase implements IStatePro
     @Override
     public void provideState(BlockStateGenerator generator) {
 
-        generator.simpleBlock(this, generator.models().cubeBottomTop(ModNames.BLOCK_POTION_ENHANCER, generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER),
-                                                                     generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER + "_top"),
-                                                                     generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER + "_top")));
+        generator.simpleBlock(this, generator.models().cubeBottomTop(ModNames.BLOCK_POTION_ENHANCER,
+                generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER),
+                generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER + "_top"),
+                generator.modLoc("blocks/" + ModNames.BLOCK_POTION_ENHANCER + "_top")));
     }
 }

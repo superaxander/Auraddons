@@ -2,12 +2,13 @@ package alexanders.mods.auraddons.block.tile;
 
 import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
-import javax.annotation.Nonnull;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+
+import javax.annotation.Nonnull;
 
 public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity {
     private static boolean reflectionFail;
@@ -37,7 +38,7 @@ public class TileRainbowBeacon extends TileEntity implements ITickableTileEntity
                     //                    } catch (IllegalAccessException | InvocationTargetException e) {
                     //                        e.printStackTrace();
                     //                    }
-                    ((BeaconTileEntity) te).tick();  
+                    ((BeaconTileEntity) te).tick();
                 }
             }
             world.getProfiler().endSection();

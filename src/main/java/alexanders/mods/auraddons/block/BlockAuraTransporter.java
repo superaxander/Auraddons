@@ -8,9 +8,6 @@ import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
 import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
-import java.util.Random;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -34,6 +31,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BlockAuraTransporter extends BlockContainerBase implements IVisualizable, IStateProvider {
     public static final BooleanProperty SENDING = BooleanProperty.create("sending");
@@ -82,10 +83,14 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
                         }
                     } else {
                         for (int i = 0; i < 5; i++) {
-                            NaturesAuraAPI.instance().spawnParticleStream(other.getX() + 0.25F + rand.nextFloat() * 0.5F, other.getY() + 0.25F + rand.nextFloat() * 0.5F,
-                                                                          other.getZ() + 0.25F + rand.nextFloat() * 0.5F, pos.getX() + 0.25F + rand.nextFloat() * 0.5F,
-                                                                          pos.getY() + 0.25F + rand.nextFloat() * 0.5F, pos.getZ() + 0.25F + rand.nextFloat() * 0.5F, .65f,
-                                                                          0xCC3417, 1);
+                            NaturesAuraAPI.instance().spawnParticleStream(
+                                    other.getX() + 0.25F + rand.nextFloat() * 0.5F,
+                                    other.getY() + 0.25F + rand.nextFloat() * 0.5F,
+                                    other.getZ() + 0.25F + rand.nextFloat() * 0.5F,
+                                    pos.getX() + 0.25F + rand.nextFloat() * 0.5F,
+                                    pos.getY() + 0.25F + rand.nextFloat() * 0.5F,
+                                    pos.getZ() + 0.25F + rand.nextFloat() * 0.5F, .65f,
+                                    0xCC3417, 1);
                         }
                     }
                 }
@@ -113,8 +118,10 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
                 if (!player.isSneaking() && compound.contains(ModNames.TAG_AURA_TRANSPORTER_POS)) {
                     BlockPos selectedPos = BlockPos.fromLong(compound.getLong(ModNames.TAG_AURA_TRANSPORTER_POS));
                     if (selectedPos.equals(pos)) {
-                        player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".same_position"), true);
-                    } else if (pos.distanceSq(selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isAreaLoaded(
+                        player.sendStatusMessage(
+                                new TranslationTextComponent("info." + Constants.MOD_ID + ".same_position"), true);
+                    } else if (pos.distanceSq(
+                            selectedPos) < ModConfig.aura.auraTransporterRange * ModConfig.aura.auraTransporterRange || !world.isAreaLoaded(
                             selectedPos, 0)) {
                         TileEntity other = world.getTileEntity(selectedPos);
                         if (other instanceof TileAuraTransporter) {
@@ -122,18 +129,21 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
                             ((TileAuraTransporter) other).other = pos;
                             tile.markDirty();
                             other.markDirty();
-                            player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".connected"), true);
+                            player.sendStatusMessage(
+                                    new TranslationTextComponent("info." + Constants.MOD_ID + ".connected"), true);
                         } else {
                             player.sendStatusMessage(
                                     new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos_gone"),
                                     true);
                         }
                     } else {
-                        player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".too_far"), true);
+                        player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".too_far"),
+                                true);
                     }
                 } else {
                     compound.putLong(ModNames.TAG_AURA_TRANSPORTER_POS, pos.toLong());
-                    player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos"), true);
+                    player.sendStatusMessage(new TranslationTextComponent("info." + Constants.MOD_ID + ".stored_pos"),
+                            true);
                 }
             }
             return ActionResultType.SUCCESS;
@@ -162,7 +172,8 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(@Nullable BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nullable Random random) {
+    public void tick(@Nullable BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos,
+                     @Nullable Random random) {
         updateRedstoneState(world, pos);
     }
 
@@ -185,7 +196,8 @@ public class BlockAuraTransporter extends BlockContainerBase implements IVisuali
     private void updateRedstoneState(@Nonnull IWorldReader world, BlockPos pos) {
         if (!world.isRemote() && world instanceof World) {
             final World wrld = (World) world;
-            wrld.setBlockState(pos, world.getBlockState(pos).with(SENDING, wrld.getRedstonePowerFromNeighbors(pos) > 0), 0);
+            wrld.setBlockState(pos, world.getBlockState(pos).with(SENDING, wrld.getRedstonePowerFromNeighbors(pos) > 0),
+                    0);
             wrld.getPendingBlockTicks().scheduleTick(pos, this, 4);
             if (wrld instanceof ServerWorld) {
                 ((ServerWorld) wrld).getChunkProvider().markBlockChanged(pos);

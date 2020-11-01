@@ -43,7 +43,8 @@ public class ConnectionPacket {
             long val = pkt.other.toLong();
             buf.writeLong(val);
             if (val == NULL_VALUE) {
-                Auraddons.logger.error("Mod Incompatibility?! Can't connect a transporter at block position -1, -1025, -1");
+                Auraddons.logger.error(
+                        "Mod Incompatibility?! Can't connect a transporter at block position -1, -1025, -1");
             }
         }
     }

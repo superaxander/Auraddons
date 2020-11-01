@@ -7,14 +7,15 @@ import alexanders.mods.auraddons.init.ModPackets;
 import alexanders.mods.auraddons.net.ConnectionPacket;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileAuraTransporter extends TileEntity implements ITickableTileEntity {
     @Nullable
@@ -80,19 +81,25 @@ public class TileAuraTransporter extends TileEntity implements ITickableTileEnti
 
     @Override
     public void tick() {
-        if (world != null && !world.isRemote && world.getGameTime() % 40 == 2 && other != null && world.isAreaLoaded(other, 0)) {
+        if (world != null && !world.isRemote && world.getGameTime() % 40 == 2 && other != null && world.isAreaLoaded(
+                other, 0)) {
             TileEntity dest = world.getTileEntity(other);
             double distance = Math.sqrt(other.distanceSq(pos));
             if (distance <= ModConfig.aura.auraTransporterRange && dest instanceof TileAuraTransporter) {
-                if (!world.isRemote && world.getBlockState(pos).get(BlockAuraTransporter.SENDING) && !world.getBlockState(other).get(BlockAuraTransporter.SENDING)) {
-                    BlockPos spot = NaturesAuraAPI.instance().getHighestAuraDrainSpot(world, pos, ModConfig.aura.auraTransporterDrainRange, pos);
+                if (!world.isRemote && world.getBlockState(pos).get(
+                        BlockAuraTransporter.SENDING) && !world.getBlockState(other).get(
+                        BlockAuraTransporter.SENDING)) {
+                    BlockPos spot = NaturesAuraAPI.instance().getHighestAuraDrainSpot(world, pos,
+                            ModConfig.aura.auraTransporterDrainRange, pos);
                     int aura = NaturesAuraAPI.instance().getAuraInArea(world, spot, 0);
                     if (aura >= ModConfig.aura.auraTransporterAuraAmount + IAuraChunk.DEFAULT_AURA) { // Only drain excess
                         IAuraChunk chunk = IAuraChunk.getAuraChunk(world, spot);
-                        if (chunk.drainAura(spot, ModConfig.aura.auraTransporterAuraAmount, true, true) >= ModConfig.aura.auraTransporterAuraAmount) {
+                        if (chunk.drainAura(spot, ModConfig.aura.auraTransporterAuraAmount, true,
+                                true) >= ModConfig.aura.auraTransporterAuraAmount) {
                             chunk.drainAura(spot, ModConfig.aura.auraTransporterAuraAmount, true, false);
                             ((TileAuraTransporter) dest).addAura(
-                                    MathHelper.fastFloor(ModConfig.aura.auraTransporterAuraAmount * Math.pow(ModConfig.aura.auraTransporterAuraMultiplierPerBlock, distance)));
+                                    MathHelper.fastFloor(ModConfig.aura.auraTransporterAuraAmount * Math.pow(
+                                            ModConfig.aura.auraTransporterAuraMultiplierPerBlock, distance)));
                         }
                     }
                 }

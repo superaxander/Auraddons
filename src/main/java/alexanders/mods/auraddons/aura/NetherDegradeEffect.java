@@ -29,8 +29,9 @@ public class NetherDegradeEffect implements IDrainSpotEffect {
                     int dist = MathHelper.clamp(Math.abs(aura) / 75000, 5, 45);
                     if (dist > 0) {
                         for (int i = amount / 2 + world.rand.nextInt(amount / 2); i >= 0; i--) {
-                            BlockPos blockPos = new BlockPos(pos.getX() + world.rand.nextGaussian() * dist, pos.getY() + world.rand.nextGaussian() * dist,
-                                                             pos.getZ() + world.rand.nextGaussian() * dist);
+                            BlockPos blockPos = new BlockPos(pos.getX() + world.rand.nextGaussian() * dist,
+                                    pos.getY() + world.rand.nextGaussian() * dist,
+                                    pos.getZ() + world.rand.nextGaussian() * dist);
                             if (blockPos.distanceSq(pos) <= dist * dist && world.isAreaLoaded(blockPos, 0)) {
                                 BlockState state = world.getBlockState(blockPos);
                                 Block block = state.getBlock();

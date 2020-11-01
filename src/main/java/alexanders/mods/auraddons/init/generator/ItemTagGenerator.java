@@ -2,7 +2,6 @@ package alexanders.mods.auraddons.init.generator;
 
 import alexanders.mods.auraddons.Auraddons;
 import alexanders.mods.auraddons.CuriosCompat;
-import javax.annotation.Nonnull;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -13,10 +12,13 @@ import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import javax.annotation.Nonnull;
+
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
 public class ItemTagGenerator extends ItemTagsProvider {
-    public ItemTagGenerator(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider, ExistingFileHelper existingFileHelper) {
+    public ItemTagGenerator(DataGenerator generatorIn, BlockTagsProvider blockTagsProvider,
+                            ExistingFileHelper existingFileHelper) {
         super(generatorIn, blockTagsProvider, MOD_ID, existingFileHelper);
     }
 

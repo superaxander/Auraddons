@@ -3,9 +3,6 @@ package alexanders.mods.auraddons;
 import alexanders.mods.auraddons.init.ModItems;
 import alexanders.mods.auraddons.init.generator.ItemTagGenerator;
 import com.google.common.collect.ImmutableMap;
-import java.util.Map;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,14 +21,19 @@ import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
+
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
 public class CuriosCompat {
-    private static final Map<Item, SlotTypePreset> CURIOS_TYPES = ImmutableMap.<Item, SlotTypePreset>builder().put(ModItems.creativeAuraCache,
-                                                                                                                   SlotTypePreset.BELT)
-                                                                                                              .put(ModItems.dampeningFeather,
-                                                                                                                   SlotTypePreset.RING)
-                                                                                                              .build();
+    private static final Map<Item, SlotTypePreset> CURIOS_TYPES = ImmutableMap.<Item, SlotTypePreset>builder().put(
+            ModItems.creativeAuraCache,
+            SlotTypePreset.BELT)
+            .put(ModItems.dampeningFeather,
+                    SlotTypePreset.RING)
+            .build();
 
     public static void init() {
         MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, CuriosCompat::attachCurios);
@@ -40,17 +42,11 @@ public class CuriosCompat {
     public static void addItemTags(ItemTagGenerator generator) {
         for (Map.Entry<Item, SlotTypePreset> entry : CURIOS_TYPES.entrySet()) {
             {
-                ITag.INamedTag<Item> tag = ItemTags.createOptional(new ResourceLocation("curios", entry.getValue().getIdentifier()));
+                ITag.INamedTag<Item> tag = ItemTags.createOptional(
+                        new ResourceLocation("curios", entry.getValue().getIdentifier()));
                 generator.getBuilder(tag).add(entry.getKey());
             }
         }
-    }
-
-    @SubscribeEvent
-    public void sendMessage(InterModEnqueueEvent event) {
-        //        for (Item item : CURIOS_TYPES.keySet()) {
-        //            InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> new SlotTypeMessage.Builder(item.));
-        //        }
     }
 
     @SuppressWarnings("unchecked")
@@ -60,7 +56,8 @@ public class CuriosCompat {
             event.addCapability(new ResourceLocation(MOD_ID, "bauble"), new ICapabilityProvider() {
                 @Nonnull
                 @Override
-                public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) {
+                public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability,
+                                                         @Nullable Direction direction) {
                     return capability == CuriosCapability.ITEM ? LazyOptional.of(() -> (T) new ICurio() {
                         @Override
                         public void curioTick(String identifier, int index, LivingEntity livingEntity) {
@@ -81,5 +78,12 @@ public class CuriosCompat {
                 }
             });
         }
+    }
+
+    @SubscribeEvent
+    public void sendMessage(InterModEnqueueEvent event) {
+        //        for (Item item : CURIOS_TYPES.keySet()) {
+        //            InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> new SlotTypeMessage.Builder(item.));
+        //        }
     }
 }

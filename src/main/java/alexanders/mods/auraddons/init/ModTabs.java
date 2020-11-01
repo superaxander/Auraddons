@@ -15,9 +15,10 @@ public final class ModTabs {
     public static final ItemGroup MAIN_TAB = new ItemGroup(MOD_NAME) {
         @Override
         public ItemStack createIcon() {
-            if (ModItems.creativeAuraCache == null) if (ModBlocks.autoWrath == null) if (auraBottle == null) return new ItemStack(Items.GLASS_BOTTLE);
-            else return new ItemStack(auraBottle);
-            else return new ItemStack(ModBlocks.autoWrath);
+            if (ModItems.creativeAuraCache == null)
+                if (ModBlocks.autoWrath == null) if (auraBottle == null) return new ItemStack(Items.GLASS_BOTTLE);
+                else return new ItemStack(auraBottle);
+                else return new ItemStack(ModBlocks.autoWrath);
             else return new ItemStack(ModItems.creativeAuraCache);
         }
     };

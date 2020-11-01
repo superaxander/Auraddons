@@ -5,7 +5,6 @@ import alexanders.mods.auraddons.init.ModNames;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.render.ITrinketItem;
-import javax.annotation.Nonnull;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -18,6 +17,8 @@ import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
 
 public class ItemDampeningFeather extends ItemSimple implements ITrinketItem {
     public ItemDampeningFeather() {
@@ -37,10 +38,11 @@ public class ItemDampeningFeather extends ItemSimple implements ITrinketItem {
             }
         }
     }
-    
+
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void render(ItemStack stack, PlayerEntity player, RenderType type, MatrixStack matrixStack, IRenderTypeBuffer renderBuffer, int packedLight, boolean isHolding) {
+    public void render(ItemStack stack, PlayerEntity player, RenderType type, MatrixStack matrixStack,
+                       IRenderTypeBuffer renderBuffer, int packedLight, boolean isHolding) {
         if (type == RenderType.BODY && !isHolding) {
             boolean chest = !player.inventory.armorInventory.get(EquipmentSlotType.CHEST.getIndex()).isEmpty();
             boolean legs = !player.inventory.armorInventory.get(EquipmentSlotType.LEGS.getIndex()).isEmpty();
@@ -48,8 +50,9 @@ public class ItemDampeningFeather extends ItemSimple implements ITrinketItem {
             matrixStack.scale(0.25F, 0.25F, 0.25F);
             matrixStack.rotate(Vector3f.XP.rotationDegrees(180.0F));
             Minecraft.getInstance()
-                     .getItemRenderer()
-                     .renderItem(stack, ItemCameraTransforms.TransformType.GROUND, packedLight, OverlayTexture.NO_OVERLAY, matrixStack, renderBuffer);
+                    .getItemRenderer()
+                    .renderItem(stack, ItemCameraTransforms.TransformType.GROUND, packedLight,
+                            OverlayTexture.NO_OVERLAY, matrixStack, renderBuffer);
         }
     }
 }

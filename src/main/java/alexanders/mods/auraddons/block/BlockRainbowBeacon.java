@@ -32,7 +32,8 @@ public class BlockRainbowBeacon extends BlockContainerBase implements IStateProv
     @Override
     public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
         TileEntity te = world.getTileEntity(pos);
-        if (te instanceof TileRainbowBeacon && ((TileRainbowBeacon) te).colorMultiplier[0] != -1) return ((TileRainbowBeacon) te).colorMultiplier;
+        if (te instanceof TileRainbowBeacon && ((TileRainbowBeacon) te).colorMultiplier[0] != -1)
+            return ((TileRainbowBeacon) te).colorMultiplier;
         else return super.getBeaconColorMultiplier(state, world, pos, beaconPos);
     }
 
@@ -44,6 +45,7 @@ public class BlockRainbowBeacon extends BlockContainerBase implements IStateProv
 
     @Override
     public void provideState(BlockStateGenerator generator) {
-        generator.simpleBlock(this, generator.models().cubeAll(ModNames.BLOCK_RAINBOW_BEACON, generator.modLoc("blocks/" + ModNames.BLOCK_RAINBOW_BEACON)));
+        generator.simpleBlock(this, generator.models().cubeAll(ModNames.BLOCK_RAINBOW_BEACON,
+                generator.modLoc("blocks/" + ModNames.BLOCK_RAINBOW_BEACON)));
     }
 }

@@ -2,9 +2,6 @@ package alexanders.mods.auraddons;
 
 import de.ellpeck.naturesaura.api.aura.type.IAuraType;
 import de.ellpeck.naturesaura.recipes.AltarRecipe;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import net.minecraft.block.WoodType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -19,6 +16,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ProcessorAltarSpecial implements IComponentProcessor {
     @ObjectHolder("naturesaura:aura_bottle")
@@ -104,14 +105,18 @@ public class ProcessorAltarSpecial implements IComponentProcessor {
     public IVariable process(String key) {
         switch (key) {
             case "input":
-                return IVariable.wrapList(Arrays.stream(input.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
+                return IVariable.wrapList(
+                        Arrays.stream(input.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
             case "output":
-                return IVariable.wrapList(Arrays.stream(output.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
+                return IVariable.wrapList(
+                        Arrays.stream(output.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
             case "type":
-                return IVariable.wrapList(Arrays.stream(requiredType.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
+                return IVariable.wrapList(Arrays.stream(requiredType.getMatchingStacks()).map(IVariable::from).collect(
+                        Collectors.toList()));
             case "catalyst":
                 if (catalyst != Ingredient.EMPTY)
-                    return IVariable.wrapList(Arrays.stream(catalyst.getMatchingStacks()).map(IVariable::from).collect(Collectors.toList()));
+                    return IVariable.wrapList(Arrays.stream(catalyst.getMatchingStacks()).map(IVariable::from).collect(
+                            Collectors.toList()));
                 else return null;
             case "name":
                 return IVariable.wrap(I18n.format(name));

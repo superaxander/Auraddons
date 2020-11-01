@@ -85,7 +85,7 @@ minecraft {
 
             property 'mixin.env.disableRefMap', 'true'
             
-            args '--mod', 'auraddons', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('src/generated/resources'), '--existing', file('C:\\Users\\anoni\\.gradle\\caches\\modules-2\\files-2.1\\de.ellpeck.naturesaura\\NaturesAura\\29.0.137\\7dbcb2386c6e29c5d76ba44acdd22b841745c383\\NaturesAura-29.0.137.jar')
+            args '--mod', 'auraddons', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/'), '--existing', file('src/generated/resources'), '--existing', file('NaturesAura/src/main/resources')
 
             mods {
                 auraddons {

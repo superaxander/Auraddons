@@ -7,7 +7,6 @@ import alexanders.mods.auraddons.init.ModItems;
 import alexanders.mods.auraddons.init.ModPackets;
 import alexanders.mods.auraddons.init.generator.*;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
-import java.lang.reflect.Field;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
@@ -26,6 +25,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.lang.reflect.Field;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 import static alexanders.mods.auraddons.Constants.MOD_NAME;
@@ -156,7 +157,8 @@ public class Auraddons {
 
     public void init(FMLCommonSetupEvent event) {
         Auraddons.proxy.registerAnimationTESR(ModBlocks.tileAutoWrath);
-        if (ModConfig.general.enableNetherDegradeEffect) NaturesAuraAPI.DRAIN_SPOT_EFFECTS.put(NetherDegradeEffect.NAME, NetherDegradeEffect::new);
+        if (ModConfig.general.enableNetherDegradeEffect)
+            NaturesAuraAPI.DRAIN_SPOT_EFFECTS.put(NetherDegradeEffect.NAME, NetherDegradeEffect::new);
     }
 
     public void postInit(FMLCommonSetupEvent event) {

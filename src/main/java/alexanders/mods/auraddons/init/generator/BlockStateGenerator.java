@@ -20,7 +20,8 @@ public class BlockStateGenerator extends BlockStateProvider {
             if (block instanceof IStateProvider) {
                 ((IStateProvider) block).provideState(this);
             } else if (block == ModBlocks.disruptionCatalyst) { //TODO: Give this its own class
-                this.simpleBlock(block, this.models().cubeAll(ModNames.BLOCK_DISRUPTION_CATALYST, modLoc("blocks/" + ModNames.BLOCK_DISRUPTION_CATALYST)));
+                this.simpleBlock(block, this.models().cubeAll(ModNames.BLOCK_DISRUPTION_CATALYST,
+                        modLoc("blocks/" + ModNames.BLOCK_DISRUPTION_CATALYST)));
             } else if (block == ModBlocks.infusedStoneWall) {
                 this.wallBlock((WallBlock) block, new ResourceLocation("naturesaura", "block/infused_stone"));
             } else if (block == ModBlocks.infusedBrickWall) {
@@ -29,7 +30,9 @@ public class BlockStateGenerator extends BlockStateProvider {
                 this.wallBlock((WallBlock) block, new ResourceLocation("naturesaura", "block/gold_brick"));
             } else if (block == ModBlocks.goldNetherBrickWall) {
                 this.wallBlock((WallBlock) block, new ResourceLocation("naturesaura", "block/gold_nether_brick"));
-            } else if (!(block instanceof FenceBlock || block instanceof FenceGateBlock || block instanceof WallBlock || block instanceof LadderBlock || block instanceof StairsBlock || block instanceof SlabBlock)) { //TODO: Make sure these are in a different registry or something because it seems quite ridiculous to do this for each block
+            } else if (block == ModBlocks.ancientTrapDoor) {
+                this.trapdoorBlock((TrapDoorBlock) block, modLoc("blocks/" + ModNames.BLOCK_ANCIENT_TRAPDOOR), true);
+            } else if (!(block instanceof FenceBlock || block instanceof FenceGateBlock || block instanceof WallBlock || block instanceof LadderBlock || block instanceof StairsBlock || block instanceof SlabBlock || block instanceof AbstractButtonBlock)) { //TODO: Make sure these are in a different registry or something because it seems quite ridiculous to do this for each block
                 this.simpleBlock(block);
             }
         }

@@ -16,11 +16,14 @@ public class ModPackets {
     private static SimpleChannel net;
 
     public static void init() {
-        net = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.MOD_ID, "network"), () -> VERSION, VERSION::equals, VERSION::equals);
+        net = NetworkRegistry.newSimpleChannel(new ResourceLocation(Constants.MOD_ID, "network"), () -> VERSION,
+                VERSION::equals, VERSION::equals);
         //        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> () -> {
-        net.registerMessage(0, ParticlePacket.class, ParticlePacket::toBytes, ParticlePacket::fromBytes, ParticlePacket::handleMessage);
+        net.registerMessage(0, ParticlePacket.class, ParticlePacket::toBytes, ParticlePacket::fromBytes,
+                ParticlePacket::handleMessage);
         net.registerMessage(1, JumpPacket.class, JumpPacket::toBytes, JumpPacket::fromBytes, JumpPacket::handleMessage);
-        net.registerMessage(2, ConnectionPacket.class, ConnectionPacket::toBytes, ConnectionPacket::fromBytes, ConnectionPacket::handleMessage);
+        net.registerMessage(2, ConnectionPacket.class, ConnectionPacket::toBytes, ConnectionPacket::fromBytes,
+                ConnectionPacket::handleMessage);
         //        });
         //        DistExecutor.safeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
         //            net.registerMessage(0, ParticlePacket.class, ParticlePacket::toBytes, ParticlePacket::fromBytes, null);
@@ -30,8 +33,10 @@ public class ModPackets {
     }
 
     public static <MSG> void sendAround(World world, BlockPos pos, int range, MSG message) {
-        net.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), range, world.func_234923_W_())),
-                 message);
+        net.send(PacketDistributor.NEAR.with(
+                () -> new PacketDistributor.TargetPoint(pos.getX(), pos.getY(), pos.getZ(), range,
+                        world.func_234923_W_())),
+                message);
     }
 
     public static <MSG> void sendTracking(World world, BlockPos pos, MSG message) {

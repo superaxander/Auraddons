@@ -36,13 +36,15 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class ClientProxy implements IProxy {
-    public static final ResourceLocation OVERLAYS = new ResourceLocation(NaturesAuraAPI.MOD_ID, "textures/gui/overlays.png");
+    public static final ResourceLocation OVERLAYS = new ResourceLocation(NaturesAuraAPI.MOD_ID,
+            "textures/gui/overlays.png");
     private ItemStack creativeCache;
     private ItemStack normalCache;
 
     @Override
     public void postInit() {
         RenderTypeLookup.setRenderLayer(ModBlocks.ancientLadder, RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.ancientTrapDoor, RenderType.getCutout());
     }
 
 
@@ -55,13 +57,13 @@ public class ClientProxy implements IProxy {
             if (mc.world != null && mc.player != null && !mc.isGamePaused()) {
                 if (Auraddons.instance.curiosLoaded) {
                     Optional<ItemStack> stack = CuriosApi.getCuriosHelper()
-                                                         .findEquippedCurio(it -> it.getItem() instanceof ItemAuraCache, mc.player)
-                                                         .map(ImmutableTriple::getRight);
+                            .findEquippedCurio(it -> it.getItem() instanceof ItemAuraCache, mc.player)
+                            .map(ImmutableTriple::getRight);
                     stack.ifPresent(itemStack -> normalCache = itemStack);
                     if (normalCache.isEmpty()) {
                         stack = CuriosApi.getCuriosHelper()
-                                         .findEquippedCurio(it -> it.getItem() == ModItems.creativeAuraCache, mc.player)
-                                         .map(ImmutableTriple::getRight);
+                                .findEquippedCurio(it -> it.getItem() == ModItems.creativeAuraCache, mc.player)
+                                .map(ImmutableTriple::getRight);
                         stack.ifPresent(itemStack -> creativeCache = itemStack);
                     }
                 }
@@ -82,7 +84,7 @@ public class ClientProxy implements IProxy {
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onOverlayRender(RenderGameOverlayEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
@@ -91,7 +93,8 @@ public class ClientProxy implements IProxy {
             if (mc.player != null) {
                 if (normalCache.isEmpty() && !creativeCache.isEmpty()) {
                     MatrixStack stack = event.getMatrixStack();
-                    LazyOptional<IAuraContainer> container = creativeCache.getCapability(NaturesAuraAPI.capAuraContainer, null);
+                    LazyOptional<IAuraContainer> container = creativeCache.getCapability(
+                            NaturesAuraAPI.capAuraContainer, null);
                     ItemStack finalCache = creativeCache;
                     container.ifPresent(it -> {
                         int width = MathHelper.ceil(it.getStoredAura() / (float) it.getMaxAura() * 80);
@@ -108,8 +111,9 @@ public class ClientProxy implements IProxy {
                         float scale = 0.75F;
                         GL11.glScalef(scale, scale, scale);
                         String s = finalCache.getDisplayName().getString();
-                        mc.fontRenderer.drawStringWithShadow(stack, s, Auraddons.instance.cacheBarLocation == 1 ? x / scale :
-                                (x + 80) / scale - mc.fontRenderer.getStringWidth(s), (y - 7) / scale, color);
+                        mc.fontRenderer.drawStringWithShadow(stack, s,
+                                Auraddons.instance.cacheBarLocation == 1 ? x / scale :
+                                        (x + 80) / scale - mc.fontRenderer.getStringWidth(s), (y - 7) / scale, color);
 
                         GL11.glColor4f(1F, 1F, 1F, 1);
                         GL11.glPopMatrix();
@@ -130,7 +134,8 @@ public class ClientProxy implements IProxy {
         //registerTESR(type, TileEntityRendererAnimation::new);
     }
 
-    private <T extends TileEntity> void registerTESR(TileEntityType<T> type, Function<? super TileEntityRendererDispatcher, ? extends TileEntityRenderer<? super TileEntity>> tesr) {
+    private <T extends TileEntity> void registerTESR(TileEntityType<T> type,
+                                                     Function<? super TileEntityRendererDispatcher, ? extends TileEntityRenderer<? super TileEntity>> tesr) {
         ClientRegistry.bindTileEntityRenderer(type, tesr);
     }
 }

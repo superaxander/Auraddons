@@ -5,8 +5,6 @@ import alexanders.mods.auraddons.init.ModNames;
 import alexanders.mods.auraddons.init.generator.BlockStateGenerator;
 import alexanders.mods.auraddons.init.generator.IStateProvider;
 import de.ellpeck.naturesaura.api.render.IVisualizable;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -21,6 +19,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import static net.minecraft.block.HorizontalBlock.HORIZONTAL_FACING;
 
 public class BlockAutoWrath extends BlockContainerBase implements IVisualizable, IStateProvider {
@@ -34,7 +35,7 @@ public class BlockAutoWrath extends BlockContainerBase implements IVisualizable,
     public BlockRenderType getRenderType(@Nullable BlockState state) {
         return BlockRenderType.MODEL;
     }
-    
+
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
         return state.with(HORIZONTAL_FACING, rot.rotate(state.get(HORIZONTAL_FACING)));
@@ -54,7 +55,8 @@ public class BlockAutoWrath extends BlockContainerBase implements IVisualizable,
     @Override
     @Nonnull
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        if (context.getPlayer() != null) return getDefaultState().with(HORIZONTAL_FACING, context.getPlayer().getHorizontalFacing().getOpposite());
+        if (context.getPlayer() != null)
+            return getDefaultState().with(HORIZONTAL_FACING, context.getPlayer().getHorizontalFacing().getOpposite());
         return getDefaultState();
     }
 

@@ -10,9 +10,6 @@ import com.google.common.collect.ImmutableMap;
 import de.ellpeck.naturesaura.api.NaturesAuraAPI;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
 import de.ellpeck.naturesaura.api.aura.type.IAuraType;
-import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -39,6 +36,10 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
 public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
@@ -51,7 +52,8 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
 
     public TileAutoWrath() {
         super(ModBlocks.tileAutoWrath);
-        asm = Auraddons.proxy.loadASM(new ResourceLocation(MOD_ID, "asms/block/block_auto_wrath.json"), ImmutableMap.of("steps", steps));
+        asm = Auraddons.proxy.loadASM(new ResourceLocation(MOD_ID, "asms/block/block_auto_wrath.json"),
+                ImmutableMap.of("steps", steps));
 
     }
 
@@ -81,8 +83,9 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
                 doDamage = -1;
                 int range = 5;
                 List<LivingEntity> mobs = world.getEntitiesWithinAABB(LivingEntity.class,
-                                                                      new AxisAlignedBB(pos.getX() + .5 - range, pos.getY() - 0.5, pos.getZ() + .5 - range, pos.getX() + .5 + range,
-                                                                                        pos.getY() + 0.5, pos.getZ() + .5 + range));
+                        new AxisAlignedBB(pos.getX() + .5 - range, pos.getY() - 0.5, pos.getZ() + .5 - range,
+                                pos.getX() + .5 + range,
+                                pos.getY() + 0.5, pos.getZ() + .5 + range));
                 BlockPos spot = IAuraChunk.getHighestSpot(world, pos, 25, pos);
                 for (LivingEntity mob : mobs) {
                     if (!mob.isAlive()) continue;
@@ -109,7 +112,8 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
                 } else {
                     TileEntity te = world.getTileEntity(pos.up());
                     if (te != null) {
-                        final LazyOptional<IItemHandler> optHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN);
+                        final LazyOptional<IItemHandler> optHandler = te.getCapability(
+                                CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN);
                         if (optHandler.isPresent()) {
                             IItemHandler handler = optHandler.orElseThrow(IllegalStateException::new);
                             int slotAmount = handler.getSlots();
@@ -122,11 +126,13 @@ public class TileAutoWrath extends TileEntity implements ITickableTileEntity {
                                             handler.extractItem(i, 1, false);
                                             ItemStack glass = new ItemStack(Items.GLASS_BOTTLE);
                                             if (!ItemHandlerHelper.insertItemStacked(handler, glass, false).isEmpty()) {
-                                                ItemEntity e = new ItemEntity(world, pos.getX() + .5, pos.getY() + 1.5, pos.getZ() + .5, glass);
+                                                ItemEntity e = new ItemEntity(world, pos.getX() + .5, pos.getY() + 1.5,
+                                                        pos.getZ() + .5, glass);
                                                 final Vector3d motion = e.getMotion();
-                                                e.setMotion(motion.x + world.rand.nextGaussian() * 0.007499999832361937D * 6,
-                                                            motion.y + world.rand.nextGaussian() * 0.007499999832361937D * 6,
-                                                            motion.z + world.rand.nextGaussian() * 0.007499999832361937D * 6);
+                                                e.setMotion(
+                                                        motion.x + world.rand.nextGaussian() * 0.007499999832361937D * 6,
+                                                        motion.y + world.rand.nextGaussian() * 0.007499999832361937D * 6,
+                                                        motion.z + world.rand.nextGaussian() * 0.007499999832361937D * 6);
                                                 world.addEntity(e);
                                             }
                                             found = true;

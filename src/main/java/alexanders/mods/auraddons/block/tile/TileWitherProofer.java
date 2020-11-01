@@ -3,9 +3,6 @@ package alexanders.mods.auraddons.block.tile;
 import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModConfig;
 import de.ellpeck.naturesaura.api.aura.chunk.IAuraChunk;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.annotation.Nonnull;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.WitherEntity;
@@ -16,6 +13,10 @@ import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -44,7 +45,8 @@ public class TileWitherProofer extends TileEntity {
                         iterator.remove();
                         continue;
                     }
-                    if (!te.powered && te.pos.distanceSq(entity.getPosX(), entity.getPosY(), entity.getPosZ(), true) <= rangeSq && te.tryPrevent()) {
+                    if (!te.powered && te.pos.distanceSq(entity.getPosX(), entity.getPosY(), entity.getPosZ(),
+                            true) <= rangeSq && te.tryPrevent()) {
                         event.setResult(Event.Result.DENY);
                         return;
                     }
@@ -87,6 +89,7 @@ public class TileWitherProofer extends TileEntity {
     private boolean tryPrevent() {
         if (world == null) return false;
         BlockPos spot = IAuraChunk.getHighestSpot(this.world, this.pos, 25, this.pos);
-        return IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot, ModConfig.aura.witherProoferCost) >= ModConfig.aura.witherProoferCost;
+        return IAuraChunk.getAuraChunk(this.world, spot).drainAura(spot,
+                ModConfig.aura.witherProoferCost) >= ModConfig.aura.witherProoferCost;
     }
 }

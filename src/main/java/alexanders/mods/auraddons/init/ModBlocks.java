@@ -2,14 +2,15 @@ package alexanders.mods.auraddons.init;
 
 import alexanders.mods.auraddons.block.*;
 import alexanders.mods.auraddons.block.tile.*;
-import java.util.ArrayList;
-import java.util.Objects;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import static alexanders.mods.auraddons.Constants.MOD_ID;
 
@@ -33,6 +34,10 @@ public final class ModBlocks {
     public static Block ancientFenceGate;
     @ObjectHolder(ModNames.BLOCK_ANCIENT_FENCE)
     public static Block ancientFence;
+    @ObjectHolder(ModNames.BLOCK_ANCIENT_TRAPDOOR)
+    public static Block ancientTrapDoor;
+    @ObjectHolder(ModNames.BLOCK_ANCIENT_BUTTON)
+    public static Block ancientButton;
     @ObjectHolder(ModNames.BLOCK_INFUSED_STONE_WALL)
     public static Block infusedStoneWall;
     @ObjectHolder(ModNames.BLOCK_INFUSED_BRICK_WALL)
@@ -80,26 +85,47 @@ public final class ModBlocks {
 
         add(autoWrath = new BlockAutoWrath());
         //noinspection ConstantConditions
-        tileTypeRegistry.add((tileAutoWrath = TileEntityType.Builder.create(TileAutoWrath::new, autoWrath).build(null)).setRegistryName(ModNames.TILE_AUTO_WRATH));
+        tileTypeRegistry.add((tileAutoWrath = TileEntityType.Builder.create(TileAutoWrath::new, autoWrath).build(
+                null)).setRegistryName(ModNames.TILE_AUTO_WRATH));
 
 
-        add(ancientFence = new FenceBlock(Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}.setRegistryName(
+        add(ancientFence = new FenceBlock(
+                Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {
+        }.setRegistryName(
                 ModNames.BLOCK_ANCIENT_FENCE));
 
         add(ancientFenceGate = new FenceGateBlock(
-                Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {}.setRegistryName(
+                Block.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(2.0F, 5.0F)) {
+        }.setRegistryName(
                 ModNames.BLOCK_ANCIENT_FENCE_GATE));
 
-        add(infusedStoneWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_INFUSED_STONE_WALL));
-        add(infusedBrickWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_INFUSED_BRICK_WALL));
-        add(goldBrickWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_WALL));
-        add(goldBrickStairs = new StairsBlock(() -> goldBrick.getDefaultState(), Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(
+        add(ancientTrapDoor = new TrapDoorBlock(
+                AbstractBlock.Properties.create(Material.WOOD).sound(SoundType.WOOD).hardnessAndResistance(
+                        3.0F).notSolid().setAllowsSpawn((state, world, pos, type) -> false)).setRegistryName(
+                ModNames.BLOCK_ANCIENT_TRAPDOOR));
+
+        add(ancientButton = new WoodButtonBlock(
+                AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().hardnessAndResistance(
+                        0.5F).sound(SoundType.WOOD)).setRegistryName(ModNames.BLOCK_ANCIENT_BUTTON));
+
+        add(infusedStoneWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(
+                ModNames.BLOCK_INFUSED_STONE_WALL));
+        add(infusedBrickWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(
+                ModNames.BLOCK_INFUSED_BRICK_WALL));
+        add(goldBrickWall = new WallBlock(Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(
+                ModNames.BLOCK_GOLD_BRICK_WALL));
+        add(goldBrickStairs = new StairsBlock(() -> goldBrick.getDefaultState(),
+                Block.Properties.from(Blocks.STONE_BRICKS)).setRegistryName(
                 ModNames.BLOCK_GOLD_BRICK_STAIRS));
-        add(goldBrickSlab = new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_BRICK_SLAB));
-        add(goldNetherBrickWall = new WallBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_WALL));
-        add(goldNetherBrickStairs = new StairsBlock(() -> goldNetherBrick.getDefaultState(), Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(
+        add(goldBrickSlab = new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(
+                ModNames.BLOCK_GOLD_BRICK_SLAB));
+        add(goldNetherBrickWall = new WallBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(
+                ModNames.BLOCK_GOLD_NETHER_BRICK_WALL));
+        add(goldNetherBrickStairs = new StairsBlock(() -> goldNetherBrick.getDefaultState(),
+                Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(
                 ModNames.BLOCK_GOLD_NETHER_BRICK_STAIRS));
-        add(goldNetherBrickSlab = new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(ModNames.BLOCK_GOLD_NETHER_BRICK_SLAB));
+        add(goldNetherBrickSlab = new SlabBlock(Block.Properties.from(Blocks.NETHER_BRICKS)).setRegistryName(
+                ModNames.BLOCK_GOLD_NETHER_BRICK_SLAB));
 
         add(ancientLadder = new LadderBlock(Block.Properties.from(Blocks.LADDER).notSolid()) {
 
@@ -107,31 +133,40 @@ public final class ModBlocks {
 
         add(potionEnhancer = new BlockPotionEnhancer());
         //noinspection ConstantConditions
-        tileTypeRegistry.add((tilePotionEnhancer = TileEntityType.Builder.create(TilePotionEnhancer::new, potionEnhancer).build(null)).setRegistryName(
-                ModNames.TILE_POTION_ENHANCER));
+        tileTypeRegistry.add(
+                (tilePotionEnhancer = TileEntityType.Builder.create(TilePotionEnhancer::new, potionEnhancer).build(
+                        null)).setRegistryName(
+                        ModNames.TILE_POTION_ENHANCER));
 
         add(new BlockBase(ModNames.BLOCK_DISRUPTION_CATALYST, Material.ROCK));
 
 
         add(auraTransporter = new BlockAuraTransporter());
         //noinspection ConstantConditions
-        tileTypeRegistry.add((tileAuraTransporter = TileEntityType.Builder.create(TileAuraTransporter::new, auraTransporter).build(null)).setRegistryName(
-                ModNames.TILE_AURA_TRANSPORTER));
+        tileTypeRegistry.add(
+                (tileAuraTransporter = TileEntityType.Builder.create(TileAuraTransporter::new, auraTransporter).build(
+                        null)).setRegistryName(
+                        ModNames.TILE_AURA_TRANSPORTER));
 
 
         add(witherProofer = new BlockWitherProofer());
         //noinspection ConstantConditions
-        tileTypeRegistry.add((tileWitherProofer = TileEntityType.Builder.create(TileWitherProofer::new, witherProofer).build(null)).setRegistryName(ModNames.TILE_WITHER_PROOFER));
+        tileTypeRegistry.add(
+                (tileWitherProofer = TileEntityType.Builder.create(TileWitherProofer::new, witherProofer).build(
+                        null)).setRegistryName(ModNames.TILE_WITHER_PROOFER));
 
 
         add(rainbowBeacon = new BlockRainbowBeacon());
         //noinspection ConstantConditions
-        tileTypeRegistry.add((tileRainbowBeacon = TileEntityType.Builder.create(TileRainbowBeacon::new, rainbowBeacon).build(null)).setRegistryName(ModNames.TILE_RAINBOW_BEACON));
+        tileTypeRegistry.add(
+                (tileRainbowBeacon = TileEntityType.Builder.create(TileRainbowBeacon::new, rainbowBeacon).build(
+                        null)).setRegistryName(ModNames.TILE_RAINBOW_BEACON));
 
     }
 
     private static void add(Block block) {
         blockRegistry.add(block);
-        ModItems.itemRegistry.add(new BlockItem(block, new Item.Properties().group(ModTabs.MAIN_TAB)).setRegistryName(Objects.requireNonNull(block.getRegistryName())));
+        ModItems.itemRegistry.add(new BlockItem(block, new Item.Properties().group(ModTabs.MAIN_TAB)).setRegistryName(
+                Objects.requireNonNull(block.getRegistryName())));
     }
 }

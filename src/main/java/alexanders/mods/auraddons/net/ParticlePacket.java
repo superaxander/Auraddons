@@ -74,15 +74,19 @@ public class ParticlePacket {
                             for (int i = 0; i < 360; i += 2) {
                                 double rad = Math.toRadians(i);
                                 NaturesAuraAPI.instance()
-                                              .spawnMagicParticle(message.pos.getX() + .5f, message.pos.getY() + 0.01F, message.pos.getZ() + .5f,
-                                                                  (float) Math.sin(rad) * 0.65F, 0F, (float) Math.cos(rad) * 0.65F, 0x911b07, 3F, 10, 0F, false,
-                                                                  true);
+                                        .spawnMagicParticle(message.pos.getX() + .5f, message.pos.getY() + 0.01F,
+                                                message.pos.getZ() + .5f,
+                                                (float) Math.sin(rad) * 0.65F, 0F, (float) Math.cos(rad) * 0.65F,
+                                                0x911b07, 3F, 10, 0F, false,
+                                                true);
                             }
                             break;
                         case PARTICLE_STREAM:
                             NaturesAuraAPI.instance()
-                                          .spawnParticleStream(message.pos.getX(), message.pos.getY(), message.pos.getZ(), message.endPos.getX(),
-                                                               message.endPos.getY(), message.endPos.getZ(), message.speed, message.color, message.scale);
+                                    .spawnParticleStream(message.pos.getX(), message.pos.getY(), message.pos.getZ(),
+                                            message.endPos.getX(),
+                                            message.endPos.getY(), message.endPos.getZ(), message.speed, message.color,
+                                            message.scale);
                             break;
                         case FREEZE:
                             for (int i = world.rand.nextInt(20) + 20; i >= 0; i--) {
@@ -90,9 +94,11 @@ public class ParticlePacket {
                                 float x = side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
                                 float z = !side ? world.rand.nextFloat() : (world.rand.nextBoolean() ? 1.1F : -0.1F);
                                 NaturesAuraAPI.instance()
-                                              .spawnMagicParticle(message.pos.getX() + x, message.pos.getY() + 0.1F + world.rand.nextFloat() * 0.98F,
-                                                                  message.pos.getZ() + z, 0F, 0F, 0F, 0xBCE3FF, world.rand.nextFloat() + 1F, 50, 0F, true,
-                                                                  true);
+                                        .spawnMagicParticle(message.pos.getX() + x,
+                                                message.pos.getY() + 0.1F + world.rand.nextFloat() * 0.98F,
+                                                message.pos.getZ() + z, 0F, 0F, 0F, 0xBCE3FF,
+                                                world.rand.nextFloat() + 1F, 50, 0F, true,
+                                                true);
                             }
                     }
                 }

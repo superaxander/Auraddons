@@ -83,9 +83,11 @@ public class ConfigBuilder {
                 } else if (field.getType() == long.class) {
                     this.addConfigValue(clazz, field, comment, field.getName(), (long) field.get(instance), rangeInt);
                 } else if (field.getType() == double.class) {
-                    this.addConfigValue(clazz, field, comment, field.getName(), (double) field.get(instance), rangeDouble);
+                    this.addConfigValue(clazz, field, comment, field.getName(), (double) field.get(instance),
+                            rangeDouble);
                 } else if (field.getType() == float.class) {
-                    this.addConfigValue(clazz, field, comment, field.getName(), (float) field.get(instance), rangeDouble);
+                    this.addConfigValue(clazz, field, comment, field.getName(), (float) field.get(instance),
+                            rangeDouble);
                 } else if (field.getType() == String.class) {
                     this.<String>addConfigValue(clazz, field, comment, field.getName(), (String) field.get(instance));
                 } else {
@@ -115,11 +117,13 @@ public class ConfigBuilder {
 
     }
 
-    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, int defaultValue, Config.RangeInt rangeInt) {
+    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, int defaultValue,
+                                Config.RangeInt rangeInt) {
         addConfigValue(category, field, comment, name, (long) defaultValue, rangeInt);
     }
 
-    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, long defaultValue, Config.RangeInt rangeInt) {
+    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, long defaultValue,
+                                Config.RangeInt rangeInt) {
         int min, max;
         if (rangeInt == null) {
             min = Integer.MIN_VALUE;
@@ -135,11 +139,13 @@ public class ConfigBuilder {
         }
     }
 
-    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, float defaultValue, Config.RangeDouble rangeDouble) {
+    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, float defaultValue,
+                                Config.RangeDouble rangeDouble) {
         addConfigValue(category, field, comment, name, (double) defaultValue, rangeDouble);
     }
 
-    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, double defaultValue, Config.RangeDouble rangeDouble) {
+    private void addConfigValue(Class<?> category, Field field, String[] comment, String name, double defaultValue,
+                                Config.RangeDouble rangeDouble) {
         double min, max;
         if (rangeDouble == null) {
             min = Double.MIN_VALUE;

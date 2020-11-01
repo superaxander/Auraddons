@@ -15,7 +15,7 @@ public class ModConfig {
 
         @Config.RangeDouble(min = 0)
         public double witherProoferRange = 20;
-        
+
         @Config.Comment("Makes beacons with a RainbowBeacon on top of them update their beam color 4x as often")
         public boolean smoothRainbowBeacon = true;
     }

@@ -3,12 +3,6 @@ package alexanders.mods.auraddons.init.generator;
 import alexanders.mods.auraddons.init.ModBlocks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
-import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.data.DataGenerator;
@@ -19,6 +13,13 @@ import net.minecraft.loot.LootParameterSets;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.LootTableManager;
 import net.minecraft.util.ResourceLocation;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public class BlockLootGenerator implements IDataProvider {
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
@@ -41,7 +42,8 @@ public class BlockLootGenerator implements IDataProvider {
             LootTable table = function.apply(block).setParameterSet(LootParameterSets.BLOCK).build();
             ResourceLocation name = block.getRegistryName();
             assert name != null;
-            Path path = dataGenerator.getOutputFolder().resolve("data/" + name.getNamespace() + "/loot_tables/blocks/" + name.getPath() + ".json");
+            Path path = dataGenerator.getOutputFolder().resolve(
+                    "data/" + name.getNamespace() + "/loot_tables/blocks/" + name.getPath() + ".json");
             IDataProvider.save(GSON, cache, LootTableManager.toJson(table), path);
         }
     }

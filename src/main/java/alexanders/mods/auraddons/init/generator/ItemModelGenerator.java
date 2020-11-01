@@ -3,7 +3,6 @@ package alexanders.mods.auraddons.init.generator;
 import alexanders.mods.auraddons.Constants;
 import alexanders.mods.auraddons.init.ModBlocks;
 import alexanders.mods.auraddons.init.ModItems;
-import javax.annotation.Nonnull;
 import net.minecraft.block.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.BlockItem;
@@ -11,6 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+
+import javax.annotation.Nonnull;
 
 public class ItemModelGenerator extends ItemModelProvider {
     public ItemModelGenerator(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -33,7 +34,15 @@ public class ItemModelGenerator extends ItemModelProvider {
                         this.wallInventory(name, new ResourceLocation("naturesaura", "block/gold_brick"));
                     } else if (block == ModBlocks.goldNetherBrickWall) {
                         this.wallInventory(name, new ResourceLocation("naturesaura", "block/gold_nether_brick"));
-                    } else if (!(block instanceof FenceBlock) && !(block instanceof FenceGateBlock) && !(block instanceof LadderBlock) && !(block instanceof SlabBlock) && !(block instanceof StairsBlock) && block != ModBlocks.auraTransporter) {
+                    } else if (block == ModBlocks.ancientTrapDoor) {
+                        this.withExistingParent(name, this.modLoc("block/block_ancient_trapdoor_bottom"));
+                    } else if (!(block instanceof FenceBlock) &&
+                            !(block instanceof FenceGateBlock) &&
+                            !(block instanceof LadderBlock) &&
+                            !(block instanceof SlabBlock) &&
+                            !(block instanceof StairsBlock) &&
+                            !(block instanceof AbstractButtonBlock) &&
+                            block != ModBlocks.auraTransporter) {
                         this.withExistingParent(name, this.modLoc("block/" + name));
                     }
                 } else {
